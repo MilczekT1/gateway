@@ -1,0 +1,80 @@
+management:
+  server:
+    port: 8081
+  endpoint:
+    metrics.enabled: true
+    prometheus.enabled: true
+  endpoints.web.exposure.include: "*"
+  metrics.export.prometheus.enabled: true
+server:
+  port: 8080
+spring:
+  application.name: gateway
+  zipkin:
+    base-url: http://zipkin:9411/
+    enabled: true
+    discoveryClientEnabled: false
+  cloud:
+    config:
+      enabled: false
+    gateway:
+      httpclient:
+        ssl:
+          useInsecureTrustManager: false
+      enabled: true
+      routes:
+        - id: mail-service
+          uri: http://mail
+          predicates:
+            - Path=/api/mail/**
+          filters:
+            - AddRequestHeader=Gateway, true
+
+        - id: password-management-service
+          uri: http://password-management
+          predicates:
+            - Path=/api/reset-password/**
+          filters:
+            - AddRequestHeader=Gateway, true
+
+        - id: account-management-service
+          uri: http://account-management
+          predicates:
+            - Path=/api/account-mgt/v1/**
+          filters:
+            - AddRequestHeader=Gateway, true
+
+        - id: family-management-service
+          uri: http://family-management
+          predicates:
+            - Path=/api/family-mgt/v1/families/**, /api/family-mgt/v1/invitations/**
+          filters:
+            - AddRequestHeader=Gateway, true
+
+        - id: budget-management-service
+          uri: http://budget-management
+          predicates:
+            - Path=/api/budget-mgt/v1/budgets/**
+          filters:
+            - AddRequestHeader=Gateway, true
+
+        - id: mvc
+          uri: http://mvc
+          predicates:
+            - Path=/home/**, /login , /register , /resources/** , /error , /authenticate , /logout , / , /budget/**
+          filters:
+            - AddRequestHeader=Gateway, true
+
+        - id: mvc_query
+          uri: http://mvc
+          predicates:
+            - Query=logout
+          filters:
+            - AddRequestHeader=Gateway, true
+
+        - id: zipkin
+          uri: http://zipkin:9411/
+          predicates:
+            - Path=/zipkin, /zipkin/**
+          filters:
+            - AddRequestHeader=Gateway, true
