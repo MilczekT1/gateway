@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.konradboniecki.Budget.models.AccountForm;
 import pl.konradboniecki.Budget.services.Account;
 import pl.konradboniecki.Budget.services.AccountRepository;
-import pl.konradboniecki.Budget.services.FormValidator;
+
 
 import javax.validation.Valid;
 
@@ -17,10 +17,6 @@ public class RegisterController {
     
     @Autowired
     private AccountRepository accountRepository;
-    
-    @Autowired
-    private FormValidator formValidator;
-    
     
     // dzieki modelAttribute, do nastepnej templatki zostanie wyslany obiekt wypelniony poprzednimi danymi
     @PostMapping("/register")
