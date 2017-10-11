@@ -41,6 +41,7 @@ public class RegisterController {
         model.addAttribute("accountFormObject", new AccountForm());
         model.addAttribute("firstNameDescription", "Imię:");
         model.addAttribute("lastNameDescription", "Nazwisko:");
+        model.addAttribute("nickDescription", "Nick: ");
         model.addAttribute("birthdayDescription", "Data Urodzenia:");
         model.addAttribute("emailDescription", "Adres email:");
         model.addAttribute("passwordDescription", "Hasło (min 6 znaków):");
