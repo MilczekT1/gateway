@@ -1,4 +1,4 @@
-package pl.konradboniecki.Budget.core;
+package pl.konradboniecki.Budget;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

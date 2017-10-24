@@ -1,20 +1,27 @@
 package pl.konradboniecki.Budget.services;
 
-import lombok.Getter;
-import lombok.ToString;
-
+import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 
 @Entity
-@ToString
-@Getter
+@Data
 public class Family {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "thisNameSucksInHibernate5")
+    @GenericGenerator(name = "thisNameSucksInHibernate5", strategy = "increment")
     private Long id;
+    
+    @Column(name = "title")
     private String title;
-    private Short maxSize;
+    
+    @Column(name = "max_members")
+    private Short maxMembers;
+    @Column(name = "email_notifications_enabled")
+    private boolean emailNotificationsEnabled;
+    @Column(name = "phone_notifications_enabled")
+    private boolean phoneNotificationsEnabled;
     
     protected Family() {
         ;
@@ -22,6 +29,6 @@ public class Family {
     
     public Family(String title) {
         this.title = title;
-        this.maxSize = 3;
+        this.maxMembers = 3;
     }
 }

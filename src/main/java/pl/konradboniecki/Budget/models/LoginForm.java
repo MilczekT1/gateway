@@ -1,6 +1,23 @@
 package pl.konradboniecki.Budget.models;
 
+import lombok.Data;
+import org.hibernate.validator.constraints.NotEmpty;
+import pl.konradboniecki.Budget.core.Utils;
+
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+@Data
 public class LoginForm {
     
+    @NotEmpty (message = "{login.emailRequired}")
+    @Pattern (regexp = "\\w+@\\w+.[a-zA-Z]+", message = "{login.emailRegex}")
+    private String email;
     
+    @NotEmpty (message = "{login.passwordRequired}")
+    @Size (min=6, max = 200, message = "{login.passwordSize}")
+    private String typedPassword;
+    
+    public void setTypedPassword(String typedPassword) {
+        this.typedPassword = typedPassword;
+    }
 }

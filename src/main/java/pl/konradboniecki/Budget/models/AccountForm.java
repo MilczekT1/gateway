@@ -4,11 +4,11 @@ import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
-@Entity
 public class AccountForm {
     
     @NotEmpty (message = "{register.firstNameRequired}")
@@ -28,13 +28,11 @@ public class AccountForm {
     private String password;
     
     @NotEmpty(message = "{register.repeatedPasswordRequired}")
-    @Size (max = 50, min=6, message = "{register.repeatedPasswordSize}")
+    @Size (min=6, max = 200, message = "{register.repeatedPasswordSize}")
     private String repeatedPassword;
     
     @Pattern(regexp = "\\+?\\d{6,}", message = "{register.phoneNumberRegex}")
     private String phoneNumber;
-    
-    private String age;
     
     public AccountForm(){}
     
