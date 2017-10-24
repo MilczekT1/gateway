@@ -52,13 +52,6 @@ public class RegisterController {
     @GetMapping("/register")
     public String showRegisterPane(Model model){
         model.addAttribute("accountFormObject", new AccountForm());
-        model.addAttribute("firstNameDescription", "Imię:");
-        model.addAttribute("lastNameDescription", "Nazwisko:");
-        model.addAttribute("birthdayDescription", "Data Urodzenia:");
-        model.addAttribute("emailDescription", "Adres email:");
-        model.addAttribute("passwordDescription", "Hasło (min 6 znaków):");
-        model.addAttribute("repeatedPasswordDescription", "Powtórz hasło:");
-        model.addAttribute("phoneNumberDescription", "Numer telefonu:");
         return "registration";
     }
 }
