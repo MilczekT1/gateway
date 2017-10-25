@@ -3,8 +3,11 @@ package pl.konradboniecki.Budget.models;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
+<<<<<<< HEAD
 import javax.persistence.Entity;
 import javax.validation.constraints.Null;
+=======
+>>>>>>> master
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -18,6 +21,10 @@ public class AccountForm {
     @NotEmpty(message = "{register.lastNameRequired}")
     @Pattern(regexp = "[a-zA-Z]{2,}", message = "{register.lastNameRegex}")
     private String lastName;
+    
+    @NotEmpty (message = "{register.nickRequired}")
+    @Pattern (regexp = "[a-zA-Z0-9]{3,}", message = "{register.nickRegex}")
+    private String nick;
     
     @NotEmpty(message = "{register.emailRequired}")
     @Pattern(regexp = "\\w+@\\w+.[a-zA-Z]+", message = "{register.emailRegex}")

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Rodzina</title>
+    <title>Budget Rejestracja</title>
 </head>
 <body>
 
@@ -18,9 +18,9 @@
         <input type="text" th:field="*{lastName}"/></br>
     <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
 
-    <!--<p th:text="${birthdayDescription}"></p>
-        <input type="text" th:field="*{age}"/></br>
-    <span th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></span>-->
+    <p th:text="${nickDescription}"></p>
+    <input type="text" th:field="*{nick}"/></br>
+    <span th:if="${#fields.hasErrors('nick')}" th:errors="*{nick}"></span>
 
     <p th:text="#{emailDescription}"></p>
         <input type="text" th:field="*{email}"/></br>
