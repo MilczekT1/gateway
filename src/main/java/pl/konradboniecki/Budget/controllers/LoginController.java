@@ -7,7 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import pl.konradboniecki.Budget.models.AccountForm;
+import pl.konradboniecki.Budget.core.Utils;
 import pl.konradboniecki.Budget.models.LoginForm;
 import pl.konradboniecki.Budget.services.Account;
 import pl.konradboniecki.Budget.services.AccountRepository;
@@ -30,17 +30,18 @@ public class LoginController {
         } else {
             Optional<Account> account = accountRepository.findByEmail(loginForm.getEmail());
             if (account.isPresent()){
-                if (loginForm.getTypedPassword().equalsIgnoreCase(account.get().getPassword())){
+                String hashedTypedPassword = Utils.hashPassword(loginForm.getTypedPassword());
+                if (hashedTypedPassword.equalsIgnoreCase(account.get().getPassword())){
                     model.addAttribute("userMainPaigeTitle", account.get().getFirstName() + " " + account.get().getLastName());
                     return "userMainPage";
                 }
             }
+            return null;
         }
-        return null;
     }
     @GetMapping(value = "/login")
     public String showLoginPage(Model model){
-        model.addAttribute("loginForm", new LoginForm()); // moze byc duplikat?
+        model.addAttribute("loginForm", new LoginForm());
         return "login";
     }
 }
