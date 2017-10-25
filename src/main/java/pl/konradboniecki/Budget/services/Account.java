@@ -2,6 +2,7 @@ package pl.konradboniecki.Budget.services;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 import pl.konradboniecki.Budget.core.UserType;
 import pl.konradboniecki.Budget.core.Utils;
 import pl.konradboniecki.Budget.models.AccountForm;
@@ -47,7 +48,7 @@ public class Account {
         setFirstName(accountForm.getFirstName());
         setLastName(accountForm.getLastName());
         setEmail(accountForm.getEmail());
-        setPassword(Utils.hashPassword(accountForm.getPassword()));
+        setPassword(accountForm.getPassword());
         setPhoneNumber(accountForm.getPhoneNumber());
         registerDate = ZonedDateTime.now(ZoneId.of("Europe/Warsaw"));
         setRole(UserType.USER.getRole());
