@@ -15,7 +15,7 @@ public class AccountForm {
     
     @NotEmpty(message = "{register.lastNameRequired}")
     @Pattern(regexp = "[a-zA-Z]{2,}", message = "{register.lastNameRegex}")
-    private String lastName;add sr
+    private String lastName;
     
     @NotEmpty(message = "{register.emailRequired}")
     @Pattern(regexp = "\\w+@\\w+.[a-zA-Z]+", message = "{register.emailRegex}")
