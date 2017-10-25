@@ -18,10 +18,6 @@
         <input type="text" th:field="*{lastName}"/></br>
     <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
 
-    <p th:text="${nickDescription}"></p>
-    <input type="text" th:field="*{nick}"/></br>
-    <span th:if="${#fields.hasErrors('nick')}" th:errors="*{nick}"></span>
-
     <p th:text="#{emailDescription}"></p>
         <input type="text" th:field="*{email}"/></br>
     <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>

@@ -3,11 +3,6 @@ package pl.konradboniecki.Budget.models;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
-<<<<<<< HEAD
-import javax.persistence.Entity;
-import javax.validation.constraints.Null;
-=======
->>>>>>> master
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
