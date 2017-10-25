@@ -5,11 +5,12 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -20,6 +21,8 @@ public class MailService {
     private JavaMailSender javaMailSender;
     @Autowired
     private TemplateEngine templateEngine;
+    @Autowired
+    private TemplateEngineService templateEngineService;
     
     public void sendEmail(String title, String message, String destination){
         MimeMessage mail = javaMailSender.createMimeMessage();
@@ -45,11 +48,10 @@ public class MailService {
         String title = "Budget - Sign up completed";
         String destination = account.getEmail();
     
-        Context context = new Context();
-        context.setVariable("recipient", account.getFirstName() + " " + account.getLastName());
-    
-        String message = templateEngine.process("signUpConfirmationMail",context);
+        Map<String,String> contextVariables = new HashMap<>();
+        contextVariables.put("recipient", account.getFirstName() + " " + account.getLastName());
         
+        String message = templateEngineService.processHtml("signUpConfirmationMail",contextVariables);
         sendEmail(title,message,destination);
     }
 }
