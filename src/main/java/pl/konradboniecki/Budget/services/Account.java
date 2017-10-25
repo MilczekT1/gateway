@@ -2,19 +2,12 @@ package pl.konradboniecki.Budget.services;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-<<<<<<< HEAD
 import pl.konradboniecki.Budget.core.UserType;
-=======
->>>>>>> master
 import pl.konradboniecki.Budget.core.Utils;
 import pl.konradboniecki.Budget.models.AccountForm;
 import javax.persistence.*;
-<<<<<<< HEAD
 import java.time.*;
-=======
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
->>>>>>> master
 
 @Table(name = "Account")
 @Entity(name = "Account")
@@ -53,20 +46,14 @@ public class Account {
     public Account(AccountForm accountForm){
         setFirstName(accountForm.getFirstName());
         setLastName(accountForm.getLastName());
-        setNick(accountForm.getNick());
         setEmail(accountForm.getEmail());
         setPassword(Utils.hashPassword(accountForm.getPassword()));
         setPhoneNumber(accountForm.getPhoneNumber());
-<<<<<<< HEAD
         registerDate = ZonedDateTime.now(ZoneId.of("Europe/Warsaw"));
         setRole(UserType.USER.getRole());
-=======
-        setDateOfBirth(accountForm.getDateOfBirth());
-        setDateOfRegistration(LocalDateTime.now());
     }
     
     public void setPassword(String password) {
         this.password = Utils.hashPassword(password);
->>>>>>> master
     }
 }
