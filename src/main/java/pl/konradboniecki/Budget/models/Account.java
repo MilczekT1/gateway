@@ -1,11 +1,9 @@
-package pl.konradboniecki.Budget.services;
+package pl.konradboniecki.Budget.models;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
 import pl.konradboniecki.Budget.core.UserType;
 import pl.konradboniecki.Budget.core.Utils;
-import pl.konradboniecki.Budget.models.AccountForm;
 import javax.persistence.*;
 import java.time.*;
 import java.time.ZonedDateTime;

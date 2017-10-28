@@ -2,6 +2,7 @@ package pl.konradboniecki.Budget.services;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import pl.konradboniecki.Budget.models.Account;
 
 import java.util.Optional;
 

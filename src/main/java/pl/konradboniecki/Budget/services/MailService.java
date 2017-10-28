@@ -5,6 +5,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
+import pl.konradboniecki.Budget.models.Account;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;

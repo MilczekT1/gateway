@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.konradboniecki.Budget.services.MailService;
 import pl.konradboniecki.Budget.models.AccountForm;
 import pl.konradboniecki.Budget.models.LoginForm;
-import pl.konradboniecki.Budget.services.Account;
+import pl.konradboniecki.Budget.models.Account;
 import pl.konradboniecki.Budget.services.AccountRepository;
 
 

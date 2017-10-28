@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.konradboniecki.Budget.core.Utils;
 import pl.konradboniecki.Budget.models.LoginForm;
-import pl.konradboniecki.Budget.services.Account;
+import pl.konradboniecki.Budget.models.Account;
 import pl.konradboniecki.Budget.services.AccountRepository;
 
 import javax.validation.Valid;
