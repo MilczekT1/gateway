@@ -1,4 +1,4 @@
-package pl.konradboniecki.Budget.models;
+package pl.konradboniecki.Budget.models.account;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
@@ -9,7 +9,7 @@ import java.time.*;
 import java.time.ZonedDateTime;
 
 @Table(name = "Account")
-@Entity(name = "Account")
+@Entity
 @Data
 public class Account {
     @Id
@@ -37,6 +37,8 @@ public class Account {
     
     @Column(name = "role")
     private String role;
+    @Column(name = "enabled")
+    private boolean enabled;
     
     public Account(){
         ;
@@ -45,11 +47,12 @@ public class Account {
     public Account(AccountForm accountForm){
         setFirstName(accountForm.getFirstName());
         setLastName(accountForm.getLastName());
-        setEmail(accountForm.getEmail());
+        setEmail(accountForm.getEmail().toLowerCase());
         setPassword(accountForm.getPassword());
         setPhoneNumber(accountForm.getPhoneNumber());
         registerDate = ZonedDateTime.now(ZoneId.of("Europe/Warsaw"));
         setRole(UserType.USER.getRole());
+        setEnabled(false);
     }
     
     public void setPassword(String password) {

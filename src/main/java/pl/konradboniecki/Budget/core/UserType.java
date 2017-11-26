@@ -6,14 +6,13 @@ public enum UserType {
     
     private String role;
     
-    private UserType(String role){
+    UserType(String role){
         setRole(role);
     }
     
     public void setRole(String role) {
         this.role = role;
     }
-    
     public String getRole() {
         return role;
     }

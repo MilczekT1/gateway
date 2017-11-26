@@ -1,12 +1,12 @@
-package pl.konradboniecki.Budget.services;
+package pl.konradboniecki.Budget.models.family;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
-
-@Entity
 @Data
+@Table(name = "Family")
+@Entity
 public class Family {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "thisNameSucksInHibernate5")
@@ -17,14 +17,15 @@ public class Family {
     private String title;
     
     @Column(name = "max_members")
-    private Short maxMembers;
+    private Integer maxMembers;
+    @Column(name = "max_jars")
+    private Integer maxJars;
     @Column(name = "email_notifications_enabled")
     private boolean emailNotificationsEnabled;
     @Column(name = "phone_notifications_enabled")
     private boolean phoneNotificationsEnabled;
     
-    protected Family() {
-        ;
+    public Family() {
     }
     
     public Family(String title) {

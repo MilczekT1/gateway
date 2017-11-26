@@ -1,8 +1,11 @@
 package pl.konradboniecki.Budget.services;
 
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import pl.konradboniecki.Budget.models.Account;
+import org.springframework.transaction.annotation.Transactional;
+import pl.konradboniecki.Budget.models.account.Account;
 
 import java.util.Optional;
 
@@ -14,4 +17,9 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
     Account save(Account entity);
     long count();
     void deleteById(Long aLong);
+    
+    @Modifying
+    @Transactional
+    @Query (value="UPDATE account SET enabled = 1 WHERE id = ?1", nativeQuery=true)
+    void setEnabled(Long id);
 }

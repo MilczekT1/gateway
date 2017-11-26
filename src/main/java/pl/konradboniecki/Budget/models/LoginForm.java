@@ -1,9 +1,8 @@
 package pl.konradboniecki.Budget.models;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.NotEmpty;
-import pl.konradboniecki.Budget.core.Utils;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 @Data
@@ -15,9 +14,9 @@ public class LoginForm {
     
     @NotEmpty (message = "{login.passwordRequired}")
     @Size (min=6, max = 200, message = "{login.passwordSize}")
-    private String typedPassword;
+    private String password;
     
-    public void setTypedPassword(String typedPassword) {
-        this.typedPassword = typedPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

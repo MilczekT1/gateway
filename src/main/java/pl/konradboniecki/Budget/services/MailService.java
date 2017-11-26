@@ -5,7 +5,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
-import pl.konradboniecki.Budget.models.Account;
+import pl.konradboniecki.Budget.models.account.Account;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -45,12 +45,13 @@ public class MailService {
         executorService.shutdown();
     }
     
-    public void sendSignUpConfirmation(Account account){
+    public void sendSignUpConfirmation(Account account, Long id, String activationCode){
         String title = "Budget - Sign up completed";
         String destination = account.getEmail();
     
         Map<String,String> contextVariables = new HashMap<>();
         contextVariables.put("recipient", account.getFirstName() + " " + account.getLastName());
+        contextVariables.put("activationLink","localhost:8080/activate/" + id + "/" + activationCode);
         
         String message = templateEngineService.processHtml("signUpConfirmationMail",contextVariables);
         sendEmail(title,message,destination);

@@ -5,6 +5,11 @@
     <title>Error</title>
 </head>
 <body>
-    <p coś się zjebalo/>
+<center>
+    <div th:switch="${errorType}">
+        <p th:case="invalidActivationLink" th:text="#{error.invalidActivationLink}"></p>
+    </div>
+</center>
+
 </body>
 </html>

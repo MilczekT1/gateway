@@ -3,7 +3,7 @@ package pl.konradoniecki.Budget.models;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
-import pl.konradboniecki.Budget.models.AccountForm;
+import pl.konradboniecki.Budget.models.account.AccountForm;
 
 public class AccountFormTest {
     
@@ -22,6 +22,7 @@ public class AccountFormTest {
         accountForm.setPhoneNumber("123456765");
         accountForm.setPassword("123456");
         accountForm.setRepeatedPassword("123456");
+        
         Assert.assertTrue("Password and repeated password should be the same in AccountForm using checkRepeatedPassword()",accountForm.checkRepeatedPassword());
     }
     @Test
@@ -33,6 +34,7 @@ public class AccountFormTest {
         accountForm.setPhoneNumber("123456765");
         accountForm.setPassword("123456");
         accountForm.setRepeatedPassword("fsjdkhgfliskv324");
+        
         Assert.assertFalse("Password and repeated password should not be the same in AccountForm using checkRepeatedPassword()",accountForm.checkRepeatedPassword());
     }
 }

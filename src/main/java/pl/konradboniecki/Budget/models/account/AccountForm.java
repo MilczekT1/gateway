@@ -1,8 +1,8 @@
-package pl.konradboniecki.Budget.models;
+package pl.konradboniecki.Budget.models.account;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -18,7 +18,7 @@ public class AccountForm {
     private String lastName;
     
     @NotEmpty(message = "{register.emailRequired}")
-    @Pattern(regexp = "\\w+@\\w+.[a-zA-Z]+", message = "{register.emailRegex}")
+    @Pattern(regexp = "(\\w||\\.)+@\\w+.[a-zA-Z]+", message = "{register.emailRegex}")
     private String email;
     
     @NotEmpty(message = "{register.passwordRequired}")
@@ -35,6 +35,6 @@ public class AccountForm {
     public AccountForm(){}
     
     public boolean checkRepeatedPassword(){
-        return password.equals(repeatedPassword) ? true : false;
+        return password.equals(repeatedPassword);
     }
 }

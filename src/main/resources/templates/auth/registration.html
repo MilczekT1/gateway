@@ -8,32 +8,32 @@
 
 
 <center>
-<form action="#" th:action="@{/register}" th:object="${accountFormObject}" method=post>
+<form th:action="@{/register}" th:object="${accountFormObject}" method=post>
 
-    <p th:text="#{firstNameDescription}"></p>
+    <p th:text="#{registration.firstNameDescription}"></p>
         <input type="text" th:field="*{firstName}"/></br>
     <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
 
-    <p th:text="#{lastNameDescription}"></p>
+    <p th:text="#{registration.lastNameDescription}"></p>
         <input type="text" th:field="*{lastName}"/></br>
     <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
 
-    <p th:text="#{emailDescription}"></p>
+    <p th:text="#{registration.emailDescription}"></p>
         <input type="text" th:field="*{email}"/></br>
     <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+    <span th:if="${emailAlreadyExists}" th:text="#{registration.emailAlreadyExists}"></span>
 
-    <p th:text="#{phoneNumberDescription}"></p>
+    <p th:text="#{registration.phoneNumberDescription}"></p>
         <input type="text" th:field="*{phoneNumber}"/></br>
     <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></span>
 
-    <p th:text="#{passwordDescription}"></p>
+    <p th:text="#{registration.passwordDescription}"></p>
         <input type="text" th:field="*{password}"/></br>
     <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 
-    <p th:text="#{repeatedPasswordDescription}"></p>
+    <p th:text="#{registration.repeatedPasswordDescription}"></p>
         <input type="text" th:field="*{repeatedPassword}"/></br>
     <span th:if="${#fields.hasErrors('repeatedPassword')}" th:errors="*{repeatedPassword}"></span>
-    <span th:text="${repeatedPasswordFailure}"></span>
 
     </br> <input type="submit" value = "Zarejestruj"/>
 </form>

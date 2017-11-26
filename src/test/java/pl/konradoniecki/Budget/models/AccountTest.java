@@ -5,8 +5,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pl.konradboniecki.Budget.core.Utils;
-import pl.konradboniecki.Budget.models.Account;
-import pl.konradboniecki.Budget.models.AccountForm;
+import pl.konradboniecki.Budget.models.account.Account;
+import pl.konradboniecki.Budget.models.account.AccountForm;
 
 public class AccountTest {
     
