@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Budget Rejestracja</title>
+    <title>Budget Sign up</title>
 </head>
 <body>
 
@@ -35,7 +35,7 @@
         <input type="text" th:field="*{repeatedPassword}"/></br>
     <span th:if="${#fields.hasErrors('repeatedPassword')}" th:errors="*{repeatedPassword}"></span>
 
-    </br> <input type="submit" value = "Zarejestruj"/>
+    </br> <input type="submit" th:value = "#{registration.registerButton}"/>
 </form>
 </center>
 </body>

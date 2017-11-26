@@ -8,8 +8,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserHomeController {
     
     @GetMapping("/home")
-    public ModelAndView xxx() {
-        return new ModelAndView("home");
+    public ModelAndView showUserHomePage() {
+        return new ModelAndView("home/home");
     }
     
 }

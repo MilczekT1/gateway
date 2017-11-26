@@ -58,4 +58,8 @@ public class Account {
     public void setPassword(String password) {
         this.password = Utils.hashPassword(password);
     }
+    
+    public boolean hasFamily(){
+        return familyId != null ? true : false;
+    }
 }

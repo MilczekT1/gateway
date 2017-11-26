@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>login</title>
+    <title>Budget - Sign In</title>
 </head>
 <body>
     <center>
@@ -27,9 +27,9 @@
             </br> <input type="submit" name="submit" value = "Zaloguj"/>
         </form>
 
-
+        <br/><br/><br/>
         <form th:action="@{/register}" method=get >
-            <button type="submit" th:text="Create Account"></button>
+            <button type="submit" th:text="#{login.createAccountButton}"></button>
         </form>
 
     </center>

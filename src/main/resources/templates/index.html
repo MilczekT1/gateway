@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Budget</title>
 </head>
+<center>
     <p th:text="${Greeting}"/>
 
     <a th:href="@{/register}">Rejestracja</a>
@@ -13,6 +14,6 @@
     <form th:action="@{/logout}" method="post">
         <input type="submit" value="Sign Out"/>
     </form>
-
+</center>
 </body>
 </html>
