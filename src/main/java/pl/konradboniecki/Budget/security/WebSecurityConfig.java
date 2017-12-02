@@ -27,13 +27,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/login","/activate/**", "/register","/resources/**").permitAll()
+                .antMatchers("/","/login", "/login/changePassword","/activate/**","/reset/**", "/register","/resources/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/authenticate")
-                .successForwardUrl("/home")
+                //.successForwardUrl("/home") trzeba dodac do kontrollera obsluge POST'a
                 .permitAll()
                 .usernameParameter("email").passwordParameter("password")
                 .and()
