@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.konradboniecki.Budget.core.ErrorType;
 import pl.konradboniecki.Budget.core.Utils;
+import pl.konradboniecki.Budget.models.newPassword.NewPassword;
 import pl.konradboniecki.Budget.services.MailService;
 import pl.konradboniecki.Budget.models.account.AccountForm;
 import pl.konradboniecki.Budget.models.account.Account;
 import pl.konradboniecki.Budget.services.AccountRepository;
+import pl.konradboniecki.Budget.services.NewPasswordRepository;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -21,6 +23,8 @@ public class RegisterController {
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
+    private NewPasswordRepository newPasswordRepository;
+    @Autowired
     private MailService mailService;
     
     @PostMapping("/register")
@@ -30,7 +34,7 @@ public class RegisterController {
         if (bindingResult.hasErrors()) {
             return new ModelAndView("auth/registration");
         } else if (!newAccountForm.checkRepeatedPassword()){
-            return new ModelAndView("auth/registration", "repeatedPasswordFailure","confirmed password is not the same!");
+            return new ModelAndView("auth/registration", "repeatedPasswordFailure",true);
         }
         
         Account acc = new Account(newAccountForm);
@@ -39,7 +43,7 @@ public class RegisterController {
             acc = accountRepository.findByEmail(acc.getEmail()).get();
             
             String generatedActivationCode = Utils.createActivationCode(acc.getEmail());
-            mailService.sendSignUpConfirmation(acc, acc.getId(), generatedActivationCode);
+            mailService.sendSignUpConfirmation(acc, generatedActivationCode);
             return new ModelAndView("auth/registrationSuccessInfo");
         } else {
             return new ModelAndView("auth/registration","emailAlreadyExists", true);
@@ -67,6 +71,26 @@ public class RegisterController {
             return new ModelAndView("redirect:/register");
         }
     }
+    
+    @GetMapping(value = "/reset/{id}/{resetCode}")
+    public ModelAndView changeForgottenPassword(@PathVariable(name="id") Long id,
+                                                @PathVariable(name = "resetCode") String resetCodeFromUrl){
+        
+        Optional<Account> account = accountRepository.findById(id);
+        if (account.isPresent()){
+            String correctResetCode = Utils.createNewPasswordConfirmationCode(account.get().getPassword());
+            if (resetCodeFromUrl.equals(correctResetCode)){
+                //change password
+                Optional<NewPassword> newPasswordOptional = newPasswordRepository.findById(id);
+                if (newPasswordOptional.isPresent()){
+                    String newPassword = newPasswordOptional.get().getNextPassword();
+                    accountRepository.changePassword(newPassword,id);
+                }
+            }
+        }
+        return new ModelAndView("redirect:/login");
+    }
+    
     
     @GetMapping("/register")
     public ModelAndView showRegisterPane(){
