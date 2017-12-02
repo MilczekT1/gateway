@@ -20,6 +20,11 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
     
     @Modifying
     @Transactional
-    @Query (value="UPDATE account SET enabled = 1 WHERE id = ?1", nativeQuery=true)
+    @Query (value="UPDATE account SET enabled = 1 WHERE account_id = ?1", nativeQuery=true)
     void setEnabled(Long id);
+    
+    @Modifying
+    @Transactional
+    @Query (value="UPDATE account SET password = ?1 WHERE account_id = ?2", nativeQuery=true)
+    void changePassword(String newPassword, Long id);
 }
