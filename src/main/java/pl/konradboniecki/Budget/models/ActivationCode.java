@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class ActivationCode {
     
     @Id
-    @Column(name = "account_id")
+    @Column(name = "id")
     private Long accountId;
     
     @Column(name = "activation_code")
