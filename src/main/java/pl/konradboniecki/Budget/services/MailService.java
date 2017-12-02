@@ -45,15 +45,25 @@ public class MailService {
         executorService.shutdown();
     }
     
-    public void sendSignUpConfirmation(Account account, Long id, String activationCode){
-        String title = "Budget - Sign up completed";
-        String destination = account.getEmail();
-    
+    public void sendSignUpConfirmation(Account account, String activationCode){
         Map<String,String> contextVariables = new HashMap<>();
         contextVariables.put("recipient", account.getFirstName() + " " + account.getLastName());
-        contextVariables.put("activationLink","localhost:8080/activate/" + id + "/" + activationCode);
+        contextVariables.put("activationLink","localhost:8080/activate/" + account.getId() + "/" + activationCode);
         
-        String message = templateEngineService.processHtml("signUpConfirmationMail",contextVariables);
+        sendMailToUserUsingTemplate("Budget - Sign up completed","signUpConfirmationMail",account,contextVariables);
+    }
+    
+    public void sendNewPasswordActivationMail(Account account, String resetCode){
+        Map<String,String> contextVariables = new HashMap<>();
+        contextVariables.put("recipient", account.getFirstName() + " " + account.getLastName());
+        contextVariables.put("resetLink","localhost:8080/reset/" + account.getId() + "/" + resetCode);
+        
+        sendMailToUserUsingTemplate("Budget - New Password Activation", "newPasswordConfirmationMail",account,contextVariables);
+    }
+    
+    private void sendMailToUserUsingTemplate(String title, String templateName, Account account, Map<String,String> contextVariables){
+        String destination = account.getEmail();
+        String message = templateEngineService.processHtml(templateName,contextVariables);
         sendEmail(title,message,destination);
     }
 }

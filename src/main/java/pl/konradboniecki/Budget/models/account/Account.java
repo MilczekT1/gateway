@@ -4,18 +4,18 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import pl.konradboniecki.Budget.core.UserType;
 import pl.konradboniecki.Budget.core.Utils;
+
 import javax.persistence.*;
 import java.time.*;
 import java.time.ZonedDateTime;
 
-@Table(name = "Account")
 @Entity
 @Data
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "thisNameSuxInHibernate5")
     @GenericGenerator(name = "thisNameSuxInHibernate5", strategy = "increment")
-    @Column(name = "id")
+    @Column(name="account_id")
     private Long id;
     
     @Column(name = "family_id")

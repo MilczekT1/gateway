@@ -24,4 +24,9 @@ public class Utils {
         String hash = Utils.hashString(email).toLowerCase();
         return hash.substring(hash.length()/2,(hash.length()/3)*2);
     }
+    public static String createNewPasswordConfirmationCode(String hashedPassword){
+        String partOfHashedPassword = hashedPassword.substring( 10,30);
+        String hash = Utils.hashString(partOfHashedPassword).toLowerCase();
+        return hash.substring(hash.length()/2,(hash.length()/3)*2);
+    }
 }
