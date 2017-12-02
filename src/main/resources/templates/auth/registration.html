@@ -8,7 +8,7 @@
 
 
 <center>
-<form th:action="@{/register}" th:object="${accountFormObject}" method=post>
+<form th:action="@{/register}" th:object="${accountFormObject}" method="POST">
 
     <p th:text="#{registration.firstNameDescription}"></p>
         <input type="text" th:field="*{firstName}"/></br>
@@ -34,6 +34,7 @@
     <p th:text="#{registration.repeatedPasswordDescription}"></p>
         <input type="text" th:field="*{repeatedPassword}"/></br>
     <span th:if="${#fields.hasErrors('repeatedPassword')}" th:errors="*{repeatedPassword}"></span>
+    <span th:if="${repeatedPasswordFailure}" th:text="#{registration.repeatedPasswordFailure}"></span>
 
     </br> <input type="submit" th:value = "#{registration.registerButton}"/>
 </form>
