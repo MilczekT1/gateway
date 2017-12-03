@@ -80,11 +80,11 @@ public class RegisterController {
         if (account.isPresent()){
             String correctResetCode = Utils.createNewPasswordConfirmationCode(account.get().getPassword());
             if (resetCodeFromUrl.equals(correctResetCode)){
-                //change password
                 Optional<NewPassword> newPasswordOptional = newPasswordRepository.findById(id);
                 if (newPasswordOptional.isPresent()){
                     String newPassword = newPasswordOptional.get().getNextPassword();
                     accountRepository.changePassword(newPassword,id);
+                    newPasswordRepository.deleteById(id);
                 }
             }
         }
