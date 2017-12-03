@@ -1,5 +1,7 @@
 package pl.konradboniecki.Budget.core;
 
+import pl.konradboniecki.Budget.models.account.Account;
+
 import javax.xml.bind.DatatypeConverter;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -28,5 +30,9 @@ public class Utils {
         String partOfHashedPassword = hashedPassword.substring( 10,30);
         String hash = Utils.hashString(partOfHashedPassword).toLowerCase();
         return hash.substring(hash.length()/2,(hash.length()/3)*2);
+    }
+    
+    public static boolean isActivationCodeValid(Account acc, String activationCodeFromUrl){
+        return Utils.createActivationCode(acc.getEmail()).equals(activationCodeFromUrl) ? true : false;
     }
 }
