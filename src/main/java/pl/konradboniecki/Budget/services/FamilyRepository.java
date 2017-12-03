@@ -9,6 +9,7 @@ import java.util.Optional;
 @Service
 public interface FamilyRepository extends CrudRepository<Family, Long> {
    Optional<Family> findById(Long id);
+   Optional<Family> findByOwnerId(Long id);
    Family save(Family family);
    long count();
    void deleteById(Long aLong);

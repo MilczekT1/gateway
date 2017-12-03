@@ -2,11 +2,16 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Family</title>
 </head>
 <body>
+<center>
+    <p>[[${#httpServletRequest.remoteUser}]]!</p>
+    <a th:href="@{/home/family}">Zarządzanie rodziną</a> <br/>
+    <a th:href="@{/home/budget}">Budżet domowy</a> <br/>
+    <a th:href="@{/home/kitchen}">Kuchnia</a> <br/>
+    <hr/>
 
-
-
+</center>
 </body>
 </html>

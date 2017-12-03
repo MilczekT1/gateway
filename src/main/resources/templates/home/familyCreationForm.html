@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p th:text="#{familyCreationForm.instructions}"></p>
+
+<form th:action="@{/home/family/create}" th:object="${newFamilyCreationForm}" method="POST">
+    <div>
+        <p th:text="#{familyCreationForm.titleDescription}"></p>
+        <input type="text" th:field="*{title}"/></br>
+        <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+    </div>
+
+    <input type="submit" th:value = "#{familyCreationForm.NewFamilySubmitButton}"/>
+</form>
+</body>
+</html>
