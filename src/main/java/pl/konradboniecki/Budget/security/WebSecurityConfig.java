@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/authenticate")
-                //.successForwardUrl("/home") trzeba dodac do kontrollera obsluge POST'a
+                .successForwardUrl("/home")
                 .permitAll()
                 .usernameParameter("email").passwordParameter("password")
                 .and()
