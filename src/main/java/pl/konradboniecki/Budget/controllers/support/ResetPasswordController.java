@@ -67,6 +67,10 @@ public class ResetPasswordController {
             newPasswordForm.setAccount_id(account.get().getId());
             
             NewPassword newPassword = new NewPassword(newPasswordForm);
+
+            if (newPasswordRepository.existsById(newPassword.getId())) {
+                newPasswordRepository.deleteById(newPassword.getId());
+            }
             newPasswordRepository.save(newPassword);
             
             String code = Utils.createNewPasswordConfirmationCode(account.get().getPassword());
