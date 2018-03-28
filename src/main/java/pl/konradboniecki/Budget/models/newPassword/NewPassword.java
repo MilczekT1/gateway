@@ -16,7 +16,7 @@ public class NewPassword {
     @Column(name="new_password")
     private String nextPassword;
     @Column(name="apply_time")
-    private ZonedDateTime ApplyTime;
+    private ZonedDateTime applyTime;
     
     public NewPassword(){;}
     

@@ -12,6 +12,7 @@ buildscript {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
 }
+
 repositories {
 	mavenCentral()
 	maven { url 'https://repo.spring.io/libs-snapshot' }
@@ -37,7 +38,6 @@ dependencies {
 	// https://mvnrepository.com/artifact/net.sourceforge.nekohtml/nekohtml
 	compile group: 'net.sourceforge.nekohtml', name: 'nekohtml', version: '1.9.22'
 	//compile('org.springframework.boot:spring-boot-starter-jdbc')
-	//compile('org.springframework.boot:spring-boot-starter-security')
 	//compile('org.springframework.boot:spring-boot-starter-social-facebook')
 
 	runtime('mysql:mysql-connector-java')
@@ -46,7 +46,7 @@ dependencies {
 	compileOnly('org.projectlombok:lombok')
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile('org.springframework.security:spring-security-test')
+	//testCompile('org.springframework.security:spring-security-test')
 
 
     // biblioteka do pracy z obiektami json

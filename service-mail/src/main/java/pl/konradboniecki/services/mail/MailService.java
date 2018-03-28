@@ -1,4 +1,4 @@
-package pl.konradboniecki.Budget.services;
+package pl.konradboniecki.services.mail;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,7 +10,6 @@ import pl.konradboniecki.Budget.models.family.Family;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
