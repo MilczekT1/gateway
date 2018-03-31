@@ -1,0 +1,45 @@
+version: '3.0'
+
+services:
+
+  db:
+    image: mysql
+    ports:
+      - "3001:3306"
+    volumes:
+      - ./MYSQL:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=konrad
+    #  - MYSQL_USER: 'test'
+    #  - MYSQL_PASS: 'pass
+    #mem_limit: 1024m
+    #restart: always
+
+  adminer:
+    image: adminer
+    ports:
+      - "3000:8080"
+    #mem_limit: 128m
+    #restart: always
+#------------------------------------#
+
+  mail:
+    build:
+      context: ./webservice-mail
+      docker file: Dockerfile
+    image: mail:latest
+    ports:
+      - "3002:8080"
+#------------------------------------#
+#  login_service:
+#    image: openjdk:8u151
+#    ports:
+#      - "3001:3306"
+#    mem_limit: 512m
+#------------------------------------#
+#  register_service:
+#    image: mysql
+#    ports:
+#      - "3001:3306"
+#    mem_limit: 512m
+#------------------------------------#

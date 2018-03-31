@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Budget</title>
+</head>
+<center>
+    <p th:text="#{index.greeting}"/>
+
+    <a th:href="@{/register}">Rejestracja</a>
+    <a th:href="@{/login}">Logowanie</a>
+
+    <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+</center>
+</body>
+</html>
