@@ -11,8 +11,14 @@
         <form th:action="@{/logout}" method="post">
             <input type="submit" value="Sign Out"/>
         </form>
-            <a th:href="@{/home/family}">Zarządzanie rodziną</a> <br/>
+        <a th:href="@{/home/family}">Zarządzanie rodziną</a> <br/>
+
+        <form th:action="@{/home/family/remove-family}" method="POST" >
+            <input type="hidden" th:name="familyId" th:value="${familyObject.id}"/>
+            <button type="submit" th:text="#{family.removeFamilyButton}"></button>
+        </form> <br/>
         <hr/>
+
     </center>
 
     <p>Family Name: <span th:utext="${familyObject.title}"></span></p>
@@ -33,13 +39,14 @@
                     <td>
                         <form th:action="@{/home/family/remove}" method="POST" >
                             <input type="hidden" th:name="invitationId" th:value="${invitation.id}"/>
-                            <button type="submit" th:text="#{familyCreationForm.removeInvitationButton}"></button>
+                            <button type="submit" th:text="#{family.removeInvitationButton}"></button>
                         </form>
                     </td>
                     <td>
                         <form th:action="@{/home/family/invite-to-family/resend-invitation}" method="POST" >
                             <input type="hidden" th:name="invitationId" th:value="${invitation.id}"/>
-                            <button type="submit" th:text="#{familyCreationForm.resendInvitationButton}"></button>
+                            <input type="hidden" th:name="source" th:value="mvc"/>
+                            <button type="submit" th:text="#{family.resendInvitationButton}"></button>
                         </form>
                     </td>
                 </tr>
