@@ -90,6 +90,50 @@ public class FamilyInvitationController {
         return new ModelAndView("redirect:/" + FAMILY_HOME_PAGE, "familyObject", family);
     }
 
+    @PostMapping("/invite-to-family/resend-invitation")
+    public ModelAndView resendInvitationMail(@RequestParam("invitationId") Long invitationId){
+        Map<String, Object> jsonObjects = new LinkedHashMap<>();
+
+        Optional<FamilyInvitation> familyInvitation = familyInvitationRepository.findById(invitationId);
+        if (familyInvitation.isPresent()){
+            String emailDest = familyInvitation.get().getEmail();
+            Optional<Account> account = accountRepository.findByEmail(emailDest);
+            Family family = familyRepository.findById(familyInvitation.get().getFamilyId()).get();
+            if (account.isPresent()){
+                Account owner = accountRepository.findById(family.getOwnerId()).get();
+
+                try {
+                    jsonObjects.put("Account", account.get());
+                    jsonObjects.put("Owner", owner);
+                    jsonObjects.put("Family", family);
+                    jsonObjects.put("InvitationCode", familyInvitation.get().getInvitationCode());
+                    String URL = BudgetAdress.getURI() + ":3002/services/mail/invitation/existing-user";
+                    performPostWithJSON(URL, jsonObjects);
+                } catch (JsonProcessingException | UnirestException  e) {
+                    log.error(Throwables.getStackTraceAsString(e));
+                    return new ModelAndView(ERROR_PAGE, "errorType",
+                            PROCESSING_EXCEPTION.getModelAttrName());
+                }
+            } else {
+                //Invitation Code is not neccessary
+                String inviterEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+                Account owner = accountRepository.findByEmail(inviterEmail).get();
+
+                try {
+                    jsonObjects.put("Owner", owner);
+                    jsonObjects.put("Family", family);
+                    jsonObjects.put("NewMemberEmail", emailDest);
+                    String URL = BudgetAdress.getURI() + ":3002/services/mail/invitation/new-user";
+                    performPostWithJSON(URL, jsonObjects);
+                } catch (JsonProcessingException | UnirestException e) {
+                    log.error(Throwables.getStackTraceAsString(e));
+                    return new ModelAndView(ERROR_PAGE, "errorType",
+                            PROCESSING_EXCEPTION.getModelAttrName());
+                }
+            }
+        }
+        return new ModelAndView("redirect:/" + FAMILY_HOME_PAGE);
+    }
 
     @GetMapping("/{familyId}/addMember/{id}/{invitationCode}")
     public ModelAndView addAccountToFamily(@PathVariable("invitationCode") String code,
