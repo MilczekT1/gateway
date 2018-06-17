@@ -26,20 +26,15 @@ services:
   mail:
     build:
       context: ./webservice-mail
-      docker file: Dockerfile
-    image: mail:latest
+      dockerfile: Dockerfile
+    image: konradboniecki/budget:mail-0.1
     ports:
-      - "3002:8080"
-#------------------------------------#
-#  login_service:
-#    image: openjdk:8u151
-#    ports:
-#      - "3001:3306"
-#    mem_limit: 512m
-#------------------------------------#
-#  register_service:
-#    image: mysql
-#    ports:
-#      - "3001:3306"
-#    mem_limit: 512m
-#------------------------------------#
+      - "8080:8080"
+
+  mvc:
+    build:
+      context: ./webservice-mvc
+      dockerfile: Dockerfile
+    image: konradboniecki/budget:mvc-0.1
+    ports:
+      - "8080:8080"

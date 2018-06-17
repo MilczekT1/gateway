@@ -14,7 +14,7 @@ public class RestCall {
     public static void performPostWithJSON(String url, Map<String, Object> jsonObjects) throws JsonProcessingException, UnirestException {
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String finalJsonAsString = ow.writeValueAsString(jsonObjects);
-        System.out.println(finalJsonAsString);
+
         Unirest.clearDefaultHeaders();
         Unirest.post(url)
                 .header("Content-Type", "application/json")
