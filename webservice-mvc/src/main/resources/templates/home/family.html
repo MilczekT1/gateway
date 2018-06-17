@@ -29,7 +29,6 @@
         <table>
             <th:block th:each="invitation : ${invitationsList}">
                 <tr>
-                    <!--<td th:text="${invitation.id}"></td>-->
                     <td th:text="${invitation.email}"></td>
                     <td>
                         <form th:action="@{/home/family/remove}" method="POST" >
