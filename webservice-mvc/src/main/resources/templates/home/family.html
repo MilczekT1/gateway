@@ -7,10 +7,10 @@
 <body>
     <center>
         <p>[[${#httpServletRequest.remoteUser}]]!</p>
-        <p>Menu:</p>
         <form th:action="@{/logout}" method="post">
             <input type="submit" value="Sign Out"/>
         </form>
+        <p>Menu:</p>
         <a th:href="@{/home/family}">Zarządzanie rodziną</a> <br/>
 
         <form th:action="@{/home/family/remove-family}" method="POST" >
