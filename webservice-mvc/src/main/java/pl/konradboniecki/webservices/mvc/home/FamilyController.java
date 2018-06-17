@@ -96,12 +96,11 @@ public class FamilyController {
         
         return new ModelAndView("redirect:/home/family");
     }
-    @PostMapping("/removeFamily")
-    public ModelAndView removeFamily(@RequestParam("familyId") Long id, @RequestParam("source") String source){
-        if (source.equals("mvc")) {
-            if (familyRepository.findById(id).isPresent()) {
-                familyRepository.deleteById(id);
-            }
+
+    @PostMapping("/remove-family")
+    public ModelAndView removeFamily(@RequestParam("familyId") Long id){
+        if (familyRepository.findById(id).isPresent()) {
+            familyRepository.deleteById(id);
         }
         return new ModelAndView("redirect:/home/family");
     }

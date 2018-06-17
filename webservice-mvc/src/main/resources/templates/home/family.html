@@ -13,7 +13,7 @@
         </form>
         <a th:href="@{/home/family}">Zarządzanie rodziną</a> <br/>
 
-        <form th:action="@{/home/family/removeFamily}" method="POST" >
+        <form th:action="@{/home/family/remove-family}" method="POST" >
             <input type="hidden" th:name="familyId" th:value="${familyObject.id}"/>
             <button type="submit" th:text="#{family.removeFamilyButton}"></button>
         </form> <br/>
