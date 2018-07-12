@@ -1,8 +1,27 @@
+plugins {
+    id "org.sonarqube" version "2.6.2"
+}
 allprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
+    group 'pl.konradboniecki'
+    sonarqube {
+        //noinspection GroovyAssignabilityCheck
+        properties {
+            //noinspection GroovyAssignabilityCheck
+            //noinspection GroovyAssignabilityCheck
+//            property "sonar.coverage.exclusions", "**/*Exception.java"
+//            property "sonar.projectKey",  project.ext
+            property "sonar.projectName", project.name
+//            property "sonar.projectVersion", project.version
+            property "sonar.host.url", "http://konradboniecki.pl:9000"
+            property "sonar.language", "java"
+            property "sonar.sourceEncoding", "UTF-8"
+        }
+    }
+
     ext {
         springBootVersion = '2.0.0.RELEASE'
     }
@@ -11,10 +30,30 @@ allprojects {
         maven { url 'https://repo.spring.io/libs-snapshot' }
         maven { url "https://repo.spring.io/snapshot" }
         maven { url "https://repo.spring.io/milestone" }
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         compileOnly 'org.projectlombok:lombok:1.16.20'
+        compile group: 'org.springframework', name: 'spring-context', version: '5.0.7.RELEASE'
+
+        testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.2.0'
+        testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.2.0'
+        testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.2.0'
+//        testCompile group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.2.0'
+
+        testCompile group: 'org.mockito', name: 'mockito-core', version: '2.19.0'
         testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "${springBootVersion}"
     }
 }
-group 'pl.konradboniecki'
+test {
+    // Enable JUnit 5 (Gradle 4.6+).
+    useJUnitPlatform()
+
+    // Always run tests, even when nothing changed.
+    dependsOn 'cleanTest'
+
+    // Show test results.
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
