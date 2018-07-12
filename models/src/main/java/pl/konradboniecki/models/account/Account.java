@@ -40,7 +40,7 @@ public class Account implements Serializable {
     @Column(name = "date_of_registration")
     private ZonedDateTime registerDate;
     
-    @Column(name = "role")
+    @Column(name = "roleName")
     private String role;
     @Column(name = "enabled")
     private boolean enabled;
@@ -56,7 +56,7 @@ public class Account implements Serializable {
         setPassword(accountForm.getPassword());
         setPhoneNumber(accountForm.getPhoneNumber());
         registerDate = ZonedDateTime.now(ZoneId.of("Europe/Warsaw"));
-        setRole(UserType.USER.getRole());
+        setRole(UserType.USER.getRoleName());
         setEnabled(false);
     }
 
@@ -71,12 +71,12 @@ public class Account implements Serializable {
         if (accountNode.has("firstName")) setFirstName(accountNode.get("firstName").asText());
         if (accountNode.has("lastName")) setLastName(accountNode.get("lastName").asText());
         if (accountNode.has("email")) setEmail(accountNode.get("email").asText());
-        if (accountNode.has("role")) setRole(accountNode.get("role").asText());
+        if (accountNode.has("roleName")) setRole(accountNode.get("roleName").asText());
         if (accountNode.has("enabled")) setEnabled(accountNode.get("enabled").asBoolean());
     }
     
     public void setPassword(String password) {
-        this.password = TokenGenerator.hashPassword(password);
+        this.password = new TokenGenerator().hashPassword(password);
     }
     
     public boolean hasFamily(){

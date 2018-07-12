@@ -3,14 +3,13 @@ package pl.konradboniecki.webservices.mail.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.konradboniecki.models.account.Account;
-import pl.konradboniecki.webservices.mail.spi.MailService;
 import pl.konradboniecki.utils.BudgetAdress;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static pl.konradboniecki.utils.template.MailTemplate.CONFIRMATION_NEW_PASSWORD;
-import static pl.konradboniecki.utils.template.MailTemplate.CONFIRMATION_SIGN_UP;
+import static pl.konradboniecki.webservices.mail.impl.MailTemplate.CONFIRMATION_NEW_PASSWORD;
+import static pl.konradboniecki.webservices.mail.impl.MailTemplate.CONFIRMATION_SIGN_UP;
 
 @Service
 public class ActivationMailService {

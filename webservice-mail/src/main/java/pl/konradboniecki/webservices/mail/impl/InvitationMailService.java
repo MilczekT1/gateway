@@ -4,13 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.konradboniecki.models.account.Account;
 import pl.konradboniecki.models.family.Family;
-import pl.konradboniecki.webservices.mail.spi.MailService;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static pl.konradboniecki.utils.template.MailTemplate.INVITE_FAMILY_NEW_USER;
-import static pl.konradboniecki.utils.template.MailTemplate.INVITE_FAMILY_OLD_USER;
+import static pl.konradboniecki.webservices.mail.impl.MailTemplate.INVITE_FAMILY_NEW_USER;
+import static pl.konradboniecki.webservices.mail.impl.MailTemplate.INVITE_FAMILY_OLD_USER;
 
 @Service
 public class InvitationMailService {

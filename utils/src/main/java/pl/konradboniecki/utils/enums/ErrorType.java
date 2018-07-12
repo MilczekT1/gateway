@@ -4,7 +4,10 @@ package pl.konradboniecki.utils.enums;
 import lombok.Getter;
 import lombok.Setter;
 
-// This enum is designed to apply error name for thymeleaf. Use this enum to avoid typos.
+/**
+  *  ErrorType provides contants for thymeleaf. Use this enum to avoid typos.
+ **/
+
 public enum ErrorType {
     
     INVALID_ACTIVATION_LINK("invalidActivationLink"),
@@ -15,9 +18,9 @@ public enum ErrorType {
 
     @Getter
     @Setter
-    private String modelAttrName;
+    private String errorTypeVarName;
     
     ErrorType(String modelAttrName){
-        setModelAttrName(modelAttrName);
+        setErrorTypeVarName(modelAttrName);
     }
 }

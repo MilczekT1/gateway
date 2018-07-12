@@ -41,7 +41,7 @@ public class test {
 //        jsonObjects.put("Family", family);
         jsonObjects.put("ActivationCode", "25a4ac42-ba58-4f11-bae3-a5fe308ecb1f");
 
-        String json = "{ \"Account\" : { \"id\" : 1,\"familyId\" : null, \"firstName\" : \"kon\", \"lastName\" : \"bon\", \"email\" : \"konrad_boniecki@hotmail.com\", \"phoneNumber\" : \"123123123\", \"role\" : \"USER\", \"enabled\" : false }, \"ActivationCode\" : \"25a4ac42-ba58-4f11-bae3-a5fe308ecb1f\"}";
+        String json = "{ \"Account\" : { \"id\" : 1,\"familyId\" : null, \"firstName\" : \"kon\", \"lastName\" : \"bon\", \"email\" : \"konrad_boniecki@hotmail.com\", \"phoneNumber\" : \"123123123\", \"roleName\" : \"USER\", \"enabled\" : false }, \"ActivationCode\" : \"25a4ac42-ba58-4f11-bae3-a5fe308ecb1f\"}";
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String finalJsonAsString=null;
         try {

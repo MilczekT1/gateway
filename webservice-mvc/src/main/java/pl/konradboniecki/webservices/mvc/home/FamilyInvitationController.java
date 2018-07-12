@@ -17,6 +17,7 @@ import pl.konradboniecki.models.family.FamilyRepository;
 import pl.konradboniecki.models.familyinvitation.FamilyInvitation;
 import pl.konradboniecki.models.familyinvitation.FamilyInvitationRepository;
 import pl.konradboniecki.utils.BudgetAdress;
+import pl.konradboniecki.utils.RestCall;
 import pl.konradboniecki.utils.TokenGenerator;
 
 import java.util.LinkedHashMap;
@@ -24,9 +25,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import static pl.konradboniecki.utils.enums.ErrorType.*;
-import static pl.konradboniecki.utils.RestCall.performPostWithJSON;
-import static pl.konradboniecki.utils.template.ViewTemplate.ERROR_PAGE;
-import static pl.konradboniecki.utils.template.ViewTemplate.FAMILY_HOME_PAGE;
+import static pl.konradboniecki.templates.ViewTemplate.ERROR_PAGE;
+import static pl.konradboniecki.templates.ViewTemplate.FAMILY_HOME_PAGE;
 
 @Controller
 @RequestMapping(value = "home/family")
@@ -36,12 +36,14 @@ public class FamilyInvitationController {
     @Autowired private AccountRepository accountRepository;
     @Autowired private FamilyRepository familyRepository;
     @Autowired private FamilyInvitationRepository familyInvitationRepository;
+    @Autowired
+    private RestCall restCall;
 
     @PostMapping("/invite-to-family")
     public ModelAndView handleInvitationToFamilyFromApp(@RequestParam("newMemberEmail") String newMemberEmail,
                                                         @ModelAttribute("familyObject") Family family){
 
-        String invitationCode = TokenGenerator.createUUIDToken();
+        String invitationCode = new TokenGenerator().createUUIDToken();
         Map<String, Object> jsonObjects = new LinkedHashMap<>();
         boolean isNewUser = false;
 
@@ -55,11 +57,11 @@ public class FamilyInvitationController {
                 jsonObjects.put("Family", family);
                 jsonObjects.put("InvitationCode", invitationCode);
                 String URL = BudgetAdress.getURI() + ":3002/services/mail/invitation/existing-user";
-                performPostWithJSON(URL, jsonObjects);
+                restCall.performPostWithJSON(URL, jsonObjects);
             } catch (JsonProcessingException | UnirestException  e) {
                 log.error(Throwables.getStackTraceAsString(e));
                 return new ModelAndView(ERROR_PAGE, "errorType",
-                        PROCESSING_EXCEPTION.getModelAttrName());
+                        PROCESSING_EXCEPTION.getErrorTypeVarName());
             }
         } else {
             //Invitation Code is not neccessary
@@ -72,11 +74,11 @@ public class FamilyInvitationController {
                 jsonObjects.put("Family", family);
                 jsonObjects.put("NewMemberEmail", newMemberEmail);
                 String URL = BudgetAdress.getURI() + ":3002/services/mail/invitation/new-user";
-                performPostWithJSON(URL, jsonObjects);
+                restCall.performPostWithJSON(URL, jsonObjects);
             } catch (JsonProcessingException | UnirestException e) {
                 log.error(Throwables.getStackTraceAsString(e));
                 return new ModelAndView(ERROR_PAGE, "errorType",
-                        PROCESSING_EXCEPTION.getModelAttrName());
+                        PROCESSING_EXCEPTION.getErrorTypeVarName());
             }
         }
 
@@ -108,11 +110,11 @@ public class FamilyInvitationController {
                     jsonObjects.put("Family", family);
                     jsonObjects.put("InvitationCode", familyInvitation.get().getInvitationCode());
                     String URL = BudgetAdress.getURI() + ":3002/services/mail/invitation/existing-user";
-                    performPostWithJSON(URL, jsonObjects);
+                    restCall.performPostWithJSON(URL, jsonObjects);
                 } catch (JsonProcessingException | UnirestException  e) {
                     log.error(Throwables.getStackTraceAsString(e));
                     return new ModelAndView(ERROR_PAGE, "errorType",
-                            PROCESSING_EXCEPTION.getModelAttrName());
+                            PROCESSING_EXCEPTION.getErrorTypeVarName());
                 }
             } else {
                 //Invitation Code is not neccessary
@@ -124,11 +126,11 @@ public class FamilyInvitationController {
                     jsonObjects.put("Family", family);
                     jsonObjects.put("NewMemberEmail", emailDest);
                     String URL = BudgetAdress.getURI() + ":3002/services/mail/invitation/new-user";
-                    performPostWithJSON(URL, jsonObjects);
+                    restCall.performPostWithJSON(URL, jsonObjects);
                 } catch (JsonProcessingException | UnirestException e) {
                     log.error(Throwables.getStackTraceAsString(e));
                     return new ModelAndView(ERROR_PAGE, "errorType",
-                            PROCESSING_EXCEPTION.getModelAttrName());
+                            PROCESSING_EXCEPTION.getErrorTypeVarName());
                 }
             }
         }

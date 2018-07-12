@@ -15,7 +15,7 @@ import pl.konradboniecki.models.useractivationcode.UserActivationCodeRepository;
 import java.util.Optional;
 
 import static pl.konradboniecki.utils.enums.ErrorType.INVALID_ACTIVATION_LINK;
-import static pl.konradboniecki.utils.template.ViewTemplate.ERROR_PAGE;
+import static pl.konradboniecki.templates.ViewTemplate.ERROR_PAGE;
 
 @Controller
 public class UserActivationController {
@@ -46,7 +46,7 @@ public class UserActivationController {
                         return new ModelAndView("redirect:/login");
                     }
                 }
-                return new ModelAndView(ERROR_PAGE, "errorType", INVALID_ACTIVATION_LINK.getModelAttrName());
+                return new ModelAndView(ERROR_PAGE, "errorType", INVALID_ACTIVATION_LINK.getErrorTypeVarName());
             }
         } else {
             return new ModelAndView("redirect:/register");

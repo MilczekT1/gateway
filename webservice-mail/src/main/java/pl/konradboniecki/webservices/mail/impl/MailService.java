@@ -1,4 +1,4 @@
-package pl.konradboniecki.webservices.mail.spi;
+package pl.konradboniecki.webservices.mail.impl;
 
 import com.google.common.base.Throwables;
 import org.slf4j.Logger;

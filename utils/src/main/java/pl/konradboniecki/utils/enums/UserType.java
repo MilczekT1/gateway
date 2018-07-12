@@ -3,15 +3,21 @@ package pl.konradboniecki.utils.enums;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+  * UserType provides user roles and properties.
+ **/
+
 public enum UserType {
     
-    ADMIN("ADMIN"), SUBSCRIBER("SUBSCRIBER"), USER("USER");
+    ADMIN("ADMIN"),
+    SUBSCRIBER("SUBSCRIBER"),
+    USER("USER");
 
     @Getter
     @Setter
-    private String role;
+    private String roleName;
     
-    UserType(String role){
-        setRole(role);
+    UserType(String roleName){
+        setRoleName(roleName);
     }
 }

@@ -19,6 +19,7 @@ import pl.konradboniecki.models.account.AccountRepository;
 import pl.konradboniecki.models.useractivationcode.UserActivationCode;
 import pl.konradboniecki.models.useractivationcode.UserActivationCodeRepository;
 import pl.konradboniecki.utils.BudgetAdress;
+import pl.konradboniecki.utils.RestCall;
 import pl.konradboniecki.utils.TokenGenerator;
 
 import javax.validation.Valid;
@@ -26,8 +27,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
-import static pl.konradboniecki.utils.RestCall.performPostWithJSON;
-import static pl.konradboniecki.utils.template.ViewTemplate.*;
+import static pl.konradboniecki.templates.ViewTemplate.*;
 
 @Controller
 public class RegisterController {
@@ -37,6 +37,8 @@ public class RegisterController {
     private AccountRepository accountRepository;
     @Autowired
     private UserActivationCodeRepository userActivationCodeRepository;
+    @Autowired
+    private RestCall restCall;
 
     @PostMapping("/register")
     public ModelAndView register(@ModelAttribute("accountFormObject") @Valid AccountForm newAccountForm,
@@ -52,18 +54,18 @@ public class RegisterController {
         if (!accountRepository.existsByEmail(acc.getEmail())){
             accountRepository.save(acc);
             acc = accountRepository.findByEmail(acc.getEmail()).get();
-            String token = TokenGenerator.createUUIDToken();
+            String token = new TokenGenerator().createUUIDToken();
             userActivationCodeRepository.save(new UserActivationCode(acc.getId(), token));
             try {
                 Map<String, Object> jsonObjects = new LinkedHashMap<>();
                 jsonObjects.put("Account", acc);
                 jsonObjects.put("ActivationCode", token);
                 String URL = BudgetAdress.getURI() + ":3002/services/mail/activation/new-account";
-                performPostWithJSON(URL, jsonObjects);
+                restCall.performPostWithJSON(URL, jsonObjects);
             } catch (JsonProcessingException | UnirestException  e) {
                 log.error(Throwables.getStackTraceAsString(e));
                 return new ModelAndView(ERROR_PAGE, "errorType",
-                        PROCESSING_EXCEPTION.getModelAttrName());
+                        PROCESSING_EXCEPTION.getErrorTypeVarName());
             }
 
             return new ModelAndView(REGISTRATION_SUCCESS_MSG);

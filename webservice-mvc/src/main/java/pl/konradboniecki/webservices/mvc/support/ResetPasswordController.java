@@ -19,6 +19,7 @@ import pl.konradboniecki.models.newpassword.NewPassword;
 import pl.konradboniecki.models.newpassword.NewPasswordForm;
 import pl.konradboniecki.models.newpassword.NewPasswordRepository;
 import pl.konradboniecki.utils.BudgetAdress;
+import pl.konradboniecki.utils.RestCall;
 import pl.konradboniecki.utils.TokenGenerator;
 
 import javax.validation.Valid;
@@ -27,9 +28,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
-import static pl.konradboniecki.utils.RestCall.performPostWithJSON;
-import static pl.konradboniecki.utils.template.ViewTemplate.ERROR_PAGE;
-import static pl.konradboniecki.utils.template.ViewTemplate.LOST_PASSWD_PAGE;
+import static pl.konradboniecki.templates.ViewTemplate.ERROR_PAGE;
+import static pl.konradboniecki.templates.ViewTemplate.LOST_PASSWD_PAGE;
 
 @Controller
 public class ResetPasswordController {
@@ -39,6 +39,9 @@ public class ResetPasswordController {
     private AccountRepository accountRepository;
     @Autowired
     private NewPasswordRepository newPasswordRepository;
+
+    @Autowired
+    private RestCall restCall;
 
     @GetMapping (value = "/reset/{id}/{resetCode}")
     public ModelAndView changeLostPassword(@PathVariable(name="id") Long id,
@@ -74,7 +77,7 @@ public class ResetPasswordController {
 
         Optional<Account> account = accountRepository.findByEmail(newPasswordForm.getEmail());
         if (account.isPresent()){
-            String resetCode = TokenGenerator.createUUIDToken();
+            String resetCode = new TokenGenerator().createUUIDToken();
 
             NewPassword newPassword = new NewPassword(newPasswordForm);
             newPassword.setResetCode(resetCode);
@@ -91,12 +94,12 @@ public class ResetPasswordController {
                 jsonObjects.put("Account", account.get());
                 jsonObjects.put("ResetCode", resetCode);
                 String URL = BudgetAdress.getURI() + ":3002/services/mail/activation/new-password";
-                performPostWithJSON(URL, jsonObjects);
+                restCall.performPostWithJSON(URL, jsonObjects);
             } catch (JsonProcessingException | UnirestException e) {
                 System.out.println(Throwables.getStackTraceAsString(e));
                 log.error(Throwables.getStackTraceAsString(e));
                 return new ModelAndView(ERROR_PAGE, "errorType",
-                        PROCESSING_EXCEPTION.getModelAttrName());
+                        PROCESSING_EXCEPTION.getErrorTypeVarName());
             }
         }
         
