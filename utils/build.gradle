@@ -10,7 +10,7 @@ buildscript {
     }
 }
 group 'pl.konradboniecki.utils'
-version = '0.1'
+version = '0.5'
 test {
     // Enable JUnit 5 (Gradle 4.6+).
     useJUnitPlatform()

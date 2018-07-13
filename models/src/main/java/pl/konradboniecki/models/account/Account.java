@@ -40,7 +40,7 @@ public class Account implements Serializable {
     @Column(name = "date_of_registration")
     private ZonedDateTime registerDate;
     
-    @Column(name = "roleName")
+    @Column(name = "role")
     private String role;
     @Column(name = "enabled")
     private boolean enabled;
