@@ -4,7 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.google.gson.Gson;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import pl.konradboniecki.models.family.Family;
 
 import java.time.ZonedDateTime;
@@ -17,6 +18,7 @@ public class AccountTest {
     private static Gson gson = new Gson();
 
     @Test
+    @Disabled
     public void test() throws JsonProcessingException {
         Account acc = new Account();
         acc.setEnabled(true);
