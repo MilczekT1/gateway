@@ -34,6 +34,6 @@ public class NewPassword {
     }
 
     public void setNewPassword(String passwd){
-        this.newPassword = TokenGenerator.hashPassword(passwd);
+        this.newPassword = new TokenGenerator().hashPassword(passwd);
     }
 }

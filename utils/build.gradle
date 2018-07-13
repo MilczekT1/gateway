@@ -1,7 +1,30 @@
-group 'pl.konradboniecki.utils'
-version = '0.1'
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
 
+//    apply plugin: 'org.sonarqube'
+    dependencies {
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.2"
+    }
+}
+group 'pl.konradboniecki.utils'
+version = '0.5'
+test {
+    // Enable JUnit 5 (Gradle 4.6+).
+    useJUnitPlatform()
+
+    // Always run tests, even when nothing changed.
+    dependsOn 'cleanTest'
+
+    // Show test results.
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
 dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.5'
     compile group: 'com.mashape.unirest', name: 'unirest-java', version: '1.4.9'
+    compile group: 'org.sonarsource.scanner.gradle', name: 'sonarqube-gradle-plugin', version: '2.6.2'
 }

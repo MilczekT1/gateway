@@ -1,8 +1,12 @@
 package pl.konradboniecki.utils;
 
+import lombok.Data;
 import lombok.Getter;
 
-public class BudgetAdress {
+import java.io.Serializable;
+
+@Data
+public class BudgetAdress implements Serializable {
 
     @Getter
     private static final String URI = "http://77.55.237.245";

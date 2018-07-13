@@ -28,7 +28,7 @@ public class SpringAuthenticationProvider implements AuthenticationProvider {
         String email = authentication.getName();
         email = email.toLowerCase();
         String password = authentication.getCredentials().toString();
-        String hashedTypedPassword = TokenGenerator.hashPassword(password);
+        String hashedTypedPassword = new TokenGenerator().hashPassword(password);
         
         if(authenticationIsCorrect(email, hashedTypedPassword)){
             SecurityContextHolder.getContext().setAuthentication(authentication);

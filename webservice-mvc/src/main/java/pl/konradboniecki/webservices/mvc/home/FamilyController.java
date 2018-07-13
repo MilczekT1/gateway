@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
-import static pl.konradboniecki.utils.template.ViewTemplate.*;
+import static pl.konradboniecki.templates.ViewTemplate.*;
 
 
 @Controller
