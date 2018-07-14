@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import pl.konradboniecki.models.account.Account;
@@ -24,7 +23,7 @@ public class SpringAuthenticationProvider implements AuthenticationProvider {
     private AccountRepository accountRepository;
     
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(Authentication authentication) {
         String email = authentication.getName();
         email = email.toLowerCase();
         String password = authentication.getCredentials().toString();
@@ -40,14 +39,9 @@ public class SpringAuthenticationProvider implements AuthenticationProvider {
     
     private boolean authenticationIsCorrect(String email, String passwordHash){
         Optional<Account> account = accountRepository.findByEmail(email);
-        if (account.isPresent() &&
-                    passwordHash.equals(account.get().getPassword()) &&
-                    account.get().isEnabled()){
-                return true;
-        }
-        else {
-            return false;
-        }
+        return (account.isPresent()
+                && passwordHash.equals(account.get().getPassword())
+                && account.get().isEnabled());
     }
     
     @Override

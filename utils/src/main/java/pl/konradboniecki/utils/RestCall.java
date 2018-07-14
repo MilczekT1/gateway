@@ -11,13 +11,12 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
-  * This class provides support for simple restcalls.f
+  * This class provides support for simple rest calls.
  **/
 
 @Component
 public class RestCall {
 
-//    @Autowired
     private JsonWrapper jsonWrapper;
 
     @Autowired
@@ -26,7 +25,7 @@ public class RestCall {
     }
 
     public HttpResponse<JsonNode> performPostWithJSON(String url, Map<String, Object> jsonObjects)
-            throws JsonProcessingException, UnirestException, NullPointerException {
+            throws JsonProcessingException, UnirestException {
 
         if (jsonObjects == null)
             throw new NullPointerException("Map<String, Object> jsonObjects should not be null!");
