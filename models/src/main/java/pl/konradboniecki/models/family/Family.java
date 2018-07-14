@@ -44,13 +44,15 @@ public class Family {
         setMaxJars(6);
         setMaxMembers(5);
     }
-    public Family(FamilyCreationForm familyCreationForm, Long owner_id){
+    public Family(FamilyCreationForm familyCreationForm, Long ownerId){
         this(familyCreationForm);
-        setOwnerId(owner_id);
+        setOwnerId(ownerId);
     }
-    public Family(String jsonObjectName, ObjectNode json){
+    public Family(String jsonObjectName, ObjectNode json) {
         if (jsonObjectName == null)
-            jsonObjectName = "Family";
+            throw new NullPointerException("Family has been initialized with null");
+        if (jsonObjectName.equals(""))
+            throw new IllegalArgumentException("Family has been initialized with either \"\"");
 
         JsonNode familyNode = json.get(jsonObjectName);
         if (familyNode.has("id")) setId(familyNode.get("id").asLong());
