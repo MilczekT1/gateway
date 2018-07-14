@@ -14,9 +14,11 @@ import java.util.UUID;
 public class TokenGenerator {
 
     private String algorithm;
+    private String charsetName;
 
     public TokenGenerator() {
         setAlgorithm("SHA-256");
+        setCharsetName("UTF-8");
     }
 
     public String hashPassword(String password){
@@ -26,7 +28,7 @@ public class TokenGenerator {
     private String hashString(String string){
         try {
             MessageDigest digest = MessageDigest.getInstance(getAlgorithm());
-            byte[] hashArray = digest.digest(string.getBytes("UTF-8"));
+            byte[] hashArray = digest.digest(string.getBytes(getCharsetName()));
             return DatatypeConverter.printHexBinary(hashArray);
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             return null;

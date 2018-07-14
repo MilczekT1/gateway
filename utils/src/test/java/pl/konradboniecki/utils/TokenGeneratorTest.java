@@ -1,5 +1,6 @@
 package pl.konradboniecki.utils;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -18,15 +19,22 @@ public class TokenGeneratorTest {
     private String testStringAfterSHA256;
 
     @BeforeEach
-    void setup(){
+    void before(){
         tokenGenerator = new TokenGenerator();
+    }
+
+    @BeforeAll
+    void setup(){
         testString = "test string";
         testStringAfterSHA256 = "D5579C46DFCC7F18207013E65B44E4CB4E2C2298F4AC457BA8F82743F31E930B";
     }
 
     @Test
-    void testDefaultAlgorithm(){
-        assertEquals("SHA-256", tokenGenerator.getAlgorithm());
+    void testDefaultProperties(){
+        assertAll(
+                () -> assertEquals("SHA-256", tokenGenerator.getAlgorithm()),
+                () -> assertEquals("UTF-8", tokenGenerator.getCharsetName())
+        );
     }
 
     @Test
@@ -47,5 +55,12 @@ public class TokenGeneratorTest {
             () -> assertEquals(testStringAfterSHA256, method.invoke(tokenGenerator,testString), "hash is different than expected"),
             () -> assertEquals(tokenGenerator.hashPassword(testString), method.invoke(tokenGenerator,testString))
         );
+        String previousAlgorithm = tokenGenerator.getAlgorithm();
+        tokenGenerator.setAlgorithm("Invalid algorithm name");
+        assertNull(tokenGenerator.hashPassword(testString));
+
+        tokenGenerator.setAlgorithm(previousAlgorithm);
+        tokenGenerator.setCharsetName("Invalid charset name");
+        assertNull(tokenGenerator.hashPassword(testString));
     }
 }

@@ -18,7 +18,7 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 @Scope(SCOPE_SINGLETON)
 public class JsonWrapper {
 
-    private static ObjectWriter objectWriter;
+    private ObjectWriter objectWriter;
 
     public JsonWrapper(){
         objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
