@@ -1,4 +1,4 @@
-package pl.konradboniecki.models.family;
+package pl.konradboniecki.models.frontendforms;
 
 import lombok.Data;
 
@@ -11,5 +11,4 @@ public class FamilyCreationForm {
     @NotEmpty (message = "{familyCreationForm.titleRequired}")
     @Pattern (regexp = "[a-zA-Z][a-zA-Z ]{4,50}", message = "{familyCreationForm.titleRegex}")
     private String title;
-
 }
