@@ -25,7 +25,7 @@ public class FamilyInvitation {
     @Column(name="apply_time")
     private ZonedDateTime applyTime;
     @Column(name="new_user")
-    private Boolean newUser;
+    private Boolean registeredStatus;
 
     public FamilyInvitation() {
         ;
@@ -35,12 +35,11 @@ public class FamilyInvitation {
         setEmail(email);
         setApplyTime(ZonedDateTime.now());
         setFamilyId(familyId);
-
     }
 
-    public FamilyInvitation(String email, Long familyId, String invitationCode, Boolean newUser) {
-        this(email,familyId);
+    public FamilyInvitation(String email, Long familyId, String invitationCode, Boolean registeredStatus) {
+        this(email, familyId);
         setInvitationCode(invitationCode);
-        setNewUser(newUser);
+        setRegisteredStatus(registeredStatus);
     }
 }
