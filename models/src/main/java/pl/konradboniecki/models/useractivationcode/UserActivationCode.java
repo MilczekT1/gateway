@@ -1,12 +1,14 @@
 package pl.konradboniecki.models.useractivationcode;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "activation_code")
 public class UserActivationCode {
@@ -23,20 +25,9 @@ public class UserActivationCode {
     @Column(name="creation_time")
     private ZonedDateTime applyTime;
 
-    public UserActivationCode() {
-        ;
-    }
-
-    public UserActivationCode(Long id, Long accountId, String activationCode, ZonedDateTime applyTime) {
-        this.id = id;
-        this.accountId = accountId;
-        this.activationCode = activationCode;
-        this.applyTime = applyTime;
-    }
-
     public UserActivationCode(Long accountId, String activationCode) {
-        this.accountId = accountId;
-        this.activationCode = activationCode;
-        this.applyTime = ZonedDateTime.now();
+        setAccountId(accountId);
+        setActivationCode(activationCode);
+        setApplyTime(ZonedDateTime.now());
     }
 }
