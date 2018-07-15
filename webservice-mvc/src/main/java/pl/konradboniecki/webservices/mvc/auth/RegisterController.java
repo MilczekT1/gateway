@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pl.konradboniecki.models.account.Account;
-import pl.konradboniecki.models.account.AccountForm;
 import pl.konradboniecki.models.account.AccountRepository;
+import pl.konradboniecki.models.frontendforms.AccountForm;
 import pl.konradboniecki.models.useractivationcode.UserActivationCode;
 import pl.konradboniecki.models.useractivationcode.UserActivationCodeRepository;
 import pl.konradboniecki.utils.BudgetAdress;
@@ -26,8 +26,8 @@ import javax.validation.Valid;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
 import static pl.konradboniecki.templates.ViewTemplate.*;
+import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
 
 @Controller
 public class RegisterController {

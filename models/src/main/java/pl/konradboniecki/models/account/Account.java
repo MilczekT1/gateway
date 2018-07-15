@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import pl.konradboniecki.models.frontendforms.AccountForm;
 import pl.konradboniecki.utils.TokenGenerator;
 
 import javax.persistence.*;

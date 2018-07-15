@@ -1,4 +1,4 @@
-package pl.konradboniecki.models.account;
+package pl.konradboniecki.models.frontendforms;
 
 import lombok.Data;
 
