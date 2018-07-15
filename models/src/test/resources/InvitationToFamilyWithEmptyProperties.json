@@ -1,0 +1,14 @@
+{
+  "Owner": {
+    "id": 12,
+    "familyId": 10,
+    "firstName": "kon",
+    "lastName": "bon",
+    "email": "temp@mail.com",
+    "phoneNumber": "123321123",
+    "role": "USER",
+    "enabled": true
+  },
+  "Family": {},
+  "NewMemberEmail": "test@mail.com"
+}
