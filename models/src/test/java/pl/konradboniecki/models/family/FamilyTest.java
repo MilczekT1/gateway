@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class FamilyTest {
 
     private String invitationToFamilyJsonFileAsString;
-    private String familyNodeJsonFileAsString;
     private String invitationToFamilyWithEmptyPropsAsString;
 
     @BeforeAll
@@ -34,18 +33,6 @@ public class FamilyTest {
             }
         }
         invitationToFamilyJsonFileAsString = result.toString();
-
-
-        File familyNodeJsonFile = new File(getClass().getClassLoader().getResource("FamilyNode.json").getFile());
-        assertTrue(familyNodeJsonFile.exists());
-        result = new StringBuilder();
-        try (Scanner scanner = new Scanner(familyNodeJsonFile)) {
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                result.append(line).append("\n");
-            }
-        }
-        familyNodeJsonFileAsString = result.toString();
 
         File invitationToFamilyWithoutProps = new File(getClass().getClassLoader().getResource("InvitationToFamilyWithEmptyProperties.json").getFile());
         assertTrue(invitationToFamilyWithoutProps.exists());
