@@ -27,9 +27,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
 import static pl.konradboniecki.templates.ViewTemplate.ERROR_PAGE;
 import static pl.konradboniecki.templates.ViewTemplate.LOST_PASSWD_PAGE;
+import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
 
 @Controller
 public class ResetPasswordController {
@@ -53,7 +53,7 @@ public class ResetPasswordController {
             String correctResetCode = newPasswordOpt.get().getResetCode();
 
             if (resetCodeFromUrl.equals(correctResetCode)){
-                String newPassword = newPasswordOpt.get().getNewPassword();
+                String newPassword = newPasswordOpt.get().getNewPasswordProp();
                 accountRepository.changePassword(newPassword, id);
                 newPasswordRepository.deleteById(id);
             }
