@@ -18,7 +18,7 @@ public class NewPassword {
     private Long accountId;
     
     @Column(name = "new_password")
-    private String newPassword;
+    private String newPasswordProp;
     @Column(name = "apply_time")
     private ZonedDateTime applyTime;
     @Column(name = "reset_code")
@@ -30,10 +30,10 @@ public class NewPassword {
 
     public NewPassword(NewPasswordForm newPasswordForm){
         setApplyTime(ZonedDateTime.now());
-        setNewPassword(newPasswordForm.getPassword());
+        setNewPasswordProp(newPasswordForm.getPassword());
     }
 
-    public void setNewPassword(String passwd){
-        this.newPassword = new TokenGenerator().hashPassword(passwd);
+    public void setNewPasswordProp(String passwd){
+        this.newPasswordProp = new TokenGenerator().hashPassword(passwd);
     }
 }
