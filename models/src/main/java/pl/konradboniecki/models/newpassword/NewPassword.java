@@ -1,6 +1,7 @@
 package pl.konradboniecki.models.newpassword;
 
 import lombok.Data;
+import pl.konradboniecki.models.frontendforms.NewPasswordForm;
 import pl.konradboniecki.utils.TokenGenerator;
 
 import javax.persistence.Column;
