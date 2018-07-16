@@ -92,8 +92,8 @@ public class ResetPasswordController {
                 Map<String, Object> jsonObjects = new LinkedHashMap<>();
                 jsonObjects.put("Account", account.get());
                 jsonObjects.put("ResetCode", resetCode);
-                String URL = BudgetAdress.getURI() + ":3002/services/mail/activation/new-password";
-                restCall.performPostWithJSON(URL, jsonObjects);
+                String url = BudgetAdress.getURI() + ":3002/services/mail/activation/new-password";
+                restCall.performPostWithJSON(url, jsonObjects);
             } catch (JsonProcessingException | UnirestException e) {
                 log.severe(Throwables.getStackTraceAsString(e));
                 return new ModelAndView(ERROR_PAGE, "errorType",

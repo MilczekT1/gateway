@@ -3,8 +3,7 @@ package pl.konradboniecki.webservices.mvc.home;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.base.Throwables;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -24,14 +23,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static pl.konradboniecki.utils.enums.ErrorType.*;
 import static pl.konradboniecki.templates.ViewTemplate.ERROR_PAGE;
 import static pl.konradboniecki.templates.ViewTemplate.FAMILY_HOME_PAGE;
+import static pl.konradboniecki.utils.enums.ErrorType.*;
 
+@Log
 @Controller
 @RequestMapping(value = "home/family")
 public class FamilyInvitationController {
-    private static final Logger log = LoggerFactory.getLogger(FamilyInvitationController.class);
 
     @Autowired private AccountRepository accountRepository;
     @Autowired private FamilyRepository familyRepository;
@@ -56,10 +55,10 @@ public class FamilyInvitationController {
                 jsonObjects.put("Owner", owner);
                 jsonObjects.put("Family", family);
                 jsonObjects.put("InvitationCode", invitationCode);
-                String URL = BudgetAdress.getURI() + ":3002/services/mail/invitation/existing-user";
-                restCall.performPostWithJSON(URL, jsonObjects);
+                String url = BudgetAdress.getURI() + ":3002/services/mail/invitation/existing-user";
+                restCall.performPostWithJSON(url, jsonObjects);
             } catch (JsonProcessingException | UnirestException  e) {
-                log.error(Throwables.getStackTraceAsString(e));
+                log.severe(Throwables.getStackTraceAsString(e));
                 return new ModelAndView(ERROR_PAGE, "errorType",
                         PROCESSING_EXCEPTION.getErrorTypeVarName());
             }
@@ -73,10 +72,10 @@ public class FamilyInvitationController {
                 jsonObjects.put("Owner", owner);
                 jsonObjects.put("Family", family);
                 jsonObjects.put("NewMemberEmail", newMemberEmail);
-                String URL = BudgetAdress.getURI() + ":3002/services/mail/invitation/new-user";
-                restCall.performPostWithJSON(URL, jsonObjects);
+                String url = BudgetAdress.getURI() + ":3002/services/mail/invitation/new-user";
+                restCall.performPostWithJSON(url, jsonObjects);
             } catch (JsonProcessingException | UnirestException e) {
-                log.error(Throwables.getStackTraceAsString(e));
+                log.severe(Throwables.getStackTraceAsString(e));
                 return new ModelAndView(ERROR_PAGE, "errorType",
                         PROCESSING_EXCEPTION.getErrorTypeVarName());
             }
@@ -109,10 +108,10 @@ public class FamilyInvitationController {
                     jsonObjects.put("Owner", owner);
                     jsonObjects.put("Family", family);
                     jsonObjects.put("InvitationCode", familyInvitation.get().getInvitationCode());
-                    String URL = BudgetAdress.getURI() + ":3002/services/mail/invitation/existing-user";
-                    restCall.performPostWithJSON(URL, jsonObjects);
+                    String url = BudgetAdress.getURI() + ":3002/services/mail/invitation/existing-user";
+                    restCall.performPostWithJSON(url, jsonObjects);
                 } catch (JsonProcessingException | UnirestException  e) {
-                    log.error(Throwables.getStackTraceAsString(e));
+                    log.severe(Throwables.getStackTraceAsString(e));
                     return new ModelAndView(ERROR_PAGE, "errorType",
                             PROCESSING_EXCEPTION.getErrorTypeVarName());
                 }
@@ -125,10 +124,10 @@ public class FamilyInvitationController {
                     jsonObjects.put("Owner", owner);
                     jsonObjects.put("Family", family);
                     jsonObjects.put("NewMemberEmail", emailDest);
-                    String URL = BudgetAdress.getURI() + ":3002/services/mail/invitation/new-user";
-                    restCall.performPostWithJSON(URL, jsonObjects);
+                    String url = BudgetAdress.getURI() + ":3002/services/mail/invitation/new-user";
+                    restCall.performPostWithJSON(url, jsonObjects);
                 } catch (JsonProcessingException | UnirestException e) {
-                    log.error(Throwables.getStackTraceAsString(e));
+                    log.severe(Throwables.getStackTraceAsString(e));
                     return new ModelAndView(ERROR_PAGE, "errorType",
                             PROCESSING_EXCEPTION.getErrorTypeVarName());
                 }
@@ -151,7 +150,7 @@ public class FamilyInvitationController {
                         familyInvitationRepository.findByEmailAndFamilyId(account.getEmail(),familyId);
                 if (familyInvitation.isPresent()){
                     if (!familyInvitation.get().getInvitationCode().equals(code)){
-                        log.error("Wrong invitation code: " + familyInvitation.get().toString()
+                        log.severe("Wrong invitation code: " + familyInvitation.get().toString()
                                 + "and given invitation code: " + code);
                         return new ModelAndView(ERROR_PAGE, "errorType", INVALID_INVITATION_LINK);
                     } else {
@@ -159,14 +158,14 @@ public class FamilyInvitationController {
                             accountRepository.setFamilyId(familyId, accountId);
                             familyInvitationRepository.deleteById(familyInvitation.get().getId());
                         } else {
-                            log.error("Not enough space in family for new user " + account.toString() +
+                            log.severe("Not enough space in family for new user " + account.toString() +
                                     "in familywith id: " + familyId);
                             return new ModelAndView(ERROR_PAGE, "errorType", NOT_ENOUGH_SPACE_IN_FAMILY);
                         }
                     }
                 }
                 else{
-                    log.error("No such family invitation with  " + account.getEmail() + " and familyId:" + familyId);
+                    log.severe("No such family invitation with  " + account.getEmail() + " and familyId:" + familyId);
                     return new ModelAndView(ERROR_PAGE, "errorType", INVALID_INVITATION_LINK);
                 }
             }
