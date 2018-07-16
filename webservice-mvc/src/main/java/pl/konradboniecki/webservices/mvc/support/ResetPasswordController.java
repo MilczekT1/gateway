@@ -3,8 +3,7 @@ package pl.konradboniecki.webservices.mvc.support;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.base.Throwables;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -31,9 +30,9 @@ import static pl.konradboniecki.templates.ViewTemplate.ERROR_PAGE;
 import static pl.konradboniecki.templates.ViewTemplate.LOST_PASSWD_PAGE;
 import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
 
+@Log
 @Controller
 public class ResetPasswordController {
-    private static final Logger log = LoggerFactory.getLogger(ResetPasswordController.class);
 
     @Autowired
     private AccountRepository accountRepository;
@@ -96,8 +95,7 @@ public class ResetPasswordController {
                 String URL = BudgetAdress.getURI() + ":3002/services/mail/activation/new-password";
                 restCall.performPostWithJSON(URL, jsonObjects);
             } catch (JsonProcessingException | UnirestException e) {
-                System.out.println(Throwables.getStackTraceAsString(e));
-                log.error(Throwables.getStackTraceAsString(e));
+                log.severe(Throwables.getStackTraceAsString(e));
                 return new ModelAndView(ERROR_PAGE, "errorType",
                         PROCESSING_EXCEPTION.getErrorTypeVarName());
             }

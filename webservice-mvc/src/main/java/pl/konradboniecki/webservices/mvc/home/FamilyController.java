@@ -1,7 +1,5 @@
 package pl.konradboniecki.webservices.mvc.home;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -30,7 +28,6 @@ import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
 @Controller
 @RequestMapping(value = "home/family")
 public class FamilyController {
-    private static final Logger log = LoggerFactory.getLogger(FamilyController.class);
     
     @Autowired private AccountRepository accountRepository;
     @Autowired private FamilyRepository familyRepository;
