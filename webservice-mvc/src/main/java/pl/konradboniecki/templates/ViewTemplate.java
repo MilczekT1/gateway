@@ -14,4 +14,6 @@ public class ViewTemplate {
     public static final String ERROR_PAGE = "error";
     public static final String INDEX = "index";
     public static final String LOST_PASSWD_PAGE = "lostPasswordForm";
+
+    private ViewTemplate(){}
 }
