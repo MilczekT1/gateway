@@ -3,8 +3,7 @@ package pl.konradboniecki.webservices.mvc.auth;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.base.Throwables;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,9 +28,9 @@ import java.util.Map;
 import static pl.konradboniecki.templates.ViewTemplate.*;
 import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
 
+@Log
 @Controller
 public class RegisterController {
-    private static final Logger log = LoggerFactory.getLogger(RegisterController.class);
     
     @Autowired
     private AccountRepository accountRepository;
@@ -60,10 +59,10 @@ public class RegisterController {
                 Map<String, Object> jsonObjects = new LinkedHashMap<>();
                 jsonObjects.put("Account", acc);
                 jsonObjects.put("ActivationCode", token);
-                String URL = BudgetAdress.getURI() + ":3002/services/mail/activation/new-account";
-                restCall.performPostWithJSON(URL, jsonObjects);
+                String url = BudgetAdress.getURI() + ":3002/services/mail/activation/new-account";
+                restCall.performPostWithJSON(url, jsonObjects);
             } catch (JsonProcessingException | UnirestException  e) {
-                log.error(Throwables.getStackTraceAsString(e));
+                log.severe(Throwables.getStackTraceAsString(e));
                 return new ModelAndView(ERROR_PAGE, "errorType",
                         PROCESSING_EXCEPTION.getErrorTypeVarName());
             }
