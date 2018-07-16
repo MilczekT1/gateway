@@ -31,7 +31,7 @@ public class InvitationMailService {
     }
 
     public Boolean sendFamilyInvitationToNewUser(Account owner, Family family, String newMemberMail){
-        Map<String,String> ctxtVariables = new HashMap<String,String>();
+        Map<String,String> ctxtVariables = new HashMap<>();
         ctxtVariables.put("recipient",newMemberMail);
         ctxtVariables.put("familyTitle",family.getTitle());
         ctxtVariables.put("ownersFirstName",owner.getFirstName());

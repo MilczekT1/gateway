@@ -1,8 +1,7 @@
 package pl.konradboniecki.webservices.mail.impl;
 
 import com.google.common.base.Throwables;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -14,10 +13,9 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Map;
 
+@Log
 @Service
 public class MailService {
-
-    private static final Logger log = LoggerFactory.getLogger(MailService.class);
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -32,8 +30,8 @@ public class MailService {
 
     private String processHtml(String template, Map<String,String> contextVariables){
         Context context = new Context();
-        for (String key: contextVariables.keySet()){
-            context.setVariable(key,contextVariables.get(key));
+        for (Map.Entry<String,String> entry : contextVariables.entrySet()) {
+            context.setVariable(entry.getKey(), entry.getValue());
         }
         return templateEngine.process(template,context);
     }
@@ -48,7 +46,7 @@ public class MailService {
             helper.setText(message, true);
             helper.setReplyTo("konrad_boniecki@hotmail.com");
         } catch (MessagingException e) {
-            log.error(Throwables.getStackTraceAsString(e));
+            log.severe(Throwables.getStackTraceAsString(e));
             return false;
         }
 
