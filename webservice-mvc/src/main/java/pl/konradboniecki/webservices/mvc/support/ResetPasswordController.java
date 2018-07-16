@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pl.konradboniecki.models.account.Account;
 import pl.konradboniecki.models.account.AccountRepository;
+import pl.konradboniecki.models.frontendforms.NewPasswordForm;
 import pl.konradboniecki.models.newpassword.NewPassword;
-import pl.konradboniecki.models.newpassword.NewPasswordForm;
 import pl.konradboniecki.models.newpassword.NewPasswordRepository;
 import pl.konradboniecki.utils.BudgetAdress;
 import pl.konradboniecki.utils.RestCall;
@@ -27,9 +27,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
 import static pl.konradboniecki.templates.ViewTemplate.ERROR_PAGE;
 import static pl.konradboniecki.templates.ViewTemplate.LOST_PASSWD_PAGE;
+import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
 
 @Controller
 public class ResetPasswordController {
@@ -53,7 +53,7 @@ public class ResetPasswordController {
             String correctResetCode = newPasswordOpt.get().getResetCode();
 
             if (resetCodeFromUrl.equals(correctResetCode)){
-                String newPassword = newPasswordOpt.get().getNewPassword();
+                String newPassword = newPasswordOpt.get().getNewPasswordProp();
                 accountRepository.changePassword(newPassword, id);
                 newPasswordRepository.deleteById(id);
             }
@@ -72,7 +72,7 @@ public class ResetPasswordController {
                                                 BindingResult bindingResult){
         if (bindingResult.hasErrors())
             return new ModelAndView(LOST_PASSWD_PAGE);
-        else if (!newPasswordForm.checkRepeatedPassword())
+        else if (!newPasswordForm.isRepeatedPasswordTheSame())
             return new ModelAndView(LOST_PASSWD_PAGE,"repeatedPasswordFailure",true);
 
         Optional<Account> account = accountRepository.findByEmail(newPasswordForm.getEmail());

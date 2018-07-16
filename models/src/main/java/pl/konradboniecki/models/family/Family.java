@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import pl.konradboniecki.models.frontendforms.FamilyCreationForm;
 
 import javax.persistence.*;
 
@@ -19,10 +20,8 @@ public class Family {
     
     @Column(name="owner_id")
     private Long ownerId;
-    
     @Column(name="budget_id")
     private Long budgetId;
-    
     @Column(name = "title")
     private String title;
     
@@ -36,21 +35,26 @@ public class Family {
     private boolean phoneNotificationsEnabled;
     
     
-    public Family(){;}
-    public Family(FamilyCreationForm familyCreationForm){
-        setTitle(familyCreationForm.getTitle());
+    public Family(){
         setEmailNotificationsEnabled(false);
         setPhoneNotificationsEnabled(false);
         setMaxJars(6);
         setMaxMembers(5);
     }
-    public Family(FamilyCreationForm familyCreationForm, Long owner_id){
-        this(familyCreationForm);
-        setOwnerId(owner_id);
+    public Family(FamilyCreationForm familyCreationForm){
+        this();
+        setTitle(familyCreationForm.getTitle());
     }
-    public Family(String jsonObjectName, ObjectNode json){
+    public Family(FamilyCreationForm familyCreationForm, Long ownerId){
+        this(familyCreationForm);
+        setOwnerId(ownerId);
+    }
+    public Family(String jsonObjectName, ObjectNode json) {
+        this();
         if (jsonObjectName == null)
-            jsonObjectName = "Family";
+            throw new NullPointerException("Family has been initialized with null");
+        if (jsonObjectName.equals(""))
+            throw new IllegalArgumentException("Family has been initialized with either \"\"");
 
         JsonNode familyNode = json.get(jsonObjectName);
         if (familyNode.has("id")) setId(familyNode.get("id").asLong());

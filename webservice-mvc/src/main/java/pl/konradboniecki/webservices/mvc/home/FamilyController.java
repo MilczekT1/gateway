@@ -12,10 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 import pl.konradboniecki.models.account.Account;
 import pl.konradboniecki.models.account.AccountRepository;
 import pl.konradboniecki.models.family.Family;
-import pl.konradboniecki.models.family.FamilyCreationForm;
 import pl.konradboniecki.models.family.FamilyRepository;
 import pl.konradboniecki.models.familyinvitation.FamilyInvitation;
 import pl.konradboniecki.models.familyinvitation.FamilyInvitationRepository;
+import pl.konradboniecki.models.frontendforms.FamilyCreationForm;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -23,8 +23,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
 import static pl.konradboniecki.templates.ViewTemplate.*;
+import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
 
 
 @Controller

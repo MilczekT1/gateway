@@ -1,13 +1,15 @@
-package pl.konradboniecki.models.newpassword;
+package pl.konradboniecki.models.frontendforms;
 
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
+@NoArgsConstructor
 public class NewPasswordForm {
 
     @NotEmpty (message = "{lostPasswordForm.emailRequired}")
@@ -23,17 +25,11 @@ public class NewPasswordForm {
     @Size (min=6, max = 200, message = "{lostPasswordForm.repeatedPasswordSize}")
     private String repeatedPassword;
     
-    public boolean checkRepeatedPassword(){
+    public boolean isRepeatedPasswordTheSame(){
+        if (password == null)
+            throw new NullPointerException();
+        if (repeatedPassword == null)
+            throw new NullPointerException();
         return password.equals(repeatedPassword);
-    }
-    
-    public void setPassword(String password){
-        this.password = password;
-    }
-    public void setRepeatedPassword(String repeatedPassword){
-        if (repeatedPassword == null || !repeatedPassword.equals(this.password)){
-            throw new IllegalArgumentException("Repeated password is not the same");
-        }
-        this.repeatedPassword = repeatedPassword;
     }
 }

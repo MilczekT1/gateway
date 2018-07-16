@@ -1,4 +1,4 @@
-package pl.konradboniecki.models.account;
+package pl.konradboniecki.models.frontendforms;
 
 import lombok.Data;
 
@@ -31,8 +31,6 @@ public class AccountForm {
     
     @Pattern(regexp = "\\+?\\d{6,}", message = "{registration.phoneNumberRegex}")
     private String phoneNumber;
-    
-    public AccountForm(){}
     
     public boolean checkRepeatedPassword(){
         return password.equals(repeatedPassword);
