@@ -1,14 +1,16 @@
 package pl.konradboniecki.models.familyinvitation;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table
-@Data
 public class FamilyInvitation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "thisNameSuxInHibernate5")
@@ -26,10 +28,6 @@ public class FamilyInvitation {
     private ZonedDateTime applyTime;
     @Column(name="new_user")
     private Boolean registeredStatus;
-
-    public FamilyInvitation() {
-        ;
-    }
 
     public FamilyInvitation(String email, Long familyId) {
         setEmail(email);

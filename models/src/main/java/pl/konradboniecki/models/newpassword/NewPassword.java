@@ -1,6 +1,7 @@
 package pl.konradboniecki.models.newpassword;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import pl.konradboniecki.models.frontendforms.NewPasswordForm;
 import pl.konradboniecki.utils.TokenGenerator;
 
@@ -10,9 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.ZonedDateTime;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "new_password")
-@Data
 public class NewPassword {
     @Id
     @Column(name = "account_id")
@@ -24,10 +26,6 @@ public class NewPassword {
     private ZonedDateTime applyTime;
     @Column(name = "reset_code")
     private String resetCode;
-    
-    public NewPassword(){
-        ;
-    }
 
     public NewPassword(NewPasswordForm newPasswordForm){
         setApplyTime(ZonedDateTime.now());
