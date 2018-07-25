@@ -11,6 +11,6 @@ public class LoginController {
     
     @GetMapping(value = "/login")
     public ModelAndView showLoginPage(){
-        return new ModelAndView(ViewTemplate.LOGIN_PAGE, "loginForm", new LoginForm());
+        return new ModelAndView(ViewTemplate.LOGIN_PAGE.getFilename(), "loginForm", new LoginForm());
     }
 }

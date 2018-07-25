@@ -11,7 +11,7 @@ public class UserHomeController {
     
     @GetMapping("/home")
     public ModelAndView showUserHomePage() {
-        return new ModelAndView(ViewTemplate.HOME_PAGE);
+        return new ModelAndView(ViewTemplate.HOME_PAGE.getFilename());
     }
     
     @PostMapping ("/home")

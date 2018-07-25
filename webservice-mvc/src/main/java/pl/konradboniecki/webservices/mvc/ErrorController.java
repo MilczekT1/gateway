@@ -11,6 +11,6 @@ public class ErrorController {
 
     @GetMapping(value="/error")
     public ModelAndView customError(){
-        return new ModelAndView(ERROR_PAGE);
+        return new ModelAndView(ERROR_PAGE.getFilename());
     }
 }

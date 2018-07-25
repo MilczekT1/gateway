@@ -43,7 +43,7 @@ public class UserActivationController {
                         userActivationCodeRepository.deleteById(activationCode.get().getId());
                         return new ModelAndView("redirect:/login");
                 }
-                return new ModelAndView(ERROR_PAGE, "errorType", INVALID_ACTIVATION_LINK.getErrorTypeVarName());
+                return new ModelAndView(ERROR_PAGE.getFilename(), "errorType", INVALID_ACTIVATION_LINK.getErrorTypeVarName());
             }
         } else {
             return new ModelAndView("redirect:/register");

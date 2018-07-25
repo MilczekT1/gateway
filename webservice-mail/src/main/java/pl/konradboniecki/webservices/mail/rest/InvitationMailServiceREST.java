@@ -1,8 +1,7 @@
 package pl.konradboniecki.webservices.mail.rest;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,10 +16,10 @@ import static org.springframework.http.HttpStatus.EXPECTATION_FAILED;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@Log
 @RestController
 @RequestMapping("/services/mail/invitation")
 public class InvitationMailServiceREST {
-    private static final Logger log = LoggerFactory.getLogger(InvitationMailServiceREST.class);
 
     @Autowired
     private InvitationMailService invitationMailService;
@@ -54,7 +53,7 @@ public class InvitationMailServiceREST {
             log.info("Mail has been sent");
             return ResponseEntity.status(OK).build();
         } else {
-            log.error("Mail has not been sent");
+            log.severe("Mail has not been sent");
             return ResponseEntity.status(EXPECTATION_FAILED).build();
         }
     }

@@ -62,7 +62,7 @@ public class ResetPasswordController {
 
     @GetMapping(value = "/reset/changePassword")
     public ModelAndView showLostPasswordForm(){
-        return new ModelAndView(LOST_PASSWD_PAGE,"newPasswordForm", new NewPasswordForm());
+        return new ModelAndView(LOST_PASSWD_PAGE.getFilename(),"newPasswordForm", new NewPasswordForm());
     }
 
     @PostMapping (value = "/reset/changePassword")
@@ -70,9 +70,9 @@ public class ResetPasswordController {
                                                 @Valid NewPasswordForm newPasswordForm,
                                                 BindingResult bindingResult){
         if (bindingResult.hasErrors())
-            return new ModelAndView(LOST_PASSWD_PAGE);
+            return new ModelAndView(LOST_PASSWD_PAGE.getFilename());
         else if (!newPasswordForm.isRepeatedPasswordTheSame())
-            return new ModelAndView(LOST_PASSWD_PAGE,"repeatedPasswordFailure",true);
+            return new ModelAndView(LOST_PASSWD_PAGE.getFilename(),"repeatedPasswordFailure",true);
 
         Optional<Account> account = accountRepository.findByEmail(newPasswordForm.getEmail());
         if (account.isPresent()){
@@ -96,7 +96,7 @@ public class ResetPasswordController {
                 restCall.performPostWithJSON(url, jsonObjects);
             } catch (JsonProcessingException | UnirestException e) {
                 log.severe(Throwables.getStackTraceAsString(e));
-                return new ModelAndView(ERROR_PAGE, "errorType",
+                return new ModelAndView(ERROR_PAGE.getFilename(), "errorType",
                         PROCESSING_EXCEPTION.getErrorTypeVarName());
             }
         }
