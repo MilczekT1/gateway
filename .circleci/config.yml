@@ -37,8 +37,14 @@ jobs:
         paths:
         - ~/.gradle
         key: v1-dependencies-{{ checksum "build.gradle" }}
-
-    # run tests!
-    - run: gradle test
+#    -----
+    - run:
+        name: Build and run Unit Tests
+        command: |
+          ./gradlew build
+    - run:
+        name: Run Sonar Analysis
+        command: |
+          ./gradlew sonarqube
 
 
