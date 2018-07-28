@@ -44,9 +44,9 @@ public class RegisterController {
                                  BindingResult bindingResult, Model model) {
         
         if (bindingResult.hasErrors()) {
-            return new ModelAndView(REGISTRATION_PAGE.getFilename());
+            return new ModelAndView(REGISTRATION_PAGE);
         } else if (!newAccountForm.checkRepeatedPassword()){
-            return new ModelAndView(REGISTRATION_PAGE.getFilename(), "repeatedPasswordFailure",true);
+            return new ModelAndView(REGISTRATION_PAGE, "repeatedPasswordFailure",true);
         }
         
         Account acc = new Account(newAccountForm);
@@ -63,18 +63,18 @@ public class RegisterController {
                 restCall.performPostWithJSON(url, jsonObjects);
             } catch (JsonProcessingException | UnirestException  e) {
                 log.severe(Throwables.getStackTraceAsString(e));
-                return new ModelAndView(ERROR_PAGE.getFilename(), "errorType",
+                return new ModelAndView(ERROR_PAGE, "errorType",
                         PROCESSING_EXCEPTION.getErrorTypeVarName());
             }
 
-            return new ModelAndView(REGISTRATION_SUCCESS_MSG.getFilename());
+            return new ModelAndView(REGISTRATION_SUCCESS_MSG);
         } else {
-            return new ModelAndView(REGISTRATION_PAGE.getFilename(),"emailAlreadyExists", true);
+            return new ModelAndView(REGISTRATION_PAGE,"emailAlreadyExists", true);
         }
     }
 
     @GetMapping("/register")
     public ModelAndView showRegisterPane(){
-        return new ModelAndView(REGISTRATION_PAGE.getFilename(),"accountFormObject", new AccountForm());
+        return new ModelAndView(REGISTRATION_PAGE,"accountFormObject", new AccountForm());
     }
 }

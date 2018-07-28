@@ -17,6 +17,7 @@ import pl.konradboniecki.models.account.AccountRepository;
 import pl.konradboniecki.models.frontendforms.NewPasswordForm;
 import pl.konradboniecki.models.newpassword.NewPassword;
 import pl.konradboniecki.models.newpassword.NewPasswordRepository;
+import pl.konradboniecki.templates.ViewTemplate;
 import pl.konradboniecki.utils.BudgetAdress;
 import pl.konradboniecki.utils.RestCall;
 import pl.konradboniecki.utils.TokenGenerator;
@@ -26,7 +27,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static pl.konradboniecki.templates.ViewTemplate.ERROR_PAGE;
 import static pl.konradboniecki.templates.ViewTemplate.LOST_PASSWD_PAGE;
 import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
 
@@ -62,7 +62,7 @@ public class ResetPasswordController {
 
     @GetMapping(value = "/reset/changePassword")
     public ModelAndView showLostPasswordForm(){
-        return new ModelAndView(LOST_PASSWD_PAGE.getFilename(),"newPasswordForm", new NewPasswordForm());
+        return new ModelAndView(LOST_PASSWD_PAGE,"newPasswordForm", new NewPasswordForm());
     }
 
     @PostMapping (value = "/reset/changePassword")
@@ -70,9 +70,9 @@ public class ResetPasswordController {
                                                 @Valid NewPasswordForm newPasswordForm,
                                                 BindingResult bindingResult){
         if (bindingResult.hasErrors())
-            return new ModelAndView(LOST_PASSWD_PAGE.getFilename());
+            return new ModelAndView(LOST_PASSWD_PAGE);
         else if (!newPasswordForm.isRepeatedPasswordTheSame())
-            return new ModelAndView(LOST_PASSWD_PAGE.getFilename(),"repeatedPasswordFailure",true);
+            return new ModelAndView(LOST_PASSWD_PAGE,"repeatedPasswordFailure",true);
 
         Optional<Account> account = accountRepository.findByEmail(newPasswordForm.getEmail());
         if (account.isPresent()){
@@ -96,7 +96,7 @@ public class ResetPasswordController {
                 restCall.performPostWithJSON(url, jsonObjects);
             } catch (JsonProcessingException | UnirestException e) {
                 log.severe(Throwables.getStackTraceAsString(e));
-                return new ModelAndView(ERROR_PAGE.getFilename(), "errorType",
+                return new ModelAndView(ViewTemplate.ERROR_PAGE, "errorType",
                         PROCESSING_EXCEPTION.getErrorTypeVarName());
             }
         }

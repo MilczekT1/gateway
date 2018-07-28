@@ -59,7 +59,7 @@ public class FamilyInvitationController {
                 restCall.performPostWithJSON(url, jsonObjects);
             } catch (JsonProcessingException | UnirestException  e) {
                 log.severe(Throwables.getStackTraceAsString(e));
-                return new ModelAndView(ERROR_PAGE.getFilename(), "errorType",
+                return new ModelAndView(ERROR_PAGE, "errorType",
                         PROCESSING_EXCEPTION.getErrorTypeVarName());
             }
         } else {
@@ -76,7 +76,7 @@ public class FamilyInvitationController {
                 restCall.performPostWithJSON(url, jsonObjects);
             } catch (JsonProcessingException | UnirestException e) {
                 log.severe(Throwables.getStackTraceAsString(e));
-                return new ModelAndView(ERROR_PAGE.getFilename(), "errorType",
+                return new ModelAndView(ERROR_PAGE, "errorType",
                         PROCESSING_EXCEPTION.getErrorTypeVarName());
             }
         }
@@ -112,7 +112,7 @@ public class FamilyInvitationController {
                     restCall.performPostWithJSON(url, jsonObjects);
                 } catch (JsonProcessingException | UnirestException  e) {
                     log.severe(Throwables.getStackTraceAsString(e));
-                    return new ModelAndView(ERROR_PAGE.getFilename(), "errorType",
+                    return new ModelAndView(ERROR_PAGE, "errorType",
                             PROCESSING_EXCEPTION.getErrorTypeVarName());
                 }
             } else {
@@ -128,7 +128,7 @@ public class FamilyInvitationController {
                     restCall.performPostWithJSON(url, jsonObjects);
                 } catch (JsonProcessingException | UnirestException e) {
                     log.severe(Throwables.getStackTraceAsString(e));
-                    return new ModelAndView(ERROR_PAGE.getFilename(), "errorType",
+                    return new ModelAndView(ERROR_PAGE, "errorType",
                             PROCESSING_EXCEPTION.getErrorTypeVarName());
                 }
             }
@@ -144,7 +144,7 @@ public class FamilyInvitationController {
         if(familyRepository.existsById(familyId) && accountRepository.existsById(accountId)){
             Account account = accountRepository.findById(accountId).get();
             if (account.hasFamily()){
-                return new ModelAndView(ERROR_PAGE.getFilename(), "errorType", ALREADY_IN_FAMILY);
+                return new ModelAndView(ERROR_PAGE, "errorType", ALREADY_IN_FAMILY);
             } else {
                 Optional<FamilyInvitation> familyInvitation =
                         familyInvitationRepository.findByEmailAndFamilyId(account.getEmail(),familyId);
@@ -152,7 +152,7 @@ public class FamilyInvitationController {
                     if (!familyInvitation.get().getInvitationCode().equals(code)){
                         log.severe("Wrong invitation code: " + familyInvitation.get().toString()
                                 + "and given invitation code: " + code);
-                        return new ModelAndView(ERROR_PAGE.getFilename(), "errorType", INVALID_INVITATION_LINK);
+                        return new ModelAndView(ERROR_PAGE, "errorType", INVALID_INVITATION_LINK);
                     } else {
                         if(familyRepository.getFreeSlotsFromFamily(familyId) > 0) {
                             accountRepository.setFamilyId(familyId, accountId);
@@ -160,13 +160,13 @@ public class FamilyInvitationController {
                         } else {
                             log.severe("Not enough space in family for new user " + account.toString() +
                                     "in familywith id: " + familyId);
-                            return new ModelAndView(ERROR_PAGE.getFilename(), "errorType", NOT_ENOUGH_SPACE_IN_FAMILY);
+                            return new ModelAndView(ERROR_PAGE, "errorType", NOT_ENOUGH_SPACE_IN_FAMILY);
                         }
                     }
                 }
                 else{
                     log.severe("No such family invitation with  " + account.getEmail() + " and familyId:" + familyId);
-                    return new ModelAndView(ERROR_PAGE.getFilename(), "errorType", INVALID_INVITATION_LINK);
+                    return new ModelAndView(ERROR_PAGE, "errorType", INVALID_INVITATION_LINK);
                 }
             }
         }

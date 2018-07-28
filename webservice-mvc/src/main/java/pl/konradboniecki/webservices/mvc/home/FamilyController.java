@@ -47,7 +47,7 @@ public class FamilyController {
                 List<FamilyInvitation> invitations = familyInvitationRepository.findAllByFamilyId(acc.get().getFamilyId());
                 modelMap.putIfAbsent("invitationsList", invitations);
                 modelMap.addAttribute("familyObject", familyOptional.get());
-                return new ModelAndView(FAMILY_HOME_PAGE.getFilename(), modelMap);
+                return new ModelAndView(FAMILY_HOME_PAGE, modelMap);
             } else {
                 modelAttributes.put("newFamilyCreationForm", new FamilyCreationForm());
                 List<FamilyInvitation> invitations = familyInvitationRepository.findAllByEmail(email);
@@ -67,10 +67,10 @@ public class FamilyController {
                     }
                     modelAttributes.put("familyOwnersList", familyOwners);
                 }
-                return new ModelAndView(FAMILY_CREATION_PAGE.getFilename(), modelAttributes);
+                return new ModelAndView(FAMILY_CREATION_PAGE, modelAttributes);
             }
         } else {
-            return new ModelAndView(ERROR_PAGE.getFilename(), "errorType", PROCESSING_EXCEPTION);
+            return new ModelAndView(ERROR_PAGE, "errorType", PROCESSING_EXCEPTION);
         }
     }
 
@@ -80,7 +80,7 @@ public class FamilyController {
                                          BindingResult bindingResult){
     
         if (bindingResult.hasErrors()) {
-            return new ModelAndView(FAMILY_CREATION_PAGE.getFilename());
+            return new ModelAndView(FAMILY_CREATION_PAGE);
         }
         
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
