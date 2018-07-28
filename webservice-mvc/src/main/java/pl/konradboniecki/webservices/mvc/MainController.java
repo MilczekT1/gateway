@@ -10,6 +10,6 @@ public class MainController {
     
     @GetMapping("/")
     public ModelAndView mainPage(){
-        return new ModelAndView(ViewTemplate.INDEX.getFilename());
+        return new ModelAndView(ViewTemplate.INDEX);
     }
 }

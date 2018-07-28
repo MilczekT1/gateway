@@ -11,10 +11,10 @@ public class UserHomeController {
     
     @GetMapping("/home")
     public ModelAndView showUserHomePage() {
-        return new ModelAndView(ViewTemplate.HOME_PAGE.getFilename());
+        return new ModelAndView(ViewTemplate.HOME_PAGE);
     }
     
-    @PostMapping ("/home")
+    @PostMapping("/home")
     public ModelAndView showUserHomePageAfterCorrectLogin() {
         return new ModelAndView("redirect:/home");
     }

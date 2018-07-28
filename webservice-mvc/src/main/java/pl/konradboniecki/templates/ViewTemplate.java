@@ -1,29 +1,24 @@
 package pl.konradboniecki.templates;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.extern.java.Log;
 
 /**
   * ViewTemplate provides names for html templates.
  **/
 
-public enum ViewTemplate {
+@Log
+public class ViewTemplate {
+    public static final String LOGIN_PAGE = "auth/login";
+    public static final String REGISTRATION_PAGE = "auth/registration";
+    public static final String REGISTRATION_SUCCESS_MSG = "auth/registrationSuccessInfo";
+    public static final String FAMILY_HOME_PAGE = "home/family";
+    public static final String FAMILY_CREATION_PAGE = "home/familyCreationForm";
+    public static final String HOME_PAGE = "home/home";
+    public static final String ERROR_PAGE = "error";
+    public static final String INDEX = "index";
+    public static final String LOST_PASSWD_PAGE = "lostPasswordForm";
 
-    LOGIN_PAGE("auth/login"),
-    REGISTRATION_PAGE("auth/registration"),
-    REGISTRATION_SUCCESS_MSG("auth/registrationSuccessInfo"),
-    FAMILY_HOME_PAGE("home/family"),
-    FAMILY_CREATION_PAGE("home/familyCreationForm"),
-    HOME_PAGE("home/home"),
-    ERROR_PAGE("error"),
-    INDEX("index"),
-    LOST_PASSWD_PAGE("lostPasswordForm");
-    @Getter
-    @Setter(AccessLevel.PRIVATE)
-    private String filename;
-
-    ViewTemplate(String fileName) {
-        setFilename(fileName);
+    private ViewTemplate(){
+        log.severe("this class shouldn't be instantiated!");
     }
 }

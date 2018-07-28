@@ -4,13 +4,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pl.konradboniecki.models.frontendforms.LoginForm;
-import pl.konradboniecki.templates.ViewTemplate;
+
+import static pl.konradboniecki.templates.ViewTemplate.LOGIN_PAGE;
 
 @Controller
 public class LoginController {
     
     @GetMapping(value = "/login")
     public ModelAndView showLoginPage(){
-        return new ModelAndView(ViewTemplate.LOGIN_PAGE.getFilename(), "loginForm", new LoginForm());
+        return new ModelAndView(LOGIN_PAGE, "loginForm", new LoginForm());
     }
 }
