@@ -48,23 +48,28 @@ public class JarController {
         }
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<Account> acc = accountRepository.findByEmail(email);
-        //Optional<Family> family = familyRepository.findById(acc.get().getFamilyId());
+        Optional<Account> accOpt = accountRepository.findByEmail(email);
+        if (!accOpt.isPresent()){
+            throw new RuntimeException("Account doesn't exist");
+        }
+        Account acc = accOpt.get();
 
+        Optional<Budget> budgetOpt = budgetRepository.findByFamilyId(acc.getFamilyId());
+        if (!budgetOpt.isPresent()){
+            throw new RuntimeException("Budget doesn't exist");
+        }
+        Budget budget = budgetOpt.get();
 
-        Optional<Budget> budget = budgetRepository.findByFamilyId(acc.get().getFamilyId());
-        List<Jar> jarList = jarRepository.findAllByBudgetId(budget.get().getId());
-        if (jarList.size() < budget.get().getMaxJars()) {
+        List<Jar> jarList = jarRepository.findAllByBudgetId(budget.getId());
+        if (jarList.size() < budget.getMaxJars()) {
             Jar jar = new Jar(jarCreationForm);
-            jar.setBudgetId(budget.get().getId());
+            jar.setBudgetId(budget.getId());
             jarRepository.save(jar);
-
-            jarList = jarRepository.findAllByBudgetId(budget.get().getId());
+            jarList = jarRepository.findAllByBudgetId(budget.getId());
             modelMap.addAttribute("jarList", jarList);
             return new ModelAndView(BUDGET_HOME_PAGE, modelMap);
         } else {
             return new ModelAndView(BUDGET_HOME_PAGE);
         }
     }
-
 }
