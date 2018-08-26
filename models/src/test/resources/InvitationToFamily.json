@@ -15,7 +15,6 @@
     "budgetId": null,
     "title": "test_title",
     "maxMembers": 5,
-    "maxJars": 6,
     "emailNotificationsEnabled": false,
     "phoneNotificationsEnabled": true
   },

@@ -55,7 +55,6 @@ public class FamilyTest {
                 () -> assertNull(family1.getBudgetId()),
                 () -> assertNull(family1.getTitle()),
                 () -> assertEquals(5, family1.getMaxMembers().intValue()),
-                () -> assertEquals(6, family1.getMaxJars().intValue()),
                 () -> assertFalse(family1.isPhoneNotificationsEnabled()),
                 () -> assertFalse(family1.isPhoneNotificationsEnabled())
         );
@@ -71,7 +70,6 @@ public class FamilyTest {
                 () -> assertNull(family2.getBudgetId()),
                 () -> assertEquals("test_title", family2.getTitle()),
                 () -> assertEquals(5, family2.getMaxMembers().intValue()),
-                () -> assertEquals(6, family2.getMaxJars().intValue()),
                 () -> assertFalse(family2.isPhoneNotificationsEnabled()),
                 () -> assertFalse(family2.isPhoneNotificationsEnabled())
         );
@@ -82,7 +80,6 @@ public class FamilyTest {
                 () -> assertNull(family3.getBudgetId()),
                 () -> assertEquals("test_title", family3.getTitle()),
                 () -> assertEquals(5, family3.getMaxMembers().intValue()),
-                () -> assertEquals(6, family3.getMaxJars().intValue()),
                 () -> assertFalse(family3.isPhoneNotificationsEnabled()),
                 () -> assertFalse(family3.isPhoneNotificationsEnabled())
         );
@@ -98,7 +95,6 @@ public class FamilyTest {
                 () -> assertEquals( 0, family.getBudgetId().longValue()),
                 () -> assertEquals("test_title", family.getTitle()),
                 () -> assertEquals(5, family.getMaxMembers().intValue()),
-                () -> assertEquals(6, family.getMaxJars().intValue()),
                 () -> assertFalse(family.isEmailNotificationsEnabled()),
                 () -> assertTrue(family.isPhoneNotificationsEnabled())
         );
@@ -111,7 +107,6 @@ public class FamilyTest {
                 () -> assertNull(emptyFamily.getBudgetId()),
                 () -> assertNull(emptyFamily.getTitle()),
                 () -> assertEquals(5, emptyFamily.getMaxMembers().intValue()),
-                () -> assertEquals(6, emptyFamily.getMaxJars().intValue()),
                 () -> assertFalse(emptyFamily.isEmailNotificationsEnabled()),
                 () -> assertFalse(emptyFamily.isPhoneNotificationsEnabled())
         );

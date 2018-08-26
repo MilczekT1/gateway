@@ -27,8 +27,6 @@ public class Family {
     
     @Column(name = "max_members")
     private Integer maxMembers;
-    @Column(name = "max_jars")
-    private Integer maxJars;
     @Column(name = "email_notif_enabled")
     private boolean emailNotificationsEnabled;
     @Column(name = "phone_notif_enabled")
@@ -38,7 +36,6 @@ public class Family {
     public Family(){
         setEmailNotificationsEnabled(false);
         setPhoneNotificationsEnabled(false);
-        setMaxJars(6);
         setMaxMembers(5);
     }
 
@@ -65,7 +62,6 @@ public class Family {
         if (familyNode.has("budgetId")) setBudgetId(familyNode.get("budgetId").asLong(0));
         if (familyNode.has("title")) setTitle(familyNode.get("title").asText());
         if (familyNode.has("maxMembers")) setMaxMembers(familyNode.get("maxMembers").asInt());
-        if (familyNode.has("maxJars")) setMaxJars(familyNode.get("maxJars").asInt());
         if (familyNode.has("emailNotificationsEnabled"))
             setEmailNotificationsEnabled(familyNode.get("emailNotificationsEnabled").asBoolean());
         if (familyNode.has("phoneNotificationsEnabled"))
