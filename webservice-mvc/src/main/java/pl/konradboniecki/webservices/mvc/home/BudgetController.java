@@ -33,7 +33,7 @@ public class BudgetController {
         Optional<Account> acc = accountRepository.findByEmail(email);
         Optional<Family> family = familyRepository.findById(acc.get().getFamilyId());
         List<Jar> jarList = jarRepository.findAllByBudgetId(family.get().getBudgetId());
-        if (jarList.size() > 0){
+        if (!jarList.isEmpty()){
             modelMap.put("jarList", jarList);
             return new ModelAndView(ViewTemplate.BUDGET_HOME_PAGE, modelMap);
         } else {

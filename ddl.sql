@@ -19,7 +19,6 @@ CREATE TABLE family (
   budget_id BIGINT(20)			    UNIQUE,
   title varchar(50) 			    NOT NULL,
   max_members INT 			        DEFAULT 5,
-  max_jars INT 				        DEFAULT 6,
   email_notif_enabled TINYINT(1) 	DEFAULT 0,
   phone_notif_enabled TINYINT(1) 	DEFAULT 0,
 
@@ -40,9 +39,9 @@ CREATE TABLE budget (
 
 CREATE TABLE jar (
   jar_id BIGINT(20) 			NOT NULL UNIQUE,
-  budget_id BIGINT(20) 			NOT NULL UNIQUE,
+  budget_id BIGINT(20) 			NOT NULL,
   jar_name varchar(50) 			NOT NULL,
-  amount INT				    NOT NULL DEFAULT 0,
+  current_amount INT		    NOT NULL DEFAULT 0,
   capacity INT				    NOT NULL,
 
   PRIMARY KEY (jar_id),
