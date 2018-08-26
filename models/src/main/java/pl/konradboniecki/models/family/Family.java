@@ -41,14 +41,17 @@ public class Family {
         setMaxJars(6);
         setMaxMembers(5);
     }
+
     public Family(FamilyCreationForm familyCreationForm){
         this();
         setTitle(familyCreationForm.getTitle());
     }
+
     public Family(FamilyCreationForm familyCreationForm, Long ownerId){
         this(familyCreationForm);
         setOwnerId(ownerId);
     }
+
     public Family(String jsonObjectName, ObjectNode json) {
         this();
         if (jsonObjectName == null)

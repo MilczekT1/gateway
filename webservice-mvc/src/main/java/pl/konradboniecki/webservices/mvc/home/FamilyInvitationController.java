@@ -35,13 +35,11 @@ public class FamilyInvitationController {
     @Autowired private AccountRepository accountRepository;
     @Autowired private FamilyRepository familyRepository;
     @Autowired private FamilyInvitationRepository familyInvitationRepository;
-    @Autowired
-    private RestCall restCall;
+    @Autowired private RestCall restCall;
 
     @PostMapping("/invite-to-family")
     public ModelAndView handleInvitationToFamilyFromApp(@RequestParam("newMemberEmail") String newMemberEmail,
                                                         @ModelAttribute("familyObject") Family family){
-
         String invitationCode = new TokenGenerator().createUUIDToken();
         Map<String, Object> jsonObjects = new LinkedHashMap<>();
         boolean isNewUser = false;
@@ -154,7 +152,7 @@ public class FamilyInvitationController {
                                 + "and given invitation code: " + code);
                         return new ModelAndView(ERROR_PAGE, "errorType", INVALID_INVITATION_LINK);
                     } else {
-                        if(familyRepository.getFreeSlotsFromFamily(familyId) > 0) {
+                        if(familyRepository.countFreeSlotsInFamilyWithId(familyId) > 0) {
                             accountRepository.setFamilyId(familyId, accountId);
                             familyInvitationRepository.deleteById(familyInvitation.get().getId());
                         } else {

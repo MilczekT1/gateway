@@ -1,5 +1,6 @@
 package pl.konradboniecki.webservices.mail.impl;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.konradboniecki.models.account.Account;
@@ -17,8 +18,12 @@ public class InvitationMailService {
     @Autowired
     private MailService mailService;
 
-    public Boolean sendFamilyInvitationToExistingUser(Account account, Account owner,
-                                                      Family family, String invitationCode) {
+    public Boolean sendFamilyInvitationToExistingUser(ObjectNode json) {
+        Family family = new Family("Family", json);
+        Account account = new Account("Account", json);
+        Account owner = new Account("Owner", json);
+        String invitationCode = json.get("InvitationCode").asText();
+
         Map<String,String> ctxVariables = new HashMap<>();
         ctxVariables.put("recipient", account.getFirstName() + " " + account.getLastName());
         ctxVariables.put("familyTitle", family.getTitle());
@@ -30,7 +35,11 @@ public class InvitationMailService {
                 INVITE_FAMILY_OLD_USER, account.getEmail(), ctxVariables);
     }
 
-    public Boolean sendFamilyInvitationToNewUser(Account owner, Family family, String newMemberMail){
+    public Boolean sendFamilyInvitationToNewUser(ObjectNode json){
+        Account owner = new Account("Owner", json);
+        Family family = new Family("Family", json);
+        String newMemberMail = json.get("NewMemberEmail").asText();
+
         Map<String,String> ctxtVariables = new HashMap<>();
         ctxtVariables.put("recipient",newMemberMail);
         ctxtVariables.put("familyTitle",family.getTitle());

@@ -12,6 +12,7 @@
         </form>
         <p>Menu:</p>
         <a th:href="@{/home/family}">Zarządzanie rodziną</a> <br/>
+        <a th:href="@{/home/budget}">Budżet domowy</a> <br/>
 
         <form th:action="@{/home/family/remove-family}" method="POST" >
             <input type="hidden" th:name="familyId" th:value="${familyObject.id}"/>

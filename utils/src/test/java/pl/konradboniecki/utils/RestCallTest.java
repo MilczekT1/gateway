@@ -17,29 +17,14 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class RestCallTest {
-//TODO: try to pass test with autowired
-//    @TestConfiguration
-//    static class RestCallTestContextConfig {
-//
-//        @Bean
-//        public RestCall employeeService() {
-//            return new RestCall();
-//        }
-//    }
-//    @MockBean
-//    private JsonWrapper jsonWrapperBean;
-//    @Autowired
-//    private JsonWrapper jsonWrapper;
 
     private RestCall restCall;
-
-    private static Map<String, Object> templates;
     private static Map<String, Object> jsonObjects;
 
     @BeforeAll
     public void setUp() {
         restCall = new RestCall(new JsonWrapper());
-        templates = new HashMap<>();
+        Map<String, Object> templates = new HashMap<>();
         templates.put("TestMapProperty1", "error");
         templates.put("TestMapProperty2", "home/familyCreationForm");
         templates.put("TestMapProperty3", "auth/registrationSuccessInfo");

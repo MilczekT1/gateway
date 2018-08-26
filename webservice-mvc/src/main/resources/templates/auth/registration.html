@@ -35,7 +35,7 @@
     <span th:if="${#fields.hasErrors('repeatedPassword')}" th:errors="*{repeatedPassword}"></span>
     <span th:if="${repeatedPasswordFailure}" th:text="#{registration.repeatedPasswordFailure}"></span>
 
-    </br> <input type="submit" th:value = "#{registration.registerButton}"/>
+    </br> <input type="submit" id="submit" th:value = "#{registration.registerButton}"/>
 </form>
 </center>
 </body>

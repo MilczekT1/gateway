@@ -1,12 +1,12 @@
 package pl.konradboniecki.models.familyinvitation;
 
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Repository
 public interface FamilyInvitationRepository extends CrudRepository<FamilyInvitation, Long> {
 
     Optional<FamilyInvitation> findById(Long id);

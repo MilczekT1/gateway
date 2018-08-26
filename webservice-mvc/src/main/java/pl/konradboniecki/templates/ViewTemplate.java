@@ -17,6 +17,8 @@ public class ViewTemplate {
     public static final String ERROR_PAGE = "error";
     public static final String INDEX = "index";
     public static final String LOST_PASSWD_PAGE = "lostPasswordForm";
+    public static final String BUDGET_HOME_PAGE = "home/budget";
+    public static final String JAR_CREATION_PAGE="home/jarCreationForm";
 
     private ViewTemplate(){
         log.severe("this class shouldn't be instantiated!");
