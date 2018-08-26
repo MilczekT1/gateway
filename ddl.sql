@@ -40,9 +40,9 @@ CREATE TABLE budget (
 
 CREATE TABLE jar (
   jar_id BIGINT(20) 			NOT NULL UNIQUE,
-  budget_id BIGINT(20) 			NOT NULL UNIQUE,
+  budget_id BIGINT(20) 			NOT NULL,
   jar_name varchar(50) 			NOT NULL,
-  amount INT				    NOT NULL DEFAULT 0,
+  current_amount INT				    NOT NULL DEFAULT 0,
   capacity INT				    NOT NULL,
 
   PRIMARY KEY (jar_id),

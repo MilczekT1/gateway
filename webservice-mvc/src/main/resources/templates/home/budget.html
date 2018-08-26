@@ -14,8 +14,12 @@
     <p>Menu:</p>
     <a th:href="@{/home/family}">Zarządzanie rodziną</a> <br/>
     <a th:href="@{/home/budget}">Budżet domowy</a> <br/>
+    <br/> <hr/>
 
     <p>Jars</p>
+    <form th:action="@{/home/budget/create-jar}" method="GET" >
+        <button type="submit" th:text="#{budget.newJarButton}"></button>
+    </form>
     <table>
         <tr>
             <td>Name</td>
