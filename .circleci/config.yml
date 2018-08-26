@@ -23,6 +23,9 @@ jobs:
 
     steps:
     - checkout
+    - setup_remote_docker:
+        version: 18.05.0-ce
+        docker_layer_caching: true
 
     # Download and cache dependencies
     - restore_cache:
@@ -46,5 +49,10 @@ jobs:
         name: Run Sonar Analysis
         command: |
           ./gradlew sonarqube
-
-
+    - run:
+        name: Build and push mail service
+        command: |
+          TAG=0.5-$CIRCLE_BUILD_NUM
+          docker build -t konradboniecki/budget:mail-$TAG ./webservice-mail
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
+          docker push konradboniecki/budget:mail-$TAG
