@@ -9,9 +9,7 @@ allprojects {
     targetCompatibility = '1.8'
     group 'pl.konradboniecki'
     sonarqube {
-        //noinspection GroovyAssignabilityCheck
         properties {
-            //noinspection GroovyAssignabilityCheck
             //noinspection GroovyAssignabilityCheck
 //            property "sonar.coverage.exclusions", "**/*Exception.java" **/*App.java
             property "sonar.projectKey",  "budget"
