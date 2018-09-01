@@ -52,7 +52,8 @@ jobs:
         name: Build and push mail service
         command: |
           TAG=0.5-$CIRCLE_BUILD_NUM
-          if [[$CIRCLE_BRANCH=="master"]]; then
-          docker build -t konradboniecki/budget:mail-$TAG ./webservice-mail
-          docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker push konradboniecki/budget:mail-$TAG ;fi
+          if [ "$CIRCLE_BRANCH" == "master" ]; then
+            docker build -t konradboniecki/budget:mail-$TAG ./webservice-mail
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker push konradboniecki/budget:mail-$TAG
+          fi
