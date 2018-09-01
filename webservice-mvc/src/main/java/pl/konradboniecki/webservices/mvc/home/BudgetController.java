@@ -34,7 +34,7 @@ public class BudgetController {
         Optional<Family> family = familyRepository.findById(acc.get().getFamilyId());
         List<Jar> jarList = jarRepository.findAllByBudgetId(family.get().getBudgetId());
         if (!jarList.isEmpty()){
-            modelMap.put("jarList", jarList);
+            modelMap.addAttribute("jarList", jarList);
             return new ModelAndView(ViewTemplate.BUDGET_HOME_PAGE, modelMap);
         } else {
             modelMap.addAttribute("newJarCreationForm", new JarCreationForm());

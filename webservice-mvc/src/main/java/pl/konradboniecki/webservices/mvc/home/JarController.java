@@ -19,6 +19,7 @@ import pl.konradboniecki.models.frontendforms.JarCreationForm;
 import pl.konradboniecki.models.jar.Jar;
 import pl.konradboniecki.models.jar.JarRepository;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,9 +43,9 @@ public class JarController {
 
     @PostMapping("/create-jar")
     public ModelAndView createJar(
-            @ModelAttribute("newJarCreationForm") JarCreationForm jarCreationForm, BindingResult bindingResult, ModelMap modelMap){
+            @ModelAttribute("newJarCreationForm") @Valid JarCreationForm jarCreationForm, BindingResult bindingResult, ModelMap modelMap){
         if (bindingResult.hasErrors()) {
-            return new ModelAndView(BUDGET_HOME_PAGE);
+            return new ModelAndView(JAR_CREATION_PAGE);
         }
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -69,7 +70,9 @@ public class JarController {
             modelMap.addAttribute("jarList", jarList);
             return new ModelAndView(BUDGET_HOME_PAGE, modelMap);
         } else {
-            return new ModelAndView(BUDGET_HOME_PAGE);
+            modelMap.put("maxJarsAmountExceeded", true);
+            modelMap.put("jarList", jarList);
+            return new ModelAndView(BUDGET_HOME_PAGE, modelMap);
         }
     }
 }
