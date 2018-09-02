@@ -43,6 +43,7 @@ CREATE TABLE jar (
   jar_name varchar(50) 			NOT NULL,
   current_amount INT		    NOT NULL DEFAULT 0,
   capacity INT				    NOT NULL,
+  status varchar(30)            NOT NULL,
 
   PRIMARY KEY (jar_id),
   FOREIGN KEY (budget_id) REFERENCES budget(budget_id) ON DELETE CASCADE

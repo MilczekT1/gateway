@@ -26,10 +26,25 @@ public class Jar {
     private Long currentAmount;
     @Column(name = "capacity")
     private Long capacity;
+    @Column(name = "status")
+    private String status;
 
     public Jar(JarCreationForm jarCreationForm) {
         setJarName(jarCreationForm.getJarName());
-        setCurrentAmount(0L);
         setCapacity(jarCreationForm.getCapacity());
+        setCurrentAmount(0L);
+        setStatus(JarStatus.IN_PROGRESS.getStatus());
+    }
+
+    public void setCurrentAmount(Long newAmount) {
+        if (newAmount == null){
+            throw new NullPointerException("CurrentAmount is null.");
+        }
+        this.currentAmount = newAmount;
+        if (currentAmount >= capacity){
+            setStatus(JarStatus.COMPLETED.getStatus());
+        } else{
+            setStatus(JarStatus.IN_PROGRESS.getStatus());
+        }
     }
 }

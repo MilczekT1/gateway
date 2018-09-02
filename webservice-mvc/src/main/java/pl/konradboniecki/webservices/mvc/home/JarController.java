@@ -20,8 +20,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-import static pl.konradboniecki.templates.ViewTemplate.BUDGET_HOME_PAGE;
-import static pl.konradboniecki.templates.ViewTemplate.JAR_CREATION_PAGE;
+import static pl.konradboniecki.templates.ViewTemplate.*;
 
 @Controller
 @RequestMapping(value = "home/budget")
@@ -79,5 +78,23 @@ public class JarController {
         return new ModelAndView("redirect:/" + BUDGET_HOME_PAGE, modelMap);
     }
 
+    @PostMapping("/change-current-amount")
+    public ModelAndView changeCurrentAmountInJarWithId(
+            @RequestParam("jarId") Long jarId,
+            @RequestParam("amount") Long amount,
+            ModelMap modelMap){
 
+        Optional<Jar> jarOpt = jarRepository.findById(jarId);
+        if (jarOpt.isPresent()){
+            Jar jar = jarOpt.get();
+            jar.setCurrentAmount(jar.getCurrentAmount() + amount);
+            jarRepository.save(jar);
+//            Long newAmount = jar.getCurrentAmount() + amount;
+//            jarRepository.setCurrentAmount(newAmount, jar.getId());
+            return new ModelAndView("redirect:/" + BUDGET_HOME_PAGE, modelMap);
+        } else {
+            return new ModelAndView(ERROR_PAGE, modelMap);
+        }
+
+    }
 }
