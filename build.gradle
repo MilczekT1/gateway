@@ -17,7 +17,7 @@ allprojects {
             property "sonar.projectName", project.name
             property "sonar.projectVersion", project.version
             property "sonar.host.url", "http://konradboniecki.pl:9000"
-            property "sonar.junit.reportPaths", "/build/test-results/test/*.xml"
+            property "sonar.junit.reportPaths", "./build/test-results/test"
             property "sonar.language", "java"
             property "sonar.sourceEncoding", "UTF-8"
         }
