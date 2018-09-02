@@ -13,6 +13,7 @@
         <p>Menu:</p>
         <a th:href="@{/home/family}">Zarządzanie rodziną</a> <br/>
         <a th:href="@{/home/budget}">Budżet domowy</a> <br/>
+        <br/> <hr/>
 
         <form th:action="@{/home/family/remove-family}" method="POST" >
             <input type="hidden" th:name="familyId" th:value="${familyObject.id}"/>
@@ -26,7 +27,6 @@
     <p>Owner Id: <span th:utext="${familyObject.ownerId}"></span></p>
     <p>Budget Id: <span th:utext="${familyObject.budgetId}"></span></p>
     <p>Max members: <span th:utext="${familyObject.maxMembers}"></span></p>
-    <p>Max Jars: <span th:utext="${familyObject.maxJars}"></span></p>
     <p>Email notifications: <span th:utext="${familyObject.emailNotificationsEnabled}"></span></p>
     <p>Phone notifications: <span th:utext="${familyObject.phoneNotificationsEnabled}"></span></p>
 
@@ -65,7 +65,6 @@
             <input type="hidden" th:field="*{budgetId}" th:value="${familyObject.budgetId}"/>
             <input type="hidden" th:field="*{title}" th:value="${familyObject.title}"/>
             <input type="hidden" th:field="*{maxMembers}" th:value="${familyObject.maxMembers}"/>
-            <input type="hidden" th:field="*{maxJars}" th:value="${familyObject.maxJars}"/>
             <input type="hidden" th:field="*{emailNotificationsEnabled}" th:value="${familyObject.emailNotificationsEnabled}"/>
             <input type="hidden" th:field="*{phoneNotificationsEnabled}" th:value="${familyObject.phoneNotificationsEnabled}"/>
             <input type="submit" value="invite"/>

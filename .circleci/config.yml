@@ -41,7 +41,9 @@ jobs:
     - run:
         name: Run Sonar Analysis
         command: |
-          ./gradlew sonarqube -Dsonar.login=${SONAR_TOKEN} --stacktrace
+          if [ "$CIRCLE_BRANCH" == "master" ]; then
+            ./gradlew sonarqube -Dsonar.login=${SONAR_TOKEN} --stacktrace
+          fi
     - run:
         name: Build and push mail service
         command: |

@@ -5,10 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.konradboniecki.models.account.Account;
 import pl.konradboniecki.models.account.AccountRepository;
@@ -75,4 +72,12 @@ public class JarController {
             return new ModelAndView(BUDGET_HOME_PAGE, modelMap);
         }
     }
+
+    @PostMapping("/remove-jar")
+    public ModelAndView removeJarFromBudget(@RequestParam("jarId") Long jarId, ModelMap modelMap){
+        jarRepository.deleteById(jarId);
+        return new ModelAndView("redirect:/" + BUDGET_HOME_PAGE, modelMap);
+    }
+
+
 }
