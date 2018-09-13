@@ -49,6 +49,17 @@ CREATE TABLE jar (
   FOREIGN KEY (budget_id) REFERENCES budget(budget_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE expense (
+    expense_id BIGINT(20) 		    NOT NULL UNIQUE,
+    budget_id BIGINT(20)            NOT NULL,
+    amount INT                      NOT NULL,
+    comment varchar(50),
+    expense_date timestamp,
+
+    PRIMARY KEY (expense_id),
+    FOREIGN KEY (budget_id) REFERENCES budget(budget_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE new_password (
   account_id BIGINT(20) 		NOT NULL UNIQUE,
   new_password text			    NOT NULL,
@@ -67,7 +78,6 @@ CREATE TABLE activation_code (
   PRIMARY KEY (activation_code_id),
   FOREIGN KEY (account_id) REFERENCES account(account_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
 
 CREATE TABLE family_invitation (
   invitation_id BIGINT(20) 		NOT NULL UNIQUE,

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pl.konradboniecki.models.account.Account;
 import pl.konradboniecki.models.account.AccountRepository;
+import pl.konradboniecki.models.expense.ExpenseRepository;
 import pl.konradboniecki.models.family.Family;
 import pl.konradboniecki.models.family.FamilyRepository;
 import pl.konradboniecki.models.frontendforms.JarCreationForm;
@@ -26,6 +27,7 @@ public class BudgetController {
     @Autowired private AccountRepository accountRepository;
     @Autowired private FamilyRepository familyRepository;
     @Autowired private JarRepository jarRepository;
+    @Autowired private ExpenseRepository expenseRepository;
 
     @GetMapping
     public ModelAndView showBudget(ModelMap modelMap) {
@@ -35,6 +37,8 @@ public class BudgetController {
         List<Jar> jarList = jarRepository.findAllByBudgetId(family.get().getBudgetId());
         if (!jarList.isEmpty()){
             modelMap.addAttribute("jarList", jarList);
+            modelMap.addAttribute("budgetId", family.get().getBudgetId());
+            modelMap.addAttribute("expenseList", expenseRepository.findAllByBudgetId(family.get().getBudgetId()));
             return new ModelAndView(ViewTemplate.BUDGET_HOME_PAGE, modelMap);
         } else {
             modelMap.addAttribute("newJarCreationForm", new JarCreationForm());

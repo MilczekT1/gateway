@@ -16,5 +16,4 @@ public class LoginForm {
     @NotEmpty (message = "{login.passwordRequired}")
     @Size (min=6, max = 200, message = "{login.passwordSize}")
     private String password;
-
 }
