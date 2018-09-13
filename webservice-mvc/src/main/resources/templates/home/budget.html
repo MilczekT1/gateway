@@ -52,11 +52,37 @@
     </span>
     <br/>
     <form th:action="@{/home/budget/create-jar}" method="GET">
-        <!--<input type="hidden" th:name="jarList" th:value="${jarList}"/>-->
         <button type="submit" th:text="#{budget.newJarButton}"></button>
     </form>
     <span th:if="${maxJarsAmountExceeded}" th:text="#{budget.maxJarsAmountExceeded}"></span>
     <br/> <hr/>
+
+
+    <p>Expenses</p>
+    <br/>
+    <form th:action="@{/home/budget/expense/show-form}" method="GET">
+        <input type="hidden" th:name="budgetId" th:value="${budgetId}"/>
+        <button type="submit" th:text="#{budget.newExpenseButton}"></button>
+    </form>
+    <span th:if="${expenseList}">
+        <table>
+            <tr>
+                <td>Expense</td>
+                <td>Comment</td>
+                <td>Date</td>
+            <tr/>
+            <th:block th:each="expense : ${expenseList}">
+                <tr>
+                    <td th:text="${expense.amount}"></td>
+                    <td th:text="${expense.comment}"></td>
+                    <td th:text="${#temporals.format(expense.expenseDate, 'dd-MM-yyyy')}"></td>
+                    <td>
+                        <!--TODO: FORM -> REMOVE EXPENSE-->
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+    </span>
 </center>
 </body>
 </html>
