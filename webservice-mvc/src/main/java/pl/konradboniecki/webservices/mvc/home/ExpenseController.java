@@ -45,4 +45,9 @@ public class ExpenseController {
         expenseRepository.save(expense);
         return new ModelAndView("redirect:/" + BUDGET_HOME_PAGE);
     }
+    @PostMapping("/remove")
+    public ModelAndView removeExpenseFromBudget(@ModelAttribute("expenseId") Long expenseId){
+        expenseRepository.deleteById(expenseId);
+        return new ModelAndView("redirect:/" + BUDGET_HOME_PAGE);
+    }
 }
