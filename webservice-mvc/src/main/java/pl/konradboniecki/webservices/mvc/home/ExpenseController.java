@@ -1,6 +1,5 @@
 package pl.konradboniecki.webservices.mvc.home;
 
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,7 +18,6 @@ import javax.validation.Valid;
 import static pl.konradboniecki.templates.ViewTemplate.BUDGET_HOME_PAGE;
 import static pl.konradboniecki.templates.ViewTemplate.EXPENSE_CREATION_PAGE;
 
-@Log
 @Controller
 @RequestMapping(value = "home/budget/expense")
 public class ExpenseController {
@@ -38,12 +36,10 @@ public class ExpenseController {
     public ModelAndView addExpenseToBudget(
             @ModelAttribute("newExpenseCreationForm") @Valid ExpenseCreationForm form,
             @ModelAttribute("budgetId") Long budgetId, BindingResult bindingResult, ModelMap modelMap){
-        log.severe("-------------------------------------------------");
         if (bindingResult.hasErrors()) {
             //TODO: check if budget id is lost or not
             return new ModelAndView(EXPENSE_CREATION_PAGE);
         }
-log.severe("-------------------------------------------------");
         Expense expense = new Expense(form);
         expense.setBudgetId(budgetId);
         expenseRepository.save(expense);
