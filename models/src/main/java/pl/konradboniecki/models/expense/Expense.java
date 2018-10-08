@@ -20,6 +20,8 @@ public class Expense {
 
     @Column(name = "budget_id")
     private Long budgetId;
+    @Column(name = "label_id")
+    private Long labelId;
     @Column(name = "amount")
     private Long amount;
     @Column(name = "comment")

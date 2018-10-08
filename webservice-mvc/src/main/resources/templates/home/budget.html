@@ -74,6 +74,7 @@
             <th:block th:each="expense : ${expenseList}">
                 <tr>
                     <td th:text="${expense.amount}"></td>
+
                     <td th:text="${expense.comment}"></td>
                     <td th:text="${#temporals.format(expense.expenseDate, 'dd-MM-yyyy')}"></td>
                     <td>
