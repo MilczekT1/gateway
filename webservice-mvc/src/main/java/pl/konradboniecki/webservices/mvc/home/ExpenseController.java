@@ -59,7 +59,7 @@ public class ExpenseController {
             label = labelOptional.get();
             expense.setLabelId(label.getId());
             expenseRepository.save(expense);
-        } else {
+        } else if (form.getLabel() != "") {
             expense = expenseRepository.save(expense);
 
             label = new Label();
