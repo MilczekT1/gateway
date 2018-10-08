@@ -8,6 +8,17 @@ buildscript {
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.2"
     }
 }
+compileJava {
+    options.compilerArgs += ["--add-modules", "java.xml.bind"]
+}
+
+compileTestJava {
+    options.compilerArgs += ["--add-modules", "java.xml.bind"]
+}
+test {
+    jvmArgs += ["--add-modules", "java.xml.bind"]
+}
+
 group 'pl.konradboniecki.utils'
 version = '0.5'
 test {
