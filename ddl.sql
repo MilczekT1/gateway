@@ -63,11 +63,11 @@ CREATE TABLE expense (
 
 CREATE TABLE label (
     label_id BIGINT(20) 		    NOT NULL UNIQUE,
-    budget_id BIGINT(20)            NOT NULL,
+    expense_id BIGINT(20)           NOT NULL,
     label varchar(30)               NOT NULL,
 
     PRIMARY KEY (label_id),
-    FOREIGN KEY (budget_id) REFERENCES budget(budget_id) ON DELETE CASCADE
+    FOREIGN KEY (expense_id) REFERENCES expense(expense_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE new_password (
@@ -116,3 +116,7 @@ CREATE VIEW family_members AS
 
 Select (max_members-members_amount) as free_slots from family_members
  where family_id =1;*/
+
+/*------------------------------------------------------------------------------------*/
+INSERT INTO account (account_id, family_id, role, first_name, last_name, email, phone_number, password, enabled)
+VALUES (1, null, "USER", "konrad", "boniecki", "konrad_boniecki@hotmail.com", "123123123", "85FD7C889F71CF105375595CDDC06B9D38FC562CB69C54F8C165AA751D81B3D9", 1);
