@@ -53,10 +53,20 @@ CREATE TABLE expense (
     expense_id BIGINT(20) 		    NOT NULL UNIQUE,
     budget_id BIGINT(20)            NOT NULL,
     amount INT                      NOT NULL,
+    label_id BIGINT(20),
     comment varchar(50),
     expense_date timestamp,
 
     PRIMARY KEY (expense_id),
+    FOREIGN KEY (budget_id) REFERENCES budget(budget_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE label (
+    label_id BIGINT(20) 		    NOT NULL UNIQUE,
+    budget_id BIGINT(20)            NOT NULL,
+    label varchar(30)               NOT NULL,
+
+    PRIMARY KEY (label_id),
     FOREIGN KEY (budget_id) REFERENCES budget(budget_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
