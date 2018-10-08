@@ -7,9 +7,9 @@ import pl.konradboniecki.models.frontendforms.JarCreationForm;
 
 import javax.persistence.*;
 
-@Entity
 @Data
 @NoArgsConstructor
+@Entity
 public class Jar {
 
     @Id
