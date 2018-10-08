@@ -5,8 +5,8 @@ allprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
     apply plugin: "jacoco"
-    sourceCompatibility = '1.8'
-    targetCompatibility = '1.8'
+    sourceCompatibility = '10'
+    targetCompatibility = '10'
     group 'pl.konradboniecki'
     sonarqube {
         properties {
@@ -57,7 +57,7 @@ allprojects {
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        compileOnly 'org.projectlombok:lombok:1.16.20'
+        compileOnly 'org.projectlombok:lombok:1.18.2'
         compile group: 'org.springframework', name: 'spring-context', version: '5.0.4.RELEASE'
 
         testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.2.0'

@@ -1,6 +1,17 @@
 group 'pl.konradboniecki.models'
 version = '0.5'
 
+compileJava {
+    options.compilerArgs += ["--add-modules", "java.xml.bind"]
+}
+
+compileTestJava {
+    options.compilerArgs += ["--add-modules", "java.xml.bind"]
+}
+test {
+    jvmArgs += ["--add-modules", "java.xml.bind"]
+}
+
 dependencies {
     compile project(':utils')
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: "${springBootVersion}"
