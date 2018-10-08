@@ -10,10 +10,7 @@ allprojects {
     group 'pl.konradboniecki'
     sonarqube {
         properties {
-            //noinspection GroovyAssignabilityCheck
-//            property "sonar.coverage.exclusions", "**/*Exception.java" **/*App.java
             property "sonar.projectKey",  "budget"
- //           property "sonar.exclusions", "**/*App.java"
             property "sonar.projectName", project.name
             property "sonar.projectVersion", project.version
             property "sonar.host.url", "http://konradboniecki.pl:9000"
@@ -38,12 +35,10 @@ allprojects {
         reportsDir = file("$buildDir/reports/jacoco/jacoco")
     }
     test {
-        // Enable JUnit 5 (Gradle 4.6+).
+        finalizedBy jacocoTestReport
+        
         useJUnitPlatform()
-        // Always run tests, even when nothing changed.
-        //dependsOn 'cleanTest'
-
-        // Show test results.
+        
         testLogging {
             events "passed", "skipped", "failed"
         }
@@ -69,13 +64,8 @@ allprojects {
     }
 }
 test {
-    // Enable JUnit 5 (Gradle 4.6+).
     useJUnitPlatform()
-
-    // Always run tests, even when nothing changed.
-    dependsOn 'cleanTest'
-
-    // Show test results.
+    
     testLogging {
         events "passed", "skipped", "failed"
     }
