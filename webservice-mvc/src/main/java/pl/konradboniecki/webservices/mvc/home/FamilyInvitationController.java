@@ -50,10 +50,10 @@ public class FamilyInvitationController {
 
             try {
                 jsonObjects.put("Account", account);
-                jsonObjects.put("Owner", owner);
+                jsonObjects.put("Inviter", owner);
                 jsonObjects.put("Family", family);
                 jsonObjects.put("InvitationCode", invitationCode);
-                String url = BudgetAdress.getURI() + ":3002/services/mail/invitation/existing-user";
+                String url = BudgetAdress.getURI() + ":3002/api/mail/invite-user/existing";
                 restCall.performPostWithJSON(url, jsonObjects);
             } catch (JsonProcessingException | UnirestException  e) {
                 log.severe(Throwables.getStackTraceAsString(e));
@@ -67,10 +67,10 @@ public class FamilyInvitationController {
             Account owner = accountRepository.findByEmail(inviterEmail).get();
 
             try {
-                jsonObjects.put("Owner", owner);
+                jsonObjects.put("Inviter", owner);
                 jsonObjects.put("Family", family);
                 jsonObjects.put("NewMemberEmail", newMemberEmail);
-                String url = BudgetAdress.getURI() + ":3002/services/mail/invitation/new-user";
+                String url = BudgetAdress.getURI() + ":3002/api/mail/invite-user/new";
                 restCall.performPostWithJSON(url, jsonObjects);
             } catch (JsonProcessingException | UnirestException e) {
                 log.severe(Throwables.getStackTraceAsString(e));
@@ -103,10 +103,10 @@ public class FamilyInvitationController {
 
                 try {
                     jsonObjects.put("Account", account.get());
-                    jsonObjects.put("Owner", owner);
+                    jsonObjects.put("Inviter", owner);
                     jsonObjects.put("Family", family);
                     jsonObjects.put("InvitationCode", familyInvitation.get().getInvitationCode());
-                    String url = BudgetAdress.getURI() + ":3002/services/mail/invitation/existing-user";
+                    String url = BudgetAdress.getURI() + ":3002/api/mail/invite-user/existing";
                     restCall.performPostWithJSON(url, jsonObjects);
                 } catch (JsonProcessingException | UnirestException  e) {
                     log.severe(Throwables.getStackTraceAsString(e));
@@ -119,10 +119,10 @@ public class FamilyInvitationController {
                 Account owner = accountRepository.findByEmail(inviterEmail).get();
 
                 try {
-                    jsonObjects.put("Owner", owner);
+                    jsonObjects.put("Inviter", owner);
                     jsonObjects.put("Family", family);
                     jsonObjects.put("NewMemberEmail", emailDest);
-                    String url = BudgetAdress.getURI() + ":3002/services/mail/invitation/new-user";
+                    String url = BudgetAdress.getURI() + ":3002/api/mail/invite-user/new";
                     restCall.performPostWithJSON(url, jsonObjects);
                 } catch (JsonProcessingException | UnirestException e) {
                     log.severe(Throwables.getStackTraceAsString(e));

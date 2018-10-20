@@ -59,7 +59,7 @@ public class RegisterController {
                 Map<String, Object> jsonObjects = new LinkedHashMap<>();
                 jsonObjects.put("Account", acc);
                 jsonObjects.put("ActivationCode", token);
-                String url = BudgetAdress.getURI() + ":3002/services/mail/activation/new-account";
+                String url = BudgetAdress.getURI() + ":3002/api/mail/activate-account";
                 restCall.performPostWithJSON(url, jsonObjects);
             } catch (JsonProcessingException | UnirestException  e) {
                 log.severe(Throwables.getStackTraceAsString(e));
