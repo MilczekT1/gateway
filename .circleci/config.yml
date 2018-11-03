@@ -38,18 +38,21 @@ jobs:
         name: Build and run Unit Tests
         command: |
           ./gradlew build --stacktrace
+#    - run:
+#        name: Run Sonar Analysis
+#        command: |
+#          if [ "$CIRCLE_BRANCH" == "master" ]; then
+#            ./gradlew sonarqube -Dsonar.login=${SONAR_TOKEN} --stacktrace
+#          fi
     - run:
-        name: Run Sonar Analysis
+        name: Build and push docker image
         command: |
           if [ "$CIRCLE_BRANCH" == "master" ]; then
-            ./gradlew sonarqube -Dsonar.login=${SONAR_TOKEN} --stacktrace
+            TAG=0.5.$CIRCLE_BUILD_NUM
           fi
-    - run:
-        name: Build and push mail service
-        command: |
-          TAG=0.5-$CIRCLE_BUILD_NUM
-          if [ "$CIRCLE_BRANCH" == "master" ]; then
-            docker build -t konradboniecki/budget:mvc-$TAG ./webservice-mvc
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push konradboniecki/budget:mvc-$TAG
+          if [ "$CIRCLE_BRANCH" != "master" ]; then
+            TAG=0.5.$CIRCLE_BUILD_NUM.tmp
           fi
+          docker build -t konradboniecki/budget:mvc-$TAG ./webservice-mvc
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
+          docker push konradboniecki/budget:mvc-$TAG
