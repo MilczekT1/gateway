@@ -10,7 +10,7 @@ import lombok.Setter;
 
 public enum ErrorType {
     
-    INVALID_ACTIVATION_LINK("invalidActivationLink"),
+    INVALID_ACTIVATION_LINK("invalidActivationLink"),//TODO: ready to remove, extracted
     INVALID_INVITATION_LINK("invalidInvitationLink"),
     PROCESSING_EXCEPTION("processingException"),
     NOT_ENOUGH_SPACE_IN_FAMILY("notEnoughSpaceInFamily"),
