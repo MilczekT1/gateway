@@ -4,7 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-
+//TODO: remove this class
 @Repository
 public interface UserActivationCodeRepository extends CrudRepository<UserActivationCode, Long> {
     Optional<UserActivationCode> findById(Long aLong);

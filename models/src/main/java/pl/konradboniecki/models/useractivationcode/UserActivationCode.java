@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 
+//TODO: remove this class
 @Data
 @NoArgsConstructor
 @Entity

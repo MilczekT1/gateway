@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import static pl.konradboniecki.templates.ViewTemplate.ERROR_PAGE;
 import static pl.konradboniecki.utils.enums.ErrorType.INVALID_ACTIVATION_LINK;
-
+//TODO: remove this controller
 @Log
 @Controller
 public class UserActivationController {

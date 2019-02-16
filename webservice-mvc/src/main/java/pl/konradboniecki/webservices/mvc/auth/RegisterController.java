@@ -48,12 +48,13 @@ public class RegisterController {
         } else if (!newAccountForm.checkRepeatedPassword()){
             return new ModelAndView(REGISTRATION_PAGE, "repeatedPasswordFailure",true);
         }
-        
+        //TODO: remove account
         Account acc = new Account(newAccountForm);
         if (!accountRepository.existsByEmail(acc.getEmail())){
             accountRepository.save(acc);
             acc = accountRepository.findByEmail(acc.getEmail()).get();
             String token = new TokenGenerator().createUUIDToken();
+            //TODO: rewrite below line this to use service
             userActivationCodeRepository.save(new UserActivationCode(acc.getId(), token));
             try {
                 Map<String, Object> jsonObjects = new LinkedHashMap<>();
