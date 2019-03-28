@@ -1,14 +1,11 @@
 package pl.konradboniecki.webservices.mvc.auth;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Throwables;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,9 +19,9 @@ import pl.konradboniecki.models.account.AccountRepository;
 import pl.konradboniecki.models.frontendforms.AccountForm;
 import pl.konradboniecki.utils.BudgetAdress;
 import pl.konradboniecki.utils.RestCall;
-import pl.konradboniecki.utils.TokenGenerator;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -57,30 +54,25 @@ public class RegisterController {
         if (!accountRepository.existsByEmail(acc.getEmail())){
             accountRepository.save(acc);
             acc = accountRepository.findByEmail(acc.getEmail()).get();
-            String token = new TokenGenerator().createUUIDToken();
-            //TODO: rewrite below line this to use service
-            //===================================================
+
             HttpHeaders headers = new HttpHeaders();
             headers.setAccept(singletonList(MediaType.APPLICATION_JSON_UTF8));
             headers.set("id", acc.getId().toString());
-
             HttpEntity httpEntity = new HttpEntity(headers);
-            restTemplate.exchange(
+            ResponseEntity<JsonNode> responseEntity = restTemplate.exchange(
                     BudgetAdress.getURI() + ":3004/api/account/activationCode",
-                    HttpMethod.POST, httpEntity,Map.class);
-//            restTemplate.exchange(resetPasswordMailUrl,
-//                    HttpMethod.POST,
-//                    new HttpEntity<>(json, headers),
-//                    String.class);
-//            userActivationCodeRepository.save(new UserActivationCode(acc.getId(), token));
-            //===================================================
+                    HttpMethod.POST,
+                    httpEntity, JsonNode.class);
+
             try {
+                String activationCode = responseEntity.getBody()
+                        .path("activationCode").asText();
                 Map<String, Object> jsonObjects = new LinkedHashMap<>();
                 jsonObjects.put("Account", acc);
-                jsonObjects.put("ActivationCode", token);
+                jsonObjects.put("ActivationCode", activationCode);
                 String url = BudgetAdress.getURI() + ":3002/api/mail/activate-account";
                 restCall.performPostWithJSON(url, jsonObjects);
-            } catch (JsonProcessingException | UnirestException  e) {
+            } catch (UnirestException | IOException e) {
                 log.severe(Throwables.getStackTraceAsString(e));
                 return new ModelAndView(ERROR_PAGE, "errorType",
                         PROCESSING_EXCEPTION.getErrorTypeVarName());
