@@ -1,28 +1,20 @@
-# Check https://circleci.com/docs/2.0/language-java/ for more details
-
 version: 2
 jobs:
   build:
-    # https://circleci.com/docs/2.0/circleci-images/
     docker:
     - image: circleci/openjdk:10.0.2-jdk-node-browsers
-
     working_directory: ~/repo
-
     environment:
-      JVM_OPTS: -Xmx3200m #JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
       TERM: dumb
-
     steps:
     - setup_remote_docker:
         version: 18.05.0-ce
         docker_layer_caching: true
     - checkout
-    # Download and cache dependencies
     - restore_cache:
         keys:
         - v1-dependencies-{{ checksum "build.gradle" }}
-        # fallback to using the latest cache if no exact match is found
         - v1-dependencies-
     - run:
         command: |
@@ -33,17 +25,10 @@ jobs:
         paths:
         - ~/.gradle
         key: v1-dependencies-{{ checksum "build.gradle" }}
-#----------------------------------------------------------------------------
     - run:
         name: Build and run Unit Tests
         command: |
           ./gradlew build --stacktrace
-#    - run:
-#        name: Run Sonar Analysis
-#        command: |
-#          if [ "$CIRCLE_BRANCH" == "master" ]; then
-#            ./gradlew sonarqube -Dsonar.login=${SONAR_TOKEN} --stacktrace
-#          fi
     - run:
         name: Build and push docker image
         command: |

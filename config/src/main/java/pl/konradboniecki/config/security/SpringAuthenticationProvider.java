@@ -38,6 +38,7 @@ public class SpringAuthenticationProvider implements AuthenticationProvider {
     }
     
     private boolean authenticationIsCorrect(String email, String passwordHash){
+        //TODO: extract account repository
         Optional<Account> account = accountRepository.findByEmail(email);
         return (account.isPresent()
                 && passwordHash.equals(account.get().getPassword())
