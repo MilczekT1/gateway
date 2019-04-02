@@ -54,9 +54,7 @@ public class FamilyTest {
                 () -> assertNull(family1.getOwnerId()),
                 () -> assertNull(family1.getBudgetId()),
                 () -> assertNull(family1.getTitle()),
-                () -> assertEquals(5, family1.getMaxMembers().intValue()),
-                () -> assertFalse(family1.isPhoneNotificationsEnabled()),
-                () -> assertFalse(family1.isPhoneNotificationsEnabled())
+                () -> assertEquals(5, family1.getMaxMembers().intValue())
         );
 
         FamilyCreationForm familyForm = new FamilyCreationForm();
@@ -69,9 +67,7 @@ public class FamilyTest {
                 () -> assertNull(family2.getOwnerId()),
                 () -> assertNull(family2.getBudgetId()),
                 () -> assertEquals("test_title", family2.getTitle()),
-                () -> assertEquals(5, family2.getMaxMembers().intValue()),
-                () -> assertFalse(family2.isPhoneNotificationsEnabled()),
-                () -> assertFalse(family2.isPhoneNotificationsEnabled())
+                () -> assertEquals(5, family2.getMaxMembers().intValue())
         );
         Family family3 = new Family(familyForm, 100L);
         assertAll(
@@ -79,9 +75,7 @@ public class FamilyTest {
                 () -> assertEquals(100L, family3.getOwnerId().intValue()),
                 () -> assertNull(family3.getBudgetId()),
                 () -> assertEquals("test_title", family3.getTitle()),
-                () -> assertEquals(5, family3.getMaxMembers().intValue()),
-                () -> assertFalse(family3.isPhoneNotificationsEnabled()),
-                () -> assertFalse(family3.isPhoneNotificationsEnabled())
+                () -> assertEquals(5, family3.getMaxMembers().intValue())
         );
     }
 
@@ -94,9 +88,7 @@ public class FamilyTest {
                 () -> assertEquals(12, family.getOwnerId().longValue()),
                 () -> assertEquals( 0, family.getBudgetId().longValue()),
                 () -> assertEquals("test_title", family.getTitle()),
-                () -> assertEquals(5, family.getMaxMembers().intValue()),
-                () -> assertFalse(family.isEmailNotificationsEnabled()),
-                () -> assertTrue(family.isPhoneNotificationsEnabled())
+                () -> assertEquals(5, family.getMaxMembers().intValue())
         );
 
         json = new ObjectMapper().readValue(invitationToFamilyWithEmptyPropsAsString, ObjectNode.class);
@@ -106,9 +98,7 @@ public class FamilyTest {
                 () -> assertNull(emptyFamily.getOwnerId()),
                 () -> assertNull(emptyFamily.getBudgetId()),
                 () -> assertNull(emptyFamily.getTitle()),
-                () -> assertEquals(5, emptyFamily.getMaxMembers().intValue()),
-                () -> assertFalse(emptyFamily.isEmailNotificationsEnabled()),
-                () -> assertFalse(emptyFamily.isPhoneNotificationsEnabled())
+                () -> assertEquals(5, emptyFamily.getMaxMembers().intValue())
         );
 
         ObjectNode finalJson = json;

@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import pl.konradboniecki.ServiceManager;
 import pl.konradboniecki.models.account.Account;
 import pl.konradboniecki.models.account.AccountRepository;
 import pl.konradboniecki.models.family.Family;
@@ -36,6 +37,7 @@ public class FamilyInvitationController {
     @Autowired private FamilyRepository familyRepository;
     @Autowired private FamilyInvitationRepository familyInvitationRepository;
     @Autowired private RestCall restCall;
+    @Autowired private ServiceManager serviceManager;
 
     @PostMapping("/invite-to-family")
     public ModelAndView handleInvitationToFamilyFromApp(@RequestParam("newMemberEmail") String newMemberEmail,
@@ -97,7 +99,7 @@ public class FamilyInvitationController {
         if (familyInvitation.isPresent()){
             String emailDest = familyInvitation.get().getEmail();
             Optional<Account> account = accountRepository.findByEmail(emailDest);
-            Family family = familyRepository.findById(familyInvitation.get().getFamilyId()).get();
+            Family family = serviceManager.findFamilyById(familyInvitation.get().getFamilyId()).get();
             if (account.isPresent()){
                 Account owner = accountRepository.findById(family.getOwnerId()).get();
 

@@ -27,15 +27,8 @@ public class Family {
     
     @Column(name = "max_members")
     private Integer maxMembers;
-    @Column(name = "email_notif_enabled")
-    private boolean emailNotificationsEnabled;
-    @Column(name = "phone_notif_enabled")
-    private boolean phoneNotificationsEnabled;
-    
     
     public Family(){
-        setEmailNotificationsEnabled(false);
-        setPhoneNotificationsEnabled(false);
         setMaxMembers(5);
     }
 
@@ -62,9 +55,13 @@ public class Family {
         if (familyNode.has("budgetId")) setBudgetId(familyNode.get("budgetId").asLong(0));
         if (familyNode.has("title")) setTitle(familyNode.get("title").asText());
         if (familyNode.has("maxMembers")) setMaxMembers(familyNode.get("maxMembers").asInt());
-        if (familyNode.has("emailNotificationsEnabled"))
-            setEmailNotificationsEnabled(familyNode.get("emailNotificationsEnabled").asBoolean());
-        if (familyNode.has("phoneNotificationsEnabled"))
-            setPhoneNotificationsEnabled(familyNode.get("phoneNotificationsEnabled").asBoolean());
+    }
+
+    public Family(JsonNode jsonNode){
+        setId(jsonNode.path("id").asLong());
+        setOwnerId(jsonNode.path("ownerId").asLong());
+        setBudgetId(jsonNode.path("budgetId").asLong());
+        setTitle(jsonNode.path("title").asText());
+        setMaxMembers(jsonNode.path("maxMembers").asInt());
     }
 }

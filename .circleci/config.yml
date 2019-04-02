@@ -12,6 +12,7 @@ jobs:
         version: 18.05.0-ce
         docker_layer_caching: true
     - checkout
+
     - restore_cache:
         keys:
         - v1-dependencies-{{ checksum "build.gradle" }}
@@ -21,6 +22,8 @@ jobs:
           gradle wrapper --gradle-version=4.8
           chmod +x gradlew
           gradle dependencies
+
+
     - save_cache:
         paths:
         - ~/.gradle
