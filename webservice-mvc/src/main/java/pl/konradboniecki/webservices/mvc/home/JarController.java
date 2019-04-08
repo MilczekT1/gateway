@@ -11,7 +11,6 @@ import pl.konradboniecki.models.account.Account;
 import pl.konradboniecki.models.account.AccountRepository;
 import pl.konradboniecki.models.budget.Budget;
 import pl.konradboniecki.models.budget.BudgetRepository;
-import pl.konradboniecki.models.family.FamilyRepository;
 import pl.konradboniecki.models.frontendforms.JarCreationForm;
 import pl.konradboniecki.models.jar.Jar;
 import pl.konradboniecki.models.jar.JarRepository;
@@ -27,7 +26,6 @@ import static pl.konradboniecki.templates.ViewTemplate.*;
 public class JarController {
 
     @Autowired private AccountRepository accountRepository;
-    @Autowired private FamilyRepository familyRepository;
     @Autowired private JarRepository jarRepository;
     @Autowired private BudgetRepository budgetRepository;
 

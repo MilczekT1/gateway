@@ -19,8 +19,6 @@ CREATE TABLE family (
   budget_id BIGINT(20)			    UNIQUE,
   title varchar(50) 			    NOT NULL,
   max_members INT 			        DEFAULT 5,
-  email_notif_enabled TINYINT(1) 	DEFAULT 0,
-  phone_notif_enabled TINYINT(1) 	DEFAULT 0,
 
   PRIMARY KEY (family_id),
   FOREIGN KEY (owner_id) REFERENCES account(account_id) ON DELETE CASCADE

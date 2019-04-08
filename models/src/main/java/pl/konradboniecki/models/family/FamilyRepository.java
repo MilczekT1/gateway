@@ -6,12 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Repository
 public interface FamilyRepository extends CrudRepository<Family, Long> {
-   Optional<Family> findById(Long id);
-   Optional<Family> findByOwnerId(Long id);
    Family save(Family family);
    long count();
    void deleteById(Long aLong);
@@ -23,4 +19,5 @@ public interface FamilyRepository extends CrudRepository<Family, Long> {
    @Transactional
    @Query (value="UPDATE family SET budget_id = ?1 WHERE family_id = ?2", nativeQuery=true)
    void setBudgetId(Long budgetId, Long familyId);
+
 }
