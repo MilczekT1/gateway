@@ -32,3 +32,7 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
     @Query (value="UPDATE account SET family_id = ?1 WHERE account_id = ?2", nativeQuery=true)
     void setFamilyId(Long familyId, Long accountId);
 }
+//    @Modifying
+//    @Transactional
+//    @Query (value="UPDATE family SET budget_id = ?1 WHERE family_id = ?2", nativeQuery=true)
+//    void setBudgetId(Long budgetId, Long familyId);

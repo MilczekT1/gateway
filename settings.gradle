@@ -1,5 +1,4 @@
 rootProject.name = 'budget'
 include 'utils'
 include 'models'
-include 'config'
 include 'webservice-mvc'

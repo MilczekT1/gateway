@@ -14,9 +14,7 @@
     "ownerId": 12,
     "budgetId": null,
     "title": "test_title",
-    "maxMembers": 5,
-    "emailNotificationsEnabled": false,
-    "phoneNotificationsEnabled": true
+    "maxMembers": 5
   },
   "NewMemberEmail": "test@mail.com"
 }

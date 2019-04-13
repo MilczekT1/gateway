@@ -18,7 +18,6 @@ version = '0.5'
 dependencies {
     compile project(':utils')
     compile project(':models')
-    compile project(':config')
 
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "${springBootVersion}"
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: "${springBootVersion}"

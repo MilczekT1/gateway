@@ -3,7 +3,7 @@ package pl.konradboniecki.webservices.mvc.home;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.base.Throwables;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -13,7 +13,6 @@ import pl.konradboniecki.ServiceManager;
 import pl.konradboniecki.models.account.Account;
 import pl.konradboniecki.models.account.AccountRepository;
 import pl.konradboniecki.models.family.Family;
-import pl.konradboniecki.models.family.FamilyRepository;
 import pl.konradboniecki.models.familyinvitation.FamilyInvitation;
 import pl.konradboniecki.models.familyinvitation.FamilyInvitationRepository;
 import pl.konradboniecki.utils.BudgetAdress;
@@ -28,13 +27,12 @@ import static pl.konradboniecki.templates.ViewTemplate.ERROR_PAGE;
 import static pl.konradboniecki.templates.ViewTemplate.FAMILY_HOME_PAGE;
 import static pl.konradboniecki.utils.enums.ErrorType.*;
 
-@Log
+@Slf4j
 @Controller
 @RequestMapping(value = "home/family")
 public class FamilyInvitationController {
 
     @Autowired private AccountRepository accountRepository;
-    @Autowired private FamilyRepository familyRepository;
     @Autowired private FamilyInvitationRepository familyInvitationRepository;
     @Autowired private RestCall restCall;
     @Autowired private ServiceManager serviceManager;
@@ -58,7 +56,7 @@ public class FamilyInvitationController {
                 String url = BudgetAdress.getURI() + ":3002/api/mail/invite-user/existing";
                 restCall.performPostWithJSON(url, jsonObjects);
             } catch (JsonProcessingException | UnirestException  e) {
-                log.severe(Throwables.getStackTraceAsString(e));
+                log.error(Throwables.getStackTraceAsString(e));
                 return new ModelAndView(ERROR_PAGE, "errorType",
                         PROCESSING_EXCEPTION.getErrorTypeVarName());
             }
@@ -75,7 +73,7 @@ public class FamilyInvitationController {
                 String url = BudgetAdress.getURI() + ":3002/api/mail/invite-user/new";
                 restCall.performPostWithJSON(url, jsonObjects);
             } catch (JsonProcessingException | UnirestException e) {
-                log.severe(Throwables.getStackTraceAsString(e));
+                log.error(Throwables.getStackTraceAsString(e));
                 return new ModelAndView(ERROR_PAGE, "errorType",
                         PROCESSING_EXCEPTION.getErrorTypeVarName());
             }
@@ -111,7 +109,7 @@ public class FamilyInvitationController {
                     String url = BudgetAdress.getURI() + ":3002/api/mail/invite-user/existing";
                     restCall.performPostWithJSON(url, jsonObjects);
                 } catch (JsonProcessingException | UnirestException  e) {
-                    log.severe(Throwables.getStackTraceAsString(e));
+                    log.error(Throwables.getStackTraceAsString(e));
                     return new ModelAndView(ERROR_PAGE, "errorType",
                             PROCESSING_EXCEPTION.getErrorTypeVarName());
                 }
@@ -127,7 +125,7 @@ public class FamilyInvitationController {
                     String url = BudgetAdress.getURI() + ":3002/api/mail/invite-user/new";
                     restCall.performPostWithJSON(url, jsonObjects);
                 } catch (JsonProcessingException | UnirestException e) {
-                    log.severe(Throwables.getStackTraceAsString(e));
+                    log.error(Throwables.getStackTraceAsString(e));
                     return new ModelAndView(ERROR_PAGE, "errorType",
                             PROCESSING_EXCEPTION.getErrorTypeVarName());
                 }
@@ -141,7 +139,7 @@ public class FamilyInvitationController {
                                            @PathVariable("id") Long accountId,
                                            @PathVariable("familyId") Long familyId){
 
-        if(familyRepository.existsById(familyId) && accountRepository.existsById(accountId)){
+        if(serviceManager.findFamilyById(familyId).isPresent() && accountRepository.existsById(accountId)){
             Account account = accountRepository.findById(accountId).get();
             if (account.hasFamily()){
                 return new ModelAndView(ERROR_PAGE, "errorType", ALREADY_IN_FAMILY);
@@ -150,22 +148,22 @@ public class FamilyInvitationController {
                         familyInvitationRepository.findByEmailAndFamilyId(account.getEmail(),familyId);
                 if (familyInvitation.isPresent()){
                     if (!familyInvitation.get().getInvitationCode().equals(code)){
-                        log.severe("Wrong invitation code: " + familyInvitation.get().toString()
+                        log.error("Wrong invitation code: " + familyInvitation.get().toString()
                                 + "and given invitation code: " + code);
                         return new ModelAndView(ERROR_PAGE, "errorType", INVALID_INVITATION_LINK);
                     } else {
-                        if(familyRepository.countFreeSlotsInFamilyWithId(familyId) > 0) {
+                        if(serviceManager.countFreeSlotsInFamilyWithId(familyId) > 0) {
                             accountRepository.setFamilyId(familyId, accountId);
                             familyInvitationRepository.deleteById(familyInvitation.get().getId());
                         } else {
-                            log.severe("Not enough space in family for new user " + account.toString() +
-                                    "in familywith id: " + familyId);
+                            log.error("Not enough space in family for new user " + account.toString() +
+                                    "in family with id: " + familyId);
                             return new ModelAndView(ERROR_PAGE, "errorType", NOT_ENOUGH_SPACE_IN_FAMILY);
                         }
                     }
                 }
                 else{
-                    log.severe("No such family invitation with  " + account.getEmail() + " and familyId:" + familyId);
+                    log.error("No such family invitation with  " + account.getEmail() + " and familyId:" + familyId);
                     return new ModelAndView(ERROR_PAGE, "errorType", INVALID_INVITATION_LINK);
                 }
             }

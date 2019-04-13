@@ -13,7 +13,6 @@ import pl.konradboniecki.models.account.AccountRepository;
 import pl.konradboniecki.models.budget.Budget;
 import pl.konradboniecki.models.budget.BudgetRepository;
 import pl.konradboniecki.models.family.Family;
-import pl.konradboniecki.models.family.FamilyRepository;
 import pl.konradboniecki.models.familyinvitation.FamilyInvitation;
 import pl.konradboniecki.models.familyinvitation.FamilyInvitationRepository;
 import pl.konradboniecki.models.frontendforms.FamilyCreationForm;
@@ -32,7 +31,6 @@ import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
 public class FamilyController {
     
     @Autowired private AccountRepository accountRepository;
-    @Autowired private FamilyRepository familyRepository;
     @Autowired private BudgetRepository budgetRepository;
     @Autowired private FamilyInvitationRepository familyInvitationRepository;
     @Autowired private ServiceManager serviceManager;
@@ -91,16 +89,15 @@ public class FamilyController {
         Optional<Account> acc = accountRepository.findByEmail(email);
 
         Family family = new Family(familyCreationForm, acc.get().getId());
-        //TODO: extract to family-mgt
-        family = familyRepository.save(family);
+        family = serviceManager.saveFamily(family);
 
         accountRepository.setFamilyId(family.getId(),acc.get().getId());
 
         Budget budget = new Budget();
         budget.setFamilyId(family.getId());
         budget = budgetRepository.save(budget);
-        //TODO: extract to family-mgt
-        familyRepository.setBudgetId(budget.getId(), family.getId());
+        family.setBudgetId(budget.getId());
+        serviceManager.updateFamily(family);
 
         return new ModelAndView("redirect:/home/family");
     }
@@ -108,8 +105,7 @@ public class FamilyController {
     @PostMapping("/remove-family")
     public ModelAndView removeFamily(@RequestParam("familyId") Long id){
         if (serviceManager.findFamilyById(id).isPresent()) {
-            //TODO: extract to family-mgt
-            familyRepository.deleteById(id);
+            serviceManager.deleteFamilyById(id);
         }
         return new ModelAndView("redirect:/home/family");
     }

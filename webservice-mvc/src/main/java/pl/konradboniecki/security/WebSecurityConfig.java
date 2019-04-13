@@ -1,4 +1,4 @@
-package pl.konradboniecki.config.security;
+package pl.konradboniecki.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private SpringAuthenticationProvider authProvider;
     
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authProvider).eraseCredentials(false);
         
     }
@@ -33,9 +33,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/",
                         "/login",
-                        "/activate/**",
                         "/reset/**",
                         "/register",
+                        "/home/family/*/addMember/**",
                         "/resources/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
