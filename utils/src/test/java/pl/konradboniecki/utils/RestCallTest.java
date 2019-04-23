@@ -40,7 +40,6 @@ public class RestCallTest {
 
         try {
             HttpResponse<JsonNode> response = restCall.performPostWithJSON("http://www.google.com", jsonObjects);
-            System.out.println(response.getBody());
         } catch (JsonProcessingException | UnirestException e) {
             e.printStackTrace();
             fail("Exception should not be thrown!");

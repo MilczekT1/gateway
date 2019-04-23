@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+import pl.konradboniecki.ServiceManager;
 import pl.konradboniecki.models.account.Account;
 import pl.konradboniecki.models.account.AccountRepository;
 import pl.konradboniecki.models.frontendforms.AccountForm;
@@ -39,6 +40,8 @@ public class RegisterController {
     private RestCall restCall;
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    private ServiceManager serviceManager;
 
     @PostMapping("/register")
     public ModelAndView register(@ModelAttribute("accountFormObject") @Valid AccountForm newAccountForm,
@@ -53,7 +56,7 @@ public class RegisterController {
         Account acc = new Account(newAccountForm);
         if (!accountRepository.existsByEmail(acc.getEmail())){
             accountRepository.save(acc);
-            acc = accountRepository.findByEmail(acc.getEmail()).get();
+            acc = serviceManager.findAccountByEmail(acc.getEmail()).get();
 
             HttpHeaders headers = new HttpHeaders();
             headers.setAccept(singletonList(MediaType.APPLICATION_JSON_UTF8));

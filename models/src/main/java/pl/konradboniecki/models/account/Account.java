@@ -78,6 +78,23 @@ public class Account implements Serializable {
         if (accNode.has("role")) setRole(accNode.get("role").asText());
         if (accNode.has("enabled")) setEnabled(accNode.get("enabled").asBoolean());
     }
+
+    public Account(JsonNode jsonNode){
+        if (jsonNode.has("id")) {
+            Long id = jsonNode.path("id").asLong();
+            if (id != 0L) setId(id);
+        }
+        if (jsonNode.has("familyId")){
+            Long familyId = jsonNode.path("familyId").asLong();
+            if (familyId != 0L) setFamilyId(familyId);
+        }
+        if (jsonNode.has("firstName")) setFirstName(jsonNode.path("firstName").asText());
+        if (jsonNode.has("lastName")) setLastName(jsonNode.path("lastName").asText());
+        if (jsonNode.has("email")) setEmail(jsonNode.path("email").asText());
+        if (jsonNode.has("phoneNumber")) setPhoneNumber(jsonNode.path("phoneNumber").asText());
+        if (jsonNode.has("role")) setRole(jsonNode.path("role").asText());
+        if (jsonNode.has("enabled")) setEnabled(jsonNode.path("enabled").asBoolean());
+    }
     
     public void setPassword(String password) {
         this.password = new TokenGenerator().hashPassword(password);

@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import pl.konradboniecki.models.account.Account;
 import pl.konradboniecki.models.family.Family;
 import pl.konradboniecki.utils.BudgetAdress;
 
@@ -20,15 +22,22 @@ public class ServiceManager {
     @Autowired
     private RestTemplate restTemplate;
 
+    /***************************FAMILY****************************/
+
     public Optional<Family> findFamilyById(Long id){
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(singletonList(MediaType.APPLICATION_JSON_UTF8));
         HttpEntity httpEntity = new HttpEntity(headers);
-        ResponseEntity<JsonNode> responseEntity = restTemplate.exchange(
-                BudgetAdress.getURI() + ":3006/api/family/" + id,
-                HttpMethod.GET,
-                httpEntity, JsonNode.class);
-        return Optional.of(new Family(responseEntity.getBody()));
+        try {
+            ResponseEntity<JsonNode> responseEntity = restTemplate.exchange(
+                    BudgetAdress.getURI() + ":3006/api/family/" + id,
+                    HttpMethod.GET,
+                    httpEntity, JsonNode.class);
+            return Optional.of(new Family(responseEntity.getBody()));
+        } catch (HttpClientErrorException | NullPointerException e){
+            log.error("Family with id: " + id + " not found.");
+            return Optional.empty();
+        }
     }
 
     public boolean deleteFamilyById(Long familyId){
@@ -75,5 +84,39 @@ public class ServiceManager {
                 HttpMethod.PUT,
                 httpEntity, Family.class);
         return responseEntity.getBody();
+    }
+
+    /*************************ACCOUNT*****************************/
+
+    public Optional<Account> findAccountById(Long id){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(singletonList(MediaType.APPLICATION_JSON_UTF8));
+        HttpEntity httpEntity = new HttpEntity(headers);
+        try{
+        ResponseEntity<JsonNode> responseEntity = restTemplate.exchange(
+                BudgetAdress.getURI() + ":3004/api/account/" + id,
+                HttpMethod.GET,
+                httpEntity, JsonNode.class);
+            return Optional.of(new Account(responseEntity.getBody()));
+        } catch (HttpClientErrorException | NullPointerException e){
+            log.error("Account with id: " + id + " not found.");
+            return Optional.empty();
+        }
+    }
+
+    public Optional<Account> findAccountByEmail(String email){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(singletonList(MediaType.APPLICATION_JSON_UTF8));
+        HttpEntity httpEntity = new HttpEntity(headers);
+        try {
+        ResponseEntity<JsonNode> responseEntity = restTemplate.exchange(
+                BudgetAdress.getURI() + ":3004/api/account/" + email + "?findBy=email",
+                HttpMethod.GET,
+                httpEntity, JsonNode.class);
+            return Optional.of(new Account(responseEntity.getBody()));
+        } catch (HttpClientErrorException | NullPointerException e){
+            log.error("Account with email: " + email + " not found.");
+            return Optional.empty();
+        }
     }
 }

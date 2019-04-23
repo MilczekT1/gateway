@@ -45,8 +45,8 @@ public class FamilyInvitationController {
         boolean isNewUser = false;
 
         if(accountRepository.existsByEmail(newMemberEmail)) {
-            Account account = accountRepository.findByEmail(newMemberEmail).get();
-            Account owner = accountRepository.findById(family.getOwnerId()).get();
+            Account account = serviceManager.findAccountByEmail(newMemberEmail).get();
+            Account owner = serviceManager.findAccountById(family.getOwnerId()).get();
 
             try {
                 jsonObjects.put("Account", account);
@@ -64,7 +64,7 @@ public class FamilyInvitationController {
             //Invitation Code is not neccessary
             isNewUser = true;
             String inviterEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-            Account owner = accountRepository.findByEmail(inviterEmail).get();
+            Account owner = serviceManager.findAccountByEmail(inviterEmail).get();
 
             try {
                 jsonObjects.put("Inviter", owner);
@@ -96,11 +96,10 @@ public class FamilyInvitationController {
         Optional<FamilyInvitation> familyInvitation = familyInvitationRepository.findById(invitationId);
         if (familyInvitation.isPresent()){
             String emailDest = familyInvitation.get().getEmail();
-            Optional<Account> account = accountRepository.findByEmail(emailDest);
+            Optional<Account> account = serviceManager.findAccountByEmail(emailDest);
             Family family = serviceManager.findFamilyById(familyInvitation.get().getFamilyId()).get();
             if (account.isPresent()){
-                Account owner = accountRepository.findById(family.getOwnerId()).get();
-
+                Account owner = serviceManager.findAccountById(family.getOwnerId()).get();
                 try {
                     jsonObjects.put("Account", account.get());
                     jsonObjects.put("Inviter", owner);
@@ -116,8 +115,7 @@ public class FamilyInvitationController {
             } else {
                 //Invitation Code is not neccessary
                 String inviterEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-                Account owner = accountRepository.findByEmail(inviterEmail).get();
-
+                Account owner = serviceManager.findAccountByEmail(inviterEmail).get();
                 try {
                     jsonObjects.put("Inviter", owner);
                     jsonObjects.put("Family", family);
@@ -140,7 +138,7 @@ public class FamilyInvitationController {
                                            @PathVariable("familyId") Long familyId){
 
         if(serviceManager.findFamilyById(familyId).isPresent() && accountRepository.existsById(accountId)){
-            Account account = accountRepository.findById(accountId).get();
+            Account account = serviceManager.findAccountById(accountId).get();
             if (account.hasFamily()){
                 return new ModelAndView(ERROR_PAGE, "errorType", ALREADY_IN_FAMILY);
             } else {
@@ -176,8 +174,8 @@ public class FamilyInvitationController {
             @RequestParam(value = "familyOwnerId") Long ownerId) {
 
         String inviteeEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<Account> invitee = accountRepository.findByEmail(inviteeEmail);
-        Optional<Account> ownerOpt = accountRepository.findById(ownerId);
+        Optional<Account> invitee = serviceManager.findAccountByEmail(inviteeEmail);
+        Optional<Account> ownerOpt = serviceManager.findAccountById(ownerId);
         Long familyId = ownerOpt.get().getFamilyId();
 
         Optional<FamilyInvitation> invitationToDelete = familyInvitationRepository.findByEmailAndFamilyId(inviteeEmail, familyId);

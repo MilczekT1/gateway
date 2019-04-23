@@ -7,8 +7,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import pl.konradboniecki.ServiceManager;
 import pl.konradboniecki.models.account.Account;
-import pl.konradboniecki.models.account.AccountRepository;
 import pl.konradboniecki.models.budget.Budget;
 import pl.konradboniecki.models.budget.BudgetRepository;
 import pl.konradboniecki.models.frontendforms.JarCreationForm;
@@ -25,7 +25,7 @@ import static pl.konradboniecki.templates.ViewTemplate.*;
 @RequestMapping(value = "home/budget")
 public class JarController {
 
-    @Autowired private AccountRepository accountRepository;
+    @Autowired private ServiceManager serviceManager;
     @Autowired private JarRepository jarRepository;
     @Autowired private BudgetRepository budgetRepository;
 
@@ -43,7 +43,7 @@ public class JarController {
         }
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<Account> accOpt = accountRepository.findByEmail(email);
+        Optional<Account> accOpt = serviceManager.findAccountByEmail(email);
         if (!accOpt.isPresent()){
             throw new RuntimeException("Account doesn't exist");
         }

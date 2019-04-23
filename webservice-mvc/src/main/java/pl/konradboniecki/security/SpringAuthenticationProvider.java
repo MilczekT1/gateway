@@ -18,7 +18,9 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 @Component
 @Scope(scopeName = SCOPE_SINGLETON)
 public class SpringAuthenticationProvider implements AuthenticationProvider {
-    
+
+//    @Autowired
+//    private ServiceManager serviceManager;
     @Autowired
     private AccountRepository accountRepository;
     
@@ -38,8 +40,9 @@ public class SpringAuthenticationProvider implements AuthenticationProvider {
     }
     
     private boolean authenticationIsCorrect(String email, String passwordHash){
-        //TODO: extract account repository
+        //        Optional<Account> account = serviceManager.findAccountByEmail(email);
         Optional<Account> account = accountRepository.findByEmail(email);
+        //TODO: provide endpoint for password validation as code below can't reference password hash
         return (account.isPresent()
                 && passwordHash.equals(account.get().getPassword())
                 && account.get().isEnabled());

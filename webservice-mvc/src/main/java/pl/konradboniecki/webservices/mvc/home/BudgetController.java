@@ -32,7 +32,7 @@ public class BudgetController {
     @GetMapping
     public ModelAndView showBudget(ModelMap modelMap) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<Account> acc = accountRepository.findByEmail(email);
+        Optional<Account> acc = serviceManager.findAccountByEmail(email);
         Optional<Family> family = serviceManager.findFamilyById(acc.get().getFamilyId());
         List<Jar> jarList = jarRepository.findAllByBudgetId(family.get().getBudgetId());
         if (!jarList.isEmpty()){

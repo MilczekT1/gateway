@@ -1,5 +1,6 @@
 package pl.konradboniecki.webservices.mvc.home;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,7 @@ import java.util.Optional;
 
 import static pl.konradboniecki.templates.ViewTemplate.*;
 import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
-
+@Slf4j
 @Controller
 @RequestMapping(value = "home/family")
 public class FamilyController {
@@ -38,8 +39,7 @@ public class FamilyController {
     @GetMapping
     public ModelAndView showFamily(ModelMap modelMap) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<Account> acc = accountRepository.findByEmail(email);
-
+        Optional<Account> acc = serviceManager.findAccountByEmail(email);
         if (!acc.isPresent()){
             return new ModelAndView(ERROR_PAGE, "errorType", PROCESSING_EXCEPTION);
         }
@@ -68,7 +68,7 @@ public class FamilyController {
                 List<Account> familyOwners = new LinkedList<>();
                 for(Long familyId : familyIds) {
                     family = serviceManager.findFamilyById(familyId);
-                    Optional<Account> account = accountRepository.findById(family.get().getOwnerId());
+                    Optional<Account> account = serviceManager.findAccountById(family.get().getOwnerId());
                     familyOwners.add(account.get());
                 }
                 modelAttributes.put("familyOwnersList", familyOwners);
@@ -86,7 +86,7 @@ public class FamilyController {
         }
 
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<Account> acc = accountRepository.findByEmail(email);
+        Optional<Account> acc = serviceManager.findAccountByEmail(email);
 
         Family family = new Family(familyCreationForm, acc.get().getId());
         family = serviceManager.saveFamily(family);

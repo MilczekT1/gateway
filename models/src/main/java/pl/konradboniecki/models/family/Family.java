@@ -58,10 +58,22 @@ public class Family {
     }
 
     public Family(JsonNode jsonNode){
-        setId(jsonNode.path("id").asLong());
-        setOwnerId(jsonNode.path("ownerId").asLong());
-        setBudgetId(jsonNode.path("budgetId").asLong());
-        setTitle(jsonNode.path("title").asText());
-        setMaxMembers(jsonNode.path("maxMembers").asInt());
+        if (jsonNode.has("id")) {
+            Long id = jsonNode.path("id").asLong();
+            if (id != 0L) setId(id);
+        }
+        if (jsonNode.has("ownerId")) {
+            Long ownerId = jsonNode.path("ownerId").asLong();
+            if (ownerId != 0L) setOwnerId(ownerId);
+        }
+        if (jsonNode.has("budgetId")) {
+            Long budgetId = jsonNode.path("budgetId").asLong();
+            if (budgetId != 0L) setId(budgetId);
+        }
+        if (jsonNode.has("maxMembers")) {
+            Integer maxMembers = jsonNode.path("maxMembers").asInt();
+            if (maxMembers != 0) setMaxMembers(maxMembers);
+        }
+        if (jsonNode.has("title")) setTitle(jsonNode.path("title").asText());
     }
 }
