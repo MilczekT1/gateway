@@ -16,7 +16,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import pl.konradboniecki.ServiceManager;
 import pl.konradboniecki.models.account.Account;
-import pl.konradboniecki.models.account.AccountRepository;
 import pl.konradboniecki.models.frontendforms.AccountForm;
 import pl.konradboniecki.utils.BudgetAdress;
 import pl.konradboniecki.utils.RestCall;
@@ -25,6 +24,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static java.util.Collections.singletonList;
 import static pl.konradboniecki.templates.ViewTemplate.*;
@@ -33,9 +33,7 @@ import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
 @Log
 @Controller
 public class RegisterController {
-    
-    @Autowired
-    private AccountRepository accountRepository;
+
     @Autowired
     private RestCall restCall;
     @Autowired
@@ -52,15 +50,16 @@ public class RegisterController {
         } else if (!newAccountForm.checkRepeatedPassword()){
             return new ModelAndView(REGISTRATION_PAGE, "repeatedPasswordFailure",true);
         }
-        //TODO: remove account
-        Account acc = new Account(newAccountForm);
-        if (!accountRepository.existsByEmail(acc.getEmail())){
-            accountRepository.save(acc);
-            acc = serviceManager.findAccountByEmail(acc.getEmail()).get();
+
+        Optional<Account> accOpt = serviceManager.findAccountByEmail(newAccountForm.getEmail());
+        if (!accOpt.isPresent()){
+            Account accFromForm = new Account(newAccountForm);
+            serviceManager.saveAccount(accFromForm);
+            accFromForm = serviceManager.findAccountByEmail(accFromForm.getEmail()).get();
 
             HttpHeaders headers = new HttpHeaders();
             headers.setAccept(singletonList(MediaType.APPLICATION_JSON_UTF8));
-            headers.set("id", acc.getId().toString());
+            headers.set("id", accFromForm.getId().toString());
             HttpEntity httpEntity = new HttpEntity(headers);
             ResponseEntity<JsonNode> responseEntity = restTemplate.exchange(
                     BudgetAdress.getURI() + ":3004/api/account/activationCode",
@@ -71,7 +70,7 @@ public class RegisterController {
                 String activationCode = responseEntity.getBody()
                         .path("activationCode").asText();
                 Map<String, Object> jsonObjects = new LinkedHashMap<>();
-                jsonObjects.put("Account", acc);
+                jsonObjects.put("Account", accFromForm);
                 jsonObjects.put("ActivationCode", activationCode);
                 String url = BudgetAdress.getURI() + ":3002/api/mail/activate-account";
                 restCall.performPostWithJSON(url, jsonObjects);

@@ -43,8 +43,8 @@ public class FamilyInvitationController {
         String invitationCode = new TokenGenerator().createUUIDToken();
         Map<String, Object> jsonObjects = new LinkedHashMap<>();
         boolean isNewUser = false;
-
-        if(accountRepository.existsByEmail(newMemberEmail)) {
+        Optional<Account> newMember = serviceManager.findAccountByEmail(newMemberEmail);
+        if(newMember.isPresent()) {
             Account account = serviceManager.findAccountByEmail(newMemberEmail).get();
             Account owner = serviceManager.findAccountById(family.getOwnerId()).get();
 
@@ -137,7 +137,9 @@ public class FamilyInvitationController {
                                            @PathVariable("id") Long accountId,
                                            @PathVariable("familyId") Long familyId){
 
-        if(serviceManager.findFamilyById(familyId).isPresent() && accountRepository.existsById(accountId)){
+        if(serviceManager.findFamilyById(familyId).isPresent() &&
+                serviceManager.findAccountById(accountId).isPresent()){
+
             Account account = serviceManager.findAccountById(accountId).get();
             if (account.hasFamily()){
                 return new ModelAndView(ERROR_PAGE, "errorType", ALREADY_IN_FAMILY);

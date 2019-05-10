@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pl.konradboniecki.ServiceManager;
 import pl.konradboniecki.models.account.Account;
-import pl.konradboniecki.models.account.AccountRepository;
 import pl.konradboniecki.models.expense.ExpenseRepository;
 import pl.konradboniecki.models.family.Family;
 import pl.konradboniecki.models.frontendforms.JarCreationForm;
@@ -24,7 +23,6 @@ import java.util.Optional;
 @RequestMapping(value = "home/budget")
 public class BudgetController {
 
-    @Autowired private AccountRepository accountRepository;
     @Autowired private JarRepository jarRepository;
     @Autowired private ExpenseRepository expenseRepository;
     @Autowired private ServiceManager serviceManager;

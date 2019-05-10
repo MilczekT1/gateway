@@ -1,6 +1,5 @@
 package pl.konradboniecki.models.account;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.Data;
@@ -37,13 +36,10 @@ public class Account implements Serializable {
     private String email;
     @Column(name = "phone_number")
     private String phoneNumber;
-    @JsonIgnore
     @Column(name = "password")
     private String password;
-    @JsonIgnore
     @Column(name = "date_of_registration")
     private ZonedDateTime registerDate;
-    
     @Column(name = "role")
     private String role;
     @Column(name = "enabled")

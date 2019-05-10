@@ -109,7 +109,7 @@ public class ServiceManager {
         headers.setAccept(singletonList(MediaType.APPLICATION_JSON_UTF8));
         HttpEntity httpEntity = new HttpEntity(headers);
         try {
-        ResponseEntity<JsonNode> responseEntity = restTemplate.exchange(
+            ResponseEntity<JsonNode> responseEntity = restTemplate.exchange(
                 BudgetAdress.getURI() + ":3004/api/account/" + email + "?findBy=email",
                 HttpMethod.GET,
                 httpEntity, JsonNode.class);
@@ -118,5 +118,18 @@ public class ServiceManager {
             log.error("Account with email: " + email + " not found.");
             return Optional.empty();
         }
+    }
+
+    public Account saveAccount(Account accountToSave){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(singletonList(MediaType.APPLICATION_JSON_UTF8));
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity httpEntity = new HttpEntity(accountToSave, headers);
+
+        ResponseEntity<JsonNode> responseEntity = restTemplate.exchange(
+                BudgetAdress.getURI() + ":3004/api/account",
+                HttpMethod.POST,
+                httpEntity, JsonNode.class);
+        return new Account(responseEntity.getBody());
     }
 }

@@ -10,11 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface AccountRepository extends CrudRepository<Account, Long> {
+
     Optional<Account> findByEmail(String email);
-    boolean existsByEmail(String email);
-    Account save(Account entity);
-    long count();
-    void deleteById(Long aLong);
     
     @Modifying
     @Transactional
