@@ -1,5 +1,6 @@
 package pl.konradboniecki.security;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -7,22 +8,21 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import pl.konradboniecki.ServiceManager;
 import pl.konradboniecki.models.account.Account;
-import pl.konradboniecki.models.account.AccountRepository;
 import pl.konradboniecki.utils.TokenGenerator;
 
 import java.util.Optional;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_SINGLETON;
 
+@Slf4j
 @Component
 @Scope(scopeName = SCOPE_SINGLETON)
 public class SpringAuthenticationProvider implements AuthenticationProvider {
 
-//    @Autowired
-//    private ServiceManager serviceManager;
     @Autowired
-    private AccountRepository accountRepository;
+    private ServiceManager serviceManager;
     
     @Override
     public Authentication authenticate(Authentication authentication) {
@@ -40,12 +40,12 @@ public class SpringAuthenticationProvider implements AuthenticationProvider {
     }
     
     private boolean authenticationIsCorrect(String email, String passwordHash){
-        //        Optional<Account> account = serviceManager.findAccountByEmail(email);
-        Optional<Account> account = accountRepository.findByEmail(email);
-        //TODO: provide endpoint for password validation as code below can't reference password hash
-        return (account.isPresent()
-                && passwordHash.equals(account.get().getPassword())
-                && account.get().isEnabled());
+        Optional<Account> account = serviceManager.findAccountByEmail(email);
+        if (account.isPresent() && account.get().isEnabled()){
+            return serviceManager.isPasswordCorrectForAccount(account.get().getId(), passwordHash);
+        } else {
+            return false;
+        }
     }
     
     @Override

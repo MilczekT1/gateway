@@ -22,6 +22,8 @@ public class ServiceManager {
     @Autowired
     private RestTemplate restTemplate;
 
+    private static int accountPort = 3004;
+
     /***************************FAMILY****************************/
 
     public Optional<Family> findFamilyById(Long id){
@@ -131,5 +133,21 @@ public class ServiceManager {
                 HttpMethod.POST,
                 httpEntity, JsonNode.class);
         return new Account(responseEntity.getBody());
+    }
+
+    public Boolean isPasswordCorrectForAccount(Long accountId, String hashedPassword){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(singletonList(MediaType.APPLICATION_JSON_UTF8));
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId.toString());
+        headers.set("password", hashedPassword);
+        HttpEntity httpEntity = new HttpEntity(headers);
+
+        ResponseEntity<JsonNode> responseEntity = restTemplate.exchange(
+                BudgetAdress.getURI() + ":3004/api/account/credentials",
+                HttpMethod.GET,
+                httpEntity, JsonNode.class);
+
+        return responseEntity.getStatusCode() == HttpStatus.OK;
     }
 }
