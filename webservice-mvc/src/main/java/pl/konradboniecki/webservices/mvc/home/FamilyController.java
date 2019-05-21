@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.konradboniecki.ServiceManager;
 import pl.konradboniecki.models.account.Account;
-import pl.konradboniecki.models.account.AccountRepository;
 import pl.konradboniecki.models.budget.Budget;
 import pl.konradboniecki.models.budget.BudgetRepository;
 import pl.konradboniecki.models.family.Family;
@@ -30,8 +29,7 @@ import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
 @Controller
 @RequestMapping(value = "home/family")
 public class FamilyController {
-    
-    @Autowired private AccountRepository accountRepository;
+
     @Autowired private BudgetRepository budgetRepository;
     @Autowired private FamilyInvitationRepository familyInvitationRepository;
     @Autowired private ServiceManager serviceManager;
@@ -91,7 +89,7 @@ public class FamilyController {
         Family family = new Family(familyCreationForm, acc.get().getId());
         family = serviceManager.saveFamily(family);
 
-        accountRepository.setFamilyId(family.getId(),acc.get().getId());
+        serviceManager.setFamilyIdInAccountWithId(family.getId(), acc.get().getId());
 
         Budget budget = new Budget();
         budget.setFamilyId(family.getId());

@@ -150,4 +150,16 @@ public class ServiceManager {
 
         return responseEntity.getStatusCode() == HttpStatus.OK;
     }
+
+    public Boolean setFamilyIdInAccountWithId(Long familyId, Long accountId){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(singletonList(MediaType.APPLICATION_JSON_UTF8));
+        HttpEntity httpEntity = new HttpEntity(headers);
+
+        ResponseEntity<String> responseEntity = restTemplate.exchange(
+                BudgetAdress.getURI() + ":3004/api/account/" + accountId + "/family/" + familyId,
+                HttpMethod.PUT,
+                httpEntity, String.class);
+        return responseEntity.getStatusCode() == HttpStatus.OK;
+    }
 }

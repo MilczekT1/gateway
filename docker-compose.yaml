@@ -1,0 +1,104 @@
+version: '2.1'
+services:
+
+  mysql:
+    container_name: mysql
+    image: mysql:8.0.16
+    ports:
+      - "3001:3306"
+    volumes:
+      - ./MYSQL:/var/lib/mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=konrad
+
+  adminer:
+    container_name: adminer
+    image: adminer:4.7.1
+    restart: always
+    ports:
+      - "3000:8080"
+    depends_on:
+      mysql:
+        condition: service_started
+
+  config_server:
+    container_name: config_server
+    image: konradboniecki/budget:config-server-0.5.18
+    ports:
+      - "3005:8888"
+    mem_limit: 450m
+    healthcheck:
+      test: ["CMD","curl","-f","http://config_server:8888/actuator/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  account-mgt:
+    container_name: account
+    image: konradboniecki/budget:account-management-0.5.216
+    ports:
+      - "3004:8080"
+    mem_limit: 450m
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://account:8080/actuator/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    depends_on:
+      config_server:
+        condition: service_healthy
+
+  passwd-mgt:
+    container_name: password
+    image: konradboniecki/budget:password-management-0.5.181
+    ports:
+      - "3003:8080"
+    mem_limit: 450m
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://password:8080/actuator/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    depends_on:
+      config_server:
+        condition: service_healthy
+
+  family-mgt:
+    container_name: family
+    image: konradboniecki/budget:family-management-0.5.23
+    ports:
+      - "3006:8080"
+    mem_limit: 450m
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://family:8080/actuator/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    depends_on:
+      config_server:
+        condition: service_healthy
+
+  mail:
+    container_name: mail
+    image: konradboniecki/budget:mail-0.5.205
+    ports:
+      - "3002:8080"
+    mem_limit: 450m
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://mail:8080/actuator/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    depends_on:
+      config_server:
+        condition: service_healthy
+  mvc:
+    container_name: mvc
+    image: konradboniecki/budget:mvc-0.5.76
+    ports:
+      - "80:8080"
+    mem_limit: 450m
+    depends_on:
+      config_server:
+        condition: service_healthy

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.konradboniecki.ServiceManager;
 import pl.konradboniecki.models.account.Account;
-import pl.konradboniecki.models.account.AccountRepository;
 import pl.konradboniecki.models.family.Family;
 import pl.konradboniecki.models.familyinvitation.FamilyInvitation;
 import pl.konradboniecki.models.familyinvitation.FamilyInvitationRepository;
@@ -32,7 +31,6 @@ import static pl.konradboniecki.utils.enums.ErrorType.*;
 @RequestMapping(value = "home/family")
 public class FamilyInvitationController {
 
-    @Autowired private AccountRepository accountRepository;
     @Autowired private FamilyInvitationRepository familyInvitationRepository;
     @Autowired private RestCall restCall;
     @Autowired private ServiceManager serviceManager;
@@ -153,7 +151,7 @@ public class FamilyInvitationController {
                         return new ModelAndView(ERROR_PAGE, "errorType", INVALID_INVITATION_LINK);
                     } else {
                         if(serviceManager.countFreeSlotsInFamilyWithId(familyId) > 0) {
-                            accountRepository.setFamilyId(familyId, accountId);
+                            serviceManager.setFamilyIdInAccountWithId(familyId, accountId);
                             familyInvitationRepository.deleteById(familyInvitation.get().getId());
                         } else {
                             log.error("Not enough space in family for new user " + account.toString() +
@@ -185,7 +183,7 @@ public class FamilyInvitationController {
             familyInvitationRepository.deleteById(invitationToDelete.get().getId());
         }
 
-        accountRepository.setFamilyId(ownerOpt.get().getFamilyId(), invitee.get().getId());
+        serviceManager.setFamilyIdInAccountWithId(ownerOpt.get().getFamilyId(), invitee.get().getId());
         return new ModelAndView("redirect:/home/family");
     }
 
