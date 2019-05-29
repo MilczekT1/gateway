@@ -9,7 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import pl.konradboniecki.ServiceManager;
-import pl.konradboniecki.models.account.Account;
+import pl.konradboniecki.models.Account;
 import pl.konradboniecki.utils.TokenGenerator;
 
 import java.util.Optional;

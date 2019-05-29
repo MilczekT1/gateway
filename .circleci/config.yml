@@ -23,7 +23,6 @@ jobs:
           chmod +x gradlew
           gradle dependencies
 
-
     - save_cache:
         paths:
         - ~/.gradle

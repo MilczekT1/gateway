@@ -1,12 +1,14 @@
-package pl.konradboniecki.models.budget;
+package pl.konradboniecki.models;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
-@Entity
 @Data
+@Accessors(chain = true)
+@Entity
 public class Budget {
 
     @Id
@@ -24,5 +26,4 @@ public class Budget {
         setMaxJars(6L);
     }
 }
-
 

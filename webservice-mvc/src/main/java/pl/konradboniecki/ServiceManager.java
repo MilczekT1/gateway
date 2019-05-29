@@ -7,8 +7,9 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import pl.konradboniecki.models.account.Account;
-import pl.konradboniecki.models.family.Family;
+import pl.konradboniecki.models.Account;
+import pl.konradboniecki.models.Budget;
+import pl.konradboniecki.models.Family;
 import pl.konradboniecki.utils.BudgetAdress;
 
 import java.util.Optional;
@@ -161,5 +162,37 @@ public class ServiceManager {
                 HttpMethod.PUT,
                 httpEntity, String.class);
         return responseEntity.getStatusCode() == HttpStatus.OK;
+    }
+
+    /***************************BUDGET****************************/
+
+    public Optional<Budget> findBudgetByFamilyId(Long familyId){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(singletonList(MediaType.APPLICATION_JSON_UTF8));
+        HttpEntity httpEntity = new HttpEntity(headers);
+
+        try{
+            ResponseEntity<Budget> responseEntity = restTemplate.exchange(
+                    BudgetAdress.getURI() + ":3007/api/budget/" + familyId + "?idType=family",
+                    HttpMethod.GET,
+                    httpEntity, Budget.class);
+            return Optional.ofNullable(responseEntity.getBody());
+        } catch (HttpClientErrorException e){
+            log.error("Budget with family_id: " + familyId + " not found.");
+            return Optional.empty();
+        }
+    }
+
+    public Budget saveBudget(Budget budget){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(singletonList(MediaType.APPLICATION_JSON_UTF8));
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity httpEntity = new HttpEntity(budget, headers);
+
+        ResponseEntity<Budget> responseEntity = restTemplate.exchange(
+                BudgetAdress.getURI() + ":3007/api/budget",
+                HttpMethod.POST,
+                httpEntity, Budget.class);
+        return responseEntity.getBody();
     }
 }

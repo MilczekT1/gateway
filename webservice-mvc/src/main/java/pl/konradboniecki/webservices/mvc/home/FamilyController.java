@@ -2,17 +2,18 @@ package pl.konradboniecki.webservices.mvc.home;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 import pl.konradboniecki.ServiceManager;
-import pl.konradboniecki.models.account.Account;
-import pl.konradboniecki.models.budget.Budget;
-import pl.konradboniecki.models.budget.BudgetRepository;
-import pl.konradboniecki.models.family.Family;
+import pl.konradboniecki.models.Account;
+import pl.konradboniecki.models.Budget;
+import pl.konradboniecki.models.Family;
 import pl.konradboniecki.models.familyinvitation.FamilyInvitation;
 import pl.konradboniecki.models.familyinvitation.FamilyInvitationRepository;
 import pl.konradboniecki.models.frontendforms.FamilyCreationForm;
@@ -30,7 +31,6 @@ import static pl.konradboniecki.utils.enums.ErrorType.PROCESSING_EXCEPTION;
 @RequestMapping(value = "home/family")
 public class FamilyController {
 
-    @Autowired private BudgetRepository budgetRepository;
     @Autowired private FamilyInvitationRepository familyInvitationRepository;
     @Autowired private ServiceManager serviceManager;
 
@@ -91,9 +91,7 @@ public class FamilyController {
 
         serviceManager.setFamilyIdInAccountWithId(family.getId(), acc.get().getId());
 
-        Budget budget = new Budget();
-        budget.setFamilyId(family.getId());
-        budget = budgetRepository.save(budget);
+        Budget budget = serviceManager.saveBudget(new Budget().setFamilyId(family.getId()));
         family.setBudgetId(budget.getId());
         serviceManager.updateFamily(family);
 
@@ -104,7 +102,9 @@ public class FamilyController {
     public ModelAndView removeFamily(@RequestParam("familyId") Long id){
         if (serviceManager.findFamilyById(id).isPresent()) {
             serviceManager.deleteFamilyById(id);
+            return new ModelAndView("redirect:/home/family");
+        } else {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "family with id:" + id + " not found.");
         }
-        return new ModelAndView("redirect:/home/family");
     }
 }

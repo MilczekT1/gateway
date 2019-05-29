@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import pl.konradboniecki.models.Family;
 import pl.konradboniecki.models.frontendforms.FamilyCreationForm;
 
 import java.io.File;

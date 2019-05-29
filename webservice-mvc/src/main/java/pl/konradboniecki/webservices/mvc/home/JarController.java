@@ -8,9 +8,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.konradboniecki.ServiceManager;
-import pl.konradboniecki.models.account.Account;
-import pl.konradboniecki.models.budget.Budget;
-import pl.konradboniecki.models.budget.BudgetRepository;
+import pl.konradboniecki.models.Account;
+import pl.konradboniecki.models.Budget;
 import pl.konradboniecki.models.frontendforms.JarCreationForm;
 import pl.konradboniecki.models.jar.Jar;
 import pl.konradboniecki.models.jar.JarRepository;
@@ -27,7 +26,6 @@ public class JarController {
 
     @Autowired private ServiceManager serviceManager;
     @Autowired private JarRepository jarRepository;
-    @Autowired private BudgetRepository budgetRepository;
 
     @GetMapping("/create-jar")
     public ModelAndView createJar(ModelMap modelMap){
@@ -49,7 +47,7 @@ public class JarController {
         }
         Account acc = accOpt.get();
 
-        Optional<Budget> budgetOpt = budgetRepository.findByFamilyId(acc.getFamilyId());
+        Optional<Budget> budgetOpt = serviceManager.findBudgetByFamilyId(acc.getFamilyId());
         if (!budgetOpt.isPresent()){
             throw new RuntimeException("Budget doesn't exist");
         }

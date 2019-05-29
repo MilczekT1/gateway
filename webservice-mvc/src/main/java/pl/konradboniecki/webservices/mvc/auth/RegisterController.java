@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import pl.konradboniecki.ServiceManager;
-import pl.konradboniecki.models.account.Account;
+import pl.konradboniecki.models.Account;
 import pl.konradboniecki.models.frontendforms.AccountForm;
 import pl.konradboniecki.utils.BudgetAdress;
 import pl.konradboniecki.utils.RestCall;

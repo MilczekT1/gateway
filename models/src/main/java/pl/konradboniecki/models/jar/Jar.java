@@ -2,6 +2,7 @@ package pl.konradboniecki.models.jar;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.hibernate.annotations.GenericGenerator;
 import pl.konradboniecki.models.frontendforms.JarCreationForm;
 
@@ -36,7 +37,7 @@ public class Jar {
         setStatus(JarStatus.IN_PROGRESS.getStatus());
     }
 
-    public void setCurrentAmount(Long newAmount) {
+    public void setCurrentAmount(@NonNull  Long newAmount) {
         if (newAmount == null){
             throw new NullPointerException("CurrentAmount is null.");
         }
