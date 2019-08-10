@@ -1,0 +1,16 @@
+spring:
+  application.name: gateway
+  profiles: default
+  cloud.config:
+    uri: http://config_server:8888
+    retry.max-attempts: 10
+    username: pluralsight
+    password: pluralsight
+encrypt.key: 0e24b037-6ed5-48e7-bd24-084e8b876eaf
+---
+spring:
+  profiles: local
+  profiles.include: default
+  cloud:
+    config:
+      enabled: false

@@ -44,7 +44,6 @@ jobs:
           name: Install Chassis, stubs for contracts and download dependencies
           command: |
             LESS_LOGS=-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
-
             cd ~/chassisRepo
             mvn clean install -DskipTests=true -B $LESS_LOGS
             cd ~/repo
@@ -98,5 +97,5 @@ jobs:
             cd /home/circleci/repo/shared_workspace
             export LC_GATEWAY_TAG=$(cat tag.txt)
             echo "================ ATTEMPTING TO DEPLOY $LC_GATEWAY_TAG ================"
-            ssh -t -o SendEnv=LC_GATEWAY_TAG root@77.55.237.245 'GATEWAY_TAG=$LC_GATEWAY_TAG; unset LC_GATEWAY_TAG; export GATEWAY_TAG; echo "export GATEWAY_TAG=$GATEWAY_TAG" >> ~/.bashrc; docker-compose -f /root/BUDGET/docker-compose.yaml up -d --no-deps account-mgt'
+            ssh -t -o SendEnv=LC_GATEWAY_TAG root@77.55.237.245 'GATEWAY_TAG=$LC_GATEWAY_TAG; unset LC_GATEWAY_TAG; export GATEWAY_TAG; echo "export GATEWAY_TAG=$GATEWAY_TAG" >> ~/.bashrc; docker-compose -f /root/BUDGET/docker-compose.yaml up -d --no-deps gateway'
           no_output_timeout: 3m
