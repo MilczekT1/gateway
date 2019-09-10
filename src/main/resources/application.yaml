@@ -63,8 +63,8 @@ spring:
             - AddRequestHeader=Gateway, true
 
         - id: zipkin
-            uri: http://zipkin:9411
-            predicates:
-              - Path=/zipkin
-            filters:
-              - AddRequestHeader=Gateway, true
+          uri: http://zipkin:9411
+          predicates:
+            - Path=/zipkin
+          filters:
+            - AddRequestHeader=Gateway, true
