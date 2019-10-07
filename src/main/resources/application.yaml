@@ -61,3 +61,10 @@ spring:
           filters:
             - RewritePath=/(?<segment>.*), /$\{segment}
             - AddRequestHeader=Gateway, true
+
+        - id: zipkin
+          uri: http://zipkin:9411/
+          predicates:
+            - Path=/zipkin, /zipkin/**
+          filters:
+            - AddRequestHeader=Gateway, true
