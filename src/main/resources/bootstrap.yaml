@@ -2,7 +2,7 @@ spring:
   profiles: config_server
   application.name: gateway
   cloud.config:
-    enabled: true
+    enabled: false
     fail-fast: true
     retry.max-attempts: 10
     username: pluralsight
@@ -18,6 +18,8 @@ spring:
   profiles: config_server_local
   profiles.include: config_server
   cloud.config.uri: http://konradboniecki.com.pl:8888
+  zipkin:
+    enabled: false
 ---
 spring:
   profiles: default
