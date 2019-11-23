@@ -8,9 +8,9 @@ workflows:
       - deploy:
           requires:
             - build
-          filters:
-            branches:
-              only: master
+#          filters:
+#            branches:
+#              only: master
 
 jobs:
   build:
@@ -55,11 +55,12 @@ jobs:
       - run:
           name: Build and push docker image
           command: |
+            VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
             if [ "$CIRCLE_BRANCH" == "master" ]; then
-              TAG=$CIRCLE_PROJECT_REPONAME-0.5.$CIRCLE_BUILD_NUM
+              TAG=$CIRCLE_PROJECT_REPONAME-$VERSION
             fi
             if [ "$CIRCLE_BRANCH" != "master" ]; then
-              TAG=$CIRCLE_PROJECT_REPONAME-0.5.$CIRCLE_BUILD_NUM-PR
+              TAG=$CIRCLE_PROJECT_REPONAME-$VERSION-$CIRCLE_BUILD_NUM-PR
             fi
 
             docker build -t konradboniecki/budget:$TAG .
