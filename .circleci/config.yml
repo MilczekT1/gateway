@@ -60,7 +60,7 @@ jobs:
               TAG=$CIRCLE_PROJECT_REPONAME-$VERSION
             fi
             if [ "$CIRCLE_BRANCH" != "master" ]; then
-              TAG=$CIRCLE_PROJECT_REPONAME-$VERSION-$CIRCLE_BUILD_NUM-PR
+              TAG=$CIRCLE_PROJECT_REPONAME-$VERSION-PR-$CIRCLE_BUILD_NUM
             fi
 
             docker build -t konradboniecki/budget:$TAG .
