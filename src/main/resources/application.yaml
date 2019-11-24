@@ -48,7 +48,7 @@ spring:
         - id: mvc
           uri: http://mvc:8080
           predicates:
-            - Path=/home/**, /login , /register , /resources/** , /error , /authenticate , /logout , / , /budget/**
+            - Path=/home/**, /login , /register , /resources/** , /error , /authenticate , /logout , / , /budget/**, /horsee/**
           filters:
             - AddRequestHeader=Gateway, true
 
