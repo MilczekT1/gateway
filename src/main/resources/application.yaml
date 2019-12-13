@@ -6,6 +6,10 @@ spring:
     - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
     - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
     - org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration
+  zipkin:
+    base-url: http://zipkin:9411/
+    enabled: true
+    discoveryClientEnabled: false
   cloud:
     gateway:
       enabled: true

@@ -7,15 +7,16 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.1.RELEASE</version>
+        <version>2.2.2.RELEASE</version>
     </parent>
 
     <groupId>pl.konradboniecki.budget</groupId>
     <artifactId>gateway</artifactId>
-    <version>0.5</version>
+    <version>0.5.0</version>
 
     <properties>
         <java.version>11</java.version>
+        <chassis.version>0.5</chassis.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -34,18 +35,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>pl.konradboniecki</groupId>
-                <artifactId>chassis-tools</artifactId>
-                <version>${project.version}</version>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>pl.konradboniecki</groupId>
-                <artifactId>chassis-test-tools</artifactId>
-                <version>${project.version}</version>
-                <scope>test</scope>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -53,6 +42,7 @@
         <dependency>
             <groupId>pl.konradboniecki</groupId>
             <artifactId>chassis-tools</artifactId>
+            <version>${chassis.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -91,6 +81,7 @@
         <dependency>
             <groupId>pl.konradboniecki</groupId>
             <artifactId>chassis-test-tools</artifactId>
+            <version>${chassis.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -123,7 +114,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.4</version>
+                <version>0.8.5</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
