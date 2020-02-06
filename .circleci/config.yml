@@ -10,7 +10,7 @@ workflows:
           filters:
             branches:
               only: master
-      - approve_non_master_deployment:
+      - approve_deployment:
           type: approval
           requires:
             - build
@@ -19,9 +19,9 @@ workflows:
               only:
                 - develop
                 - /feature.*/
-      - deploy_develop_or_feature:
+      - deploy:
           requires:
-            - approve_non_master_deployment
+            - approve_deployment
 jobs:
   build:
     docker:
@@ -99,7 +99,7 @@ jobs:
             echo "================ ATTEMPTING TO DEPLOY $LC_GATEWAY_TAG ================"
             ssh -t -o SendEnv=LC_GATEWAY_TAG root@77.55.237.245 'GATEWAY_TAG=$LC_GATEWAY_TAG; unset LC_GATEWAY_TAG; export GATEWAY_TAG; echo "export GATEWAY_TAG=$GATEWAY_TAG" >> ~/.bashrc; docker tag "konradboniecki/budget:$GATEWAY_TAG" "konradboniecki/budget:tmpTag"; docker rmi "konradboniecki/budget:$GATEWAY_TAG"; docker-compose -f /root/BUDGET/docker-compose.yaml up -d --no-deps gateway; docker rmi "konradboniecki/budget:tmpTag" || true'
           no_output_timeout: 3m
-  deploy_develop_or_feature:
+  deploy:
     machine:
       enabled: true
     steps:
