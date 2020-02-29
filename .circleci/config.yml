@@ -18,10 +18,9 @@ workflows:
             branches:
               only:
                 - develop
-                - /feature.*/
       - deploy:
           requires:
-            - approve_deployment
+            - build
 jobs:
   build:
     docker:
@@ -61,8 +60,8 @@ jobs:
               TAG=$CIRCLE_PROJECT_REPONAME-$VERSION-$CIRCLE_BUILD_NUM
             fi
 
-            docker build -t konradboniecki/budget:$TAG .
             docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker build -t konradboniecki/budget:$TAG .
             docker push konradboniecki/budget:$TAG
 
             mkdir shared_workspace
