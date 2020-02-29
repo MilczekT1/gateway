@@ -33,7 +33,7 @@ jobs:
 
     steps:
       - setup_remote_docker:
-          version: 18.05.0-ce
+          version: 18.06.0-ce
           docker_layer_caching: false
       - add_ssh_keys:
           fingerprints:
@@ -42,7 +42,7 @@ jobs:
       - run:
           name: Clone and install Chassis
           command: |
-            GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git clone git@bitbucket.org:konradboniecki/chassis.git ~/chassisRepo
+            GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git clone -q --depth 1 git@bitbucket.org:konradboniecki/chassis.git ~/chassisRepo
             cd ~/chassisRepo
             mvn clean install -DskipTests=true -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
       - run:
@@ -69,8 +69,7 @@ jobs:
             touch shared_workspace/tag.txt
             echo $TAG > shared_workspace/tag.txt
       - store_test_results:
-          paths:
-            - target/surefire-reports
+          path: target/surefire-reports
       - store_artifacts:
           path: target/surefire-reports/surefire-report.html
       - store_artifacts:
@@ -88,7 +87,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "e7:ba:ee:08:1c:20:e5:43:d1:fe:81:1d:0b:a5:ad:d1"
+            - "64:08:5f:ce:8e:cf:4f:2f:c4:ad:fe:9f:18:6c:57:51"
       - attach_workspace:
           at: ~/repo
       - run:
@@ -97,7 +96,7 @@ jobs:
             cd /home/circleci/repo/shared_workspace
             export LC_GATEWAY_TAG=$(cat tag.txt)
             echo "================ ATTEMPTING TO DEPLOY $LC_GATEWAY_TAG ================"
-            ssh -t -o SendEnv=LC_GATEWAY_TAG root@77.55.237.245 'GATEWAY_TAG=$LC_GATEWAY_TAG; unset LC_GATEWAY_TAG; export GATEWAY_TAG; echo "export GATEWAY_TAG=$GATEWAY_TAG" >> ~/.bashrc; docker tag "konradboniecki/budget:$GATEWAY_TAG" "konradboniecki/budget:tmpTag"; docker rmi "konradboniecki/budget:$GATEWAY_TAG"; docker-compose -f /root/BUDGET/docker-compose.yaml up -d --no-deps gateway; docker rmi "konradboniecki/budget:tmpTag" || true'
+            ssh -t -o SendEnv=LC_GATEWAY_TAG root@77.55.214.60 'GATEWAY_TAG=$LC_GATEWAY_TAG; unset LC_GATEWAY_TAG; export GATEWAY_TAG; echo "export GATEWAY_TAG=$GATEWAY_TAG" >> ~/.bashrc; docker tag "konradboniecki/budget:$GATEWAY_TAG" "konradboniecki/budget:tmpTag"; docker rmi "konradboniecki/budget:$GATEWAY_TAG"; docker-compose -f /root/budget-operations/deployment/docker-compose.yaml up -d --no-deps gateway; docker rmi "konradboniecki/budget:tmpTag" || true'
           no_output_timeout: 3m
   deploy:
     machine:
@@ -105,7 +104,7 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "e7:ba:ee:08:1c:20:e5:43:d1:fe:81:1d:0b:a5:ad:d1"
+            - "64:08:5f:ce:8e:cf:4f:2f:c4:ad:fe:9f:18:6c:57:51"
       - attach_workspace:
           at: ~/repo
       - run:
@@ -114,5 +113,5 @@ jobs:
             cd /home/circleci/repo/shared_workspace
             export LC_GATEWAY_TAG=$(cat tag.txt)
             echo "================ ATTEMPTING TO DEPLOY $LC_GATEWAY_TAG ================"
-            ssh -t -o SendEnv=LC_GATEWAY_TAG root@77.55.237.245 'GATEWAY_TAG=$LC_GATEWAY_TAG; unset LC_GATEWAY_TAG; export GATEWAY_TAG; echo "export GATEWAY_TAG=$GATEWAY_TAG" >> ~/.bashrc; docker-compose -f /root/BUDGET/docker-compose.yaml up -d --no-deps gateway'
+            ssh -t -o SendEnv=LC_GATEWAY_TAG root@77.55.214.60 'GATEWAY_TAG=$LC_GATEWAY_TAG; unset LC_GATEWAY_TAG; export GATEWAY_TAG; echo "export GATEWAY_TAG=$GATEWAY_TAG" >> ~/.bashrc; docker-compose -f /root/budget-operations/deployment/docker-compose.yaml up -d --no-deps gateway'
           no_output_timeout: 3m
