@@ -18,9 +18,10 @@ workflows:
             branches:
               only:
                 - develop
+                - /feature.*/
       - deploy:
           requires:
-            - build
+            - approve_deployment
 jobs:
   build:
     docker:

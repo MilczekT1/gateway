@@ -2,11 +2,11 @@ server:
   port: 8080
   ssl:
     enabled: true
-    key-alias: budget-ssc
-    key-store: budget-ssc.p12
+    key-alias: 1
+    key-store: certificate.p12
     key-store-type: PKCS12
     key-store-password: P@ssw0rd
-    trust-store: budget-ssc.p12
+    trust-store: certificate.p12
     trust-store-password: P@ssw0rd
 spring:
   autoconfigure.exclude:
@@ -22,53 +22,53 @@ spring:
     gateway:
       httpclient:
         ssl:
-          useInsecureTrustManager: true
+          useInsecureTrustManager: false
       enabled: true
       routes:
         - id: mail-service
-          uri: https://mail:8080
+          uri: http://mail:8080
           predicates:
             - Path=/api/mail/**
           filters:
             - AddRequestHeader=Gateway, true
 
         - id: password-management-service
-          uri: https://passwd-mgt:8080
+          uri: http://passwd-mgt:8080
           predicates:
             - Path=/api/reset-password/**
           filters:
             - AddRequestHeader=Gateway, true
 
         - id: account-management-service
-          uri: https://account-mgt:8080
+          uri: http://account-mgt:8080
           predicates:
             - Path=/api/account/**
           filters:
             - AddRequestHeader=Gateway, true
 
         - id: family-management-service
-          uri: https://family-mgt:8080
+          uri: http://family-mgt:8080
           predicates:
             - Path=/api/family/**,/api/family-invitations/**
           filters:
             - AddRequestHeader=Gateway, true
 
         - id: budget-management-service
-          uri: https://budget-mgt:8080
+          uri: http://budget-mgt:8080
           predicates:
             - Path=/api/budgets/**
           filters:
             - AddRequestHeader=Gateway, true
 
         - id: mvc
-          uri: https://mvc:8080
+          uri: http://mvc:8080
           predicates:
             - Path=/home/**, /login , /register , /resources/** , /error , /authenticate , /logout , / , /budget/**, /horsee/**
           filters:
             - AddRequestHeader=Gateway, true
 
         - id: mvc_query
-          uri: https://mvc:8080
+          uri: http://mvc:8080
           predicates:
             - Query=logout
           filters:
