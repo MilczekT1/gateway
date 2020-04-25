@@ -16,7 +16,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <chassis.version>0.5</chassis.version>
+        <chassis.version>0.1.0</chassis.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,6 +24,19 @@
         <jacoco.lineCoverage.minimum>0.75</jacoco.lineCoverage.minimum>
         <jacoco.branches.minimum>0.75</jacoco.branches.minimum>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>Konrad Boniecki Releases</name>
+            <url>http://77.55.214.60:5001/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>Konrad Boniecki Snapshots</name>
+            <url>http://77.55.214.60:5001/repository/maven-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>

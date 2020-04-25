@@ -19,6 +19,7 @@ workflows:
               only:
                 - develop
                 - /feature.*/
+                - /bugfix.*/
       - deploy:
           requires:
             - approve_deployment
@@ -40,19 +41,13 @@ jobs:
             - "5f:9d:14:91:16:7c:39:92:67:55:6d:78:65:7e:f4:64"
       - checkout
       - run:
-          name: Clone and install Chassis
-          command: |
-            GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git clone -q --depth 1 git@bitbucket.org:konradboniecki/chassis.git ~/chassisRepo
-            cd ~/chassisRepo
-            mvn clean install -DskipTests=true -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
-      - run:
           name: Build and run tests
           command: |
-            mvn clean install -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+            mvn clean install -s .circleci/settings.xml -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
       - run:
           name: Build and push docker image
           command: |
-            VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+            VERSION=$(mvn help:evaluate -s .circleci/settings.xml -Dexpression=project.version -q -DforceStdout)
             TAG=$CIRCLE_PROJECT_REPONAME-$VERSION-$CIRCLE_BUILD_NUM-PR
             if [ "$CIRCLE_BRANCH" == "master" ]; then
               TAG=$CIRCLE_PROJECT_REPONAME-$VERSION
@@ -80,7 +75,16 @@ jobs:
           root: ~/repo
           paths:
             - shared_workspace
-            -
+      - run:
+          name: Deploy artifacts to nexus
+          command: |
+            if [ "$CIRCLE_BRANCH" == "master" ]; then
+              mvn deploy -s .circleci/settings.xml -DskipTests=true
+            fi
+            if [ "$CIRCLE_BRANCH" == "develop" ]; then
+              mvn deploy -s .circleci/settings.xml -DskipTests=true
+            fi
+
   deploy_master:
     machine:
       enabled: true
