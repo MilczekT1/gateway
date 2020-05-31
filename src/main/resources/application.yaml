@@ -3,6 +3,11 @@ management:
     port: 8081
     ssl:
       enabled: false
+  endpoint:
+    metrics.enabled: true
+    prometheus.enabled: true
+  endpoints.web.exposure.include: "*"
+  metrics.export.prometheus.enabled: true
 server:
   port: 8080
   ssl:
