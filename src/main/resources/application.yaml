@@ -1,7 +1,12 @@
+management:
+  server:
+    port: 8081
+    ssl:
+      enabled: false
 server:
-  port: 8443
+  port: 8080
   ssl:
-    enabled: true
+    enabled: false
     key-alias: 1
     key-store: certificate.p12
     key-store-type: PKCS12
