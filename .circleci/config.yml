@@ -1,3 +1,9 @@
+deployment_command: &deployment_command
+  command: |
+    cd /home/circleci/repo/shared_workspace
+    export LC_GATEWAY_TAG=$(cat tag.txt)
+    echo "================ ATTEMPTING TO DEPLOY $LC_GATEWAY_TAG ================"
+    ssh -t -o SendEnv=LC_GATEWAY_TAG root@77.55.214.60 'GATEWAY_TAG=$LC_GATEWAY_TAG; unset LC_GATEWAY_TAG; export GATEWAY_TAG; echo "export GATEWAY_TAG=$GATEWAY_TAG" >> ~/.bashrc; /snap/bin/yq w /root/budget-operations/deployment/k8s/gateway.yaml -i "spec.template.spec.containers[0].image" "konradboniecki/budget:$GATEWAY_TAG"; kubectl apply -f /root/budget-operations/deployment/k8s/gateway.yaml'
 non_master_branch_filter: &non_master_branch_filter
   filters:
     branches:
@@ -113,11 +119,7 @@ jobs:
           at: ~/repo
       - run:
           name: Deploy Master Over SSH
-          command: |
-            cd /home/circleci/repo/shared_workspace
-            export LC_GATEWAY_TAG=$(cat tag.txt)
-            echo "================ ATTEMPTING TO DEPLOY $LC_GATEWAY_TAG ================"
-            ssh -t -o SendEnv=LC_GATEWAY_TAG root@77.55.214.60 'GATEWAY_TAG=$LC_GATEWAY_TAG; unset LC_GATEWAY_TAG; export GATEWAY_TAG; echo "export GATEWAY_TAG=$GATEWAY_TAG" >> ~/.bashrc; docker tag "konradboniecki/budget:$GATEWAY_TAG" "konradboniecki/budget:tmpTag"; docker rmi "konradboniecki/budget:$GATEWAY_TAG"; docker-compose -f /root/budget-operations/deployment/docker-compose.yaml up -d --no-deps gateway; docker rmi "konradboniecki/budget:tmpTag" || true'
+          <<: *deployment_command
           no_output_timeout: 3m
   deploy:
     machine:
@@ -130,9 +132,5 @@ jobs:
           at: ~/repo
       - run:
           name: Deploy Over SSH
-          command: |
-            cd /home/circleci/repo/shared_workspace
-            export LC_GATEWAY_TAG=$(cat tag.txt)
-            echo "================ ATTEMPTING TO DEPLOY $LC_GATEWAY_TAG ================"
-            ssh -t -o SendEnv=LC_GATEWAY_TAG root@77.55.214.60 'GATEWAY_TAG=$LC_GATEWAY_TAG; unset LC_GATEWAY_TAG; export GATEWAY_TAG; echo "export GATEWAY_TAG=$GATEWAY_TAG" >> ~/.bashrc; /snap/bin/yq w /root/budget-operations/deployment/k8s/gateway.yaml -i "spec.template.spec.containers[0].image" "konradboniecki/budget:$GATEWAY_TAG"'
+          <<: *deployment_command
           no_output_timeout: 3m
