@@ -134,5 +134,5 @@ jobs:
             cd /home/circleci/repo/shared_workspace
             export LC_GATEWAY_TAG=$(cat tag.txt)
             echo "================ ATTEMPTING TO DEPLOY $LC_GATEWAY_TAG ================"
-            ssh -t -o SendEnv=LC_GATEWAY_TAG root@77.55.214.60 'GATEWAY_TAG=$LC_GATEWAY_TAG; unset LC_GATEWAY_TAG; export GATEWAY_TAG; echo "export GATEWAY_TAG=$GATEWAY_TAG" >> ~/.bashrc; docker-compose -f /root/budget-operations/deployment/docker-compose.yaml up -d --no-deps gateway'
+            ssh -t -o SendEnv=LC_GATEWAY_TAG root@77.55.214.60 'GATEWAY_TAG=$LC_GATEWAY_TAG; unset LC_GATEWAY_TAG; export GATEWAY_TAG; echo "export GATEWAY_TAG=$GATEWAY_TAG" >> ~/.bashrc; yq w /root/budget-operations/deployment/k8s/gateway.yaml -i "spec.template.spec.containers[0].image" "konradboniecki/budget:$GATEWAY_TAG"'
           no_output_timeout: 3m
