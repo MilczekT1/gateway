@@ -7,16 +7,16 @@ deployment_command: &deployment_command
 deployment_setup: &deployment_setup
   machine:
     enabled: true
-    steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "64:08:5f:ce:8e:cf:4f:2f:c4:ad:fe:9f:18:6c:57:51"
-      - attach_workspace:
-          at: ~/repo
-      - run:
-          name: Deploy Over SSH
-          <<: *deployment_command
-          no_output_timeout: 3m
+  steps:
+    - add_ssh_keys:
+        fingerprints:
+          - "64:08:5f:ce:8e:cf:4f:2f:c4:ad:fe:9f:18:6c:57:51"
+    - attach_workspace:
+        at: ~/repo
+    - run:
+        name: Deploy Over SSH
+        <<: *deployment_command
+        no_output_timeout: 3m
 
 non_master_branch_filter: &non_master_branch_filter
   filters:
@@ -76,10 +76,17 @@ jobs:
           fingerprints:
             - "5f:9d:14:91:16:7c:39:92:67:55:6d:78:65:7e:f4:64"
       - checkout
+      - restore_cache:
+          keys:
+            - m2-{{ checksum "pom.xml" }}
       - run:
           name: Build and run tests
           command: |
             mvn clean install -s .circleci/settings.xml -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: m2-{{ checksum "pom.xml" }}
       - run:
           name: Build and push docker image
           command: |
@@ -117,6 +124,9 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - m2-{{ checksum "pom.xml" }}
       - run:
           name: Deploy artifacts to nexus
           command: |
