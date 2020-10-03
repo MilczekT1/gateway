@@ -70,7 +70,7 @@ jobs:
     working_directory: ~/repo
     steps:
       - setup_remote_docker:
-          version: 18.06.0-ce
+          version: 19.03.13
           docker_layer_caching: false
       - add_ssh_keys:
           fingerprints:
