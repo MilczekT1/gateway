@@ -59,7 +59,7 @@ spring:
         - id: family-management-service
           uri: http://family-management
           predicates:
-            - Path=/api/family/**,/api/family-invitations/**
+            - Path=/api/family-mgt/v1/families/**, /api/family-invitations/**
           filters:
             - AddRequestHeader=Gateway, true
 
