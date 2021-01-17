@@ -16,7 +16,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <chassis.version>0.1.7</chassis.version>
+        <chassis.version>0.1.8</chassis.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -29,12 +29,12 @@
         <repository>
             <id>nexus</id>
             <name>Konrad Boniecki Releases</name>
-            <url>http://77.55.214.60:5001/repository/maven-releases/</url>
+            <url>http://161.97.176.83:5001/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
             <id>nexus</id>
             <name>Konrad Boniecki Snapshots</name>
-            <url>http://77.55.214.60:5001/repository/maven-snapshots</url>
+            <url>http://161.97.176.83:5001/repository/maven-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 
