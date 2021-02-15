@@ -52,7 +52,7 @@ spring:
         - id: account-management-service
           uri: http://account-management
           predicates:
-            - Path=/api/account/**
+            - Path=/api/account-mgt/v1/**
           filters:
             - AddRequestHeader=Gateway, true
 
