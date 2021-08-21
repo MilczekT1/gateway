@@ -19,6 +19,7 @@ server:
     trust-store: certificate.p12
     trust-store-password: P@ssw0rd
 spring:
+  application.name: gateway
   autoconfigure.exclude:
     - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
     - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
@@ -29,6 +30,8 @@ spring:
     enabled: true
     discoveryClientEnabled: false
   cloud:
+    config:
+      enabled: false
     gateway:
       httpclient:
         ssl:
