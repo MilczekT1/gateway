@@ -1,24 +1,4 @@
-deployment_command: &deployment_command
-  command: |
-    cd /home/circleci/repo/shared_workspace
-    export LC_GATEWAY_TAG=$(cat tag.txt)
-    echo "================ ATTEMPTING TO DEPLOY $LC_GATEWAY_TAG ================"
-    ssh -t -o SendEnv=LC_GATEWAY_TAG root@161.97.176.83 'GATEWAY_TAG=$LC_GATEWAY_TAG; unset LC_GATEWAY_TAG; export GATEWAY_TAG; echo "export GATEWAY_TAG=$GATEWAY_TAG" >> ~/.bashrc; /snap/bin/yq w /root/budget-operations/deployment/k8s/gateway.yaml -i "spec.template.spec.containers[0].image" "konradboniecki/budget:$GATEWAY_TAG"; kubectl apply -f /root/budget-operations/deployment/k8s/gateway.yaml'
-deployment_setup: &deployment_setup
-  machine:
-    enabled: true
-  steps:
-    - add_ssh_keys:
-        fingerprints:
-          - "64:08:5f:ce:8e:cf:4f:2f:c4:ad:fe:9f:18:6c:57:51"
-    - attach_workspace:
-        at: ~/repo
-    - run:
-        name: Deploy Over SSH
-        <<: *deployment_command
-        no_output_timeout: 3m
-
-non_master_branch_filter: &non_master_branch_filter
+deployment_branch_filter: &deployment_branch_filter
   filters:
     branches:
       only:
@@ -31,25 +11,21 @@ docker_java_11: &docker_java_11
   environment:
     JVM_OPTS: -Xmx3200m
     TERM: dumb
-
-version: 2
+orbs:
+  pipeline-template: micro/pipeline-template@0.1.1
+version: 2.1
 workflows:
   version: 2
   build-and-deploy:
     jobs:
       - build
-      - deploy_master:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
       - approve_deployment:
           type: approval
           requires:
             - build
-          <<: *non_master_branch_filter
-      - deploy:
+          <<: *deployment_branch_filter
+      - pipeline-template/deploy_microservice:
+          serviceName: "gateway"
           requires:
             - approve_deployment
       - deploy-to-nexus-approval:
@@ -131,8 +107,3 @@ jobs:
           name: Deploy artifacts to nexus
           command: |
             mvn deploy -s .circleci/settings.xml -DskipTests=true
-
-  deploy_master:
-    <<: *deployment_setup
-  deploy:
-    <<: *deployment_setup
