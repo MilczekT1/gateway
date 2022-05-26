@@ -12,7 +12,7 @@ docker_java_11: &docker_java_11
     JVM_OPTS: -Xmx3200m
     TERM: dumb
 orbs:
-  pipeline-template: micro/pipeline-template@0.1.1
+  pipeline-template: micro/pipeline-template@0.1.3
 version: 2.1
 workflows:
   version: 2
@@ -46,8 +46,8 @@ jobs:
     working_directory: ~/repo
     steps:
       - setup_remote_docker:
-          version: 19.03.13
-          docker_layer_caching: false
+          version: 20.10.12
+          docker_layer_caching: true
       - add_ssh_keys:
           fingerprints:
             - "5f:9d:14:91:16:7c:39:92:67:55:6d:78:65:7e:f4:64"
