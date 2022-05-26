@@ -1,8 +1,6 @@
 management:
   server:
     port: 8081
-    ssl:
-      enabled: false
   endpoint:
     metrics.enabled: true
     prometheus.enabled: true
@@ -10,21 +8,8 @@ management:
   metrics.export.prometheus.enabled: true
 server:
   port: 8080
-  ssl:
-    enabled: false
-    key-alias: 1
-    key-store: certificate.p12
-    key-store-type: PKCS12
-    key-store-password: P@ssw0rd
-    trust-store: certificate.p12
-    trust-store-password: P@ssw0rd
 spring:
   application.name: gateway
-  autoconfigure.exclude:
-    - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
-    - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-    - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
-    - org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration
   zipkin:
     base-url: http://zipkin:9411/
     enabled: true
@@ -76,7 +61,7 @@ spring:
         - id: mvc
           uri: http://mvc
           predicates:
-            - Path=/home/**, /login , /register , /resources/** , /error , /authenticate , /logout , / , /budget/**, /horsee/**
+            - Path=/home/**, /login , /register , /resources/** , /error , /authenticate , /logout , / , /budget/**
           filters:
             - AddRequestHeader=Gateway, true
 
@@ -85,14 +70,6 @@ spring:
           predicates:
             - Query=logout
           filters:
-            - AddRequestHeader=Gateway, true
-
-        - id: adminer
-          uri: http://adminer:8080
-          predicates:
-            - Path=/adminer
-          filters:
-            - RewritePath=/(?<segment>.*), /$\{segment}
             - AddRequestHeader=Gateway, true
 
         - id: zipkin
