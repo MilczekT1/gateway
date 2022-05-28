@@ -19,7 +19,8 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build
+      - build:
+          context: SonarCloud
       - approve_deployment:
           type: approval
           requires:
@@ -64,6 +65,9 @@ jobs:
           paths:
             - ~/.m2
           key: m2-{{ checksum "pom.xml" }}
+      - run:
+          name: Analyze on SonarCloud
+          command: mvn verify sonar:sonar -Dsonar.projectKey=MilczekT1_gateway -s .circleci/settings.xml
       - run:
           name: Build and push docker image
           command: |
