@@ -3,6 +3,7 @@ deployment_branch_filter: &deployment_branch_filter
     branches:
       only:
         - develop
+        - master
         - /feature.*/
         - /bugfix.*/
 docker_java_11: &docker_java_11
@@ -12,7 +13,7 @@ docker_java_11: &docker_java_11
     JVM_OPTS: -Xmx3200m
     TERM: dumb
 orbs:
-  pipeline-template: micro/pipeline-template@0.1.3
+  pipeline-template: milczek/pipeline-template@0.1.4
 version: 2.1
 workflows:
   version: 2
