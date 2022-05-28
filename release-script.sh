@@ -7,12 +7,12 @@ REPO_NAME="${PWD##*/}"
 
 declare RELEASE_VERSION
 declare NEXT_VERSION
-declare TOKEN
+#declare TOKEN
 
 function readParams() {
     RELEASE_VERSION="$1"
     NEXT_VERSION="$2"
-    TOKEN="$3"
+#    TOKEN="$3"
 }
 
 function checkVersion {
