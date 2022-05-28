@@ -48,6 +48,7 @@ function createAndPushBranch {
     git push -u --follow-tags origin "$branchName"
 }
 
+
 function preparePR {
     local -r sourceBranch="$1"
     local -r targetBranch="$2"
