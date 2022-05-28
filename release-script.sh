@@ -7,12 +7,10 @@ REPO_NAME="${PWD##*/}"
 
 declare RELEASE_VERSION
 declare NEXT_VERSION
-#declare TOKEN
 
 function readParams() {
     RELEASE_VERSION="$1"
     NEXT_VERSION="$2"
-#    TOKEN="$3"
 }
 
 function checkVersion {
@@ -50,20 +48,6 @@ function createAndPushBranch {
     git push -u --follow-tags origin "$branchName"
 }
 
-function createPR {
-    local -r sourceBranch="$1"
-    local -r targetBranch="$2"
-    local -r title="$3"
-
-    url="https://bitbucket.org/api/2.0/repositories/konradboniecki/$REPO_NAME/pullrequests"
-    body='{"title": "'$title'", "source":{"branch":{"name": "'$sourceBranch'"}}, "destination":{"branch":{"name":"'$targetBranch'"}}}'
-    echo $url
-    echo $body
-    curl -X POST "$url" -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" -d "$body"
-
-    echo "Create PR: $title"
-    echo
-}
 
 function preparePR {
     local -r sourceBranch="$1"
@@ -74,7 +58,6 @@ function preparePR {
     local -r shouldTagCommit="$6"
 
     createAndPushBranch "$sourceBranch" "$version" "$commitMsg" "$shouldTagCommit"
-#    createPR "$sourceBranch" "$targetBranch" "$title"
  }
 
 readParams "$@"
