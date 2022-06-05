@@ -25,6 +25,8 @@
         <jacoco.branches.minimum>0.75</jacoco.branches.minimum>
         <sonar.organization>milczekt1</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.projectKey>MilczekT1_gateway</sonar.projectKey>
+        <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
     </properties>
 
     <distributionManagement>
