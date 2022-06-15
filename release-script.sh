@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail -o errtrace
 
-#sh release-script-develop.sh 0.4.0 0.5.0
+#sh release-script.sh 0.4.0 0.5.0
 
 REPO_NAME="${PWD##*/}"
 
@@ -48,7 +48,6 @@ function createAndPushBranch {
     git push -u --follow-tags origin "$branchName"
 }
 
-
 function preparePR {
     local -r sourceBranch="$1"
     local -r targetBranch="$2"
@@ -64,11 +63,16 @@ readParams "$@"
 checkVersion "$RELEASE_VERSION"
 checkVersion "$NEXT_VERSION"
 
-echo "=================== Get $REPO_NAME master branch ==================="
-git checkout master
+echo "=================== Get $REPO_NAME develop branch ==================="
+git checkout develop
 git pull
 
 #preparePR <sourceBranch> <targetBranch> <version> <prTitle> <commitMsg> <shouldTagCommit>
+
+echo "=================== Prepare $REPO_NAME release $RELEASE_VERSION ==================="
+preparePR "release/${RELEASE_VERSION}" master "$RELEASE_VERSION" \
+"Release $REPO_NAME $RELEASE_VERSION" "Release $REPO_NAME $RELEASE_VERSION" true
+echo
 
 echo "=================== Prepare $REPO_NAME next release $NEXT_VERSION-SNAPSHOT =================="
 preparePR "release/${RELEASE_VERSION}_develop" develop "$NEXT_VERSION-SNAPSHOT" \
