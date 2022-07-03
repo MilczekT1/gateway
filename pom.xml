@@ -16,7 +16,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <chassis.version>0.2.6</chassis.version>
+        <chassis.version>0.2.7</chassis.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
