@@ -8,8 +8,6 @@ management:
   metrics.export.prometheus.enabled: true
 server:
   port: 8080
-  http2:
-    enabled: true
 spring:
   application.name: gateway
   zipkin:
