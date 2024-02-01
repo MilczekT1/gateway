@@ -76,3 +76,14 @@ spring:
             - Path=/zipkin, /zipkin/**
           filters:
             - AddRequestHeader=Gateway, true
+
+        - id: habiter-route-prod
+          uri: kubernetes://prod/habiter
+          predicates:
+            - Path=/api/habiter/**
+
+        - id: test-route
+          uri: kubernetes://test/habiter
+          predicates:
+            - Path=/api/habiter/**
+            - Header=X-Environment, "test"
